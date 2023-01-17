@@ -14,7 +14,8 @@ AUTHOR_EMAIL = 'j.qi@esciencecenter.nl'
 
 URL = 'https://github.com/EyeofBeholder-NLeSC/orange3-argument'
 DESCRIPTION = "Argument mining and reasoning add-on for Orange3."
-# LONG_DESCRIPTION = open(path.join(path.dirname(__file__), 'README.pypi'), 'r', encoding='utf-8').read()
+LONG_DESCRIPTION = open(path.join(
+    path.dirname(__file__), 'README.pypi'), 'r', encoding='utf-8').read()
 
 LICENSE = "Apache License 2.0"
 
@@ -95,8 +96,8 @@ if __name__ == '__main__':
         author_email=AUTHOR_EMAIL,
         url=URL,
         description=DESCRIPTION,
-        # long_description=LONG_DESCRIPTION,
-        # long_description_content_type='text/markdown',
+        long_description=LONG_DESCRIPTION,
+        long_description_content_type='text/markdown',
         license=LICENSE,
         packages=PACKAGES,
         package_data=PACKAGE_DATA,
