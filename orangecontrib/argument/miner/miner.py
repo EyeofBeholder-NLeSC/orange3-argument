@@ -238,12 +238,12 @@ class ArgumentMiner(object):
 
         return source, target, weight
 
-    def compute_network(self, weight_theta: int = 60):
+    def compute_edge_table(self, weight_theta: int = 60):
         """
-        Create the attacking network
+        Compute the edge table of the attacking network.
         """
-        if self.network:
-            return
+        # if self.network:
+        #     return
 
         df_network = {"source": [], "target": [], "weight": []}
         for curr_group in range(1, 5):
@@ -257,14 +257,17 @@ class ArgumentMiner(object):
             df_network["weight"] += temp_weight
         df_network = pd.DataFrame(df_network)
         df_network = df_network[df_network["weight"] >= weight_theta]
-        self.network = nx.from_pandas_edgelist(
-            df=df_network,
-            source="source",
-            target="target",
-            edge_attr=["weight"],
-            create_using=nx.DiGraph(),
-        )
-
+        
+        return df_network
+    
+        # self.network = nx.from_pandas_edgelist(
+        #     df=df_network,
+        #     source="source",
+        #     target="target",
+        #     edge_attr=["weight"],
+        #     create_using=nx.DiGraph(), 
+        # )
+        
     def compute_network_node_colors(self):
         """
         Compute node colors based on its labels.
@@ -288,7 +291,7 @@ class ArgumentMiner(object):
 
 
 if __name__ == "__main__":
-    fpath = "../data/sample_input.json"
+    fpath = "../../../example/"
     am = ArgumentMiner(fpath)
     am.load_nlp_pipeline()
     am.load_word_vector_model()
