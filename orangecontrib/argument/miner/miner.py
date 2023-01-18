@@ -291,11 +291,31 @@ class ArgumentMiner(object):
 
 
 if __name__ == "__main__":
-    fpath = "../../../example/"
+    fpath = "../../../example/data/data_processed_1prod_sample.json"
     am = ArgumentMiner(fpath)
+    
+    print('load nlp pipeline...', end='')
     am.load_nlp_pipeline()
+    print("done")
+   
+    print('load word vector model...', end='') 
     am.load_word_vector_model()
+    print('done')
+    
+    print('compute ranks and readability...', end='')
     am.compute_ranks_and_readability()
+    print('done')
+    
+    print('compute clusters and weights...', end='')
     am.compute_clusters_and_weights()
-    am.compute_network()
-    am.compute_network_node_colors()
+    print('done')
+    
+    print('compute edge table', end='')
+    edge_table = am.compute_edge_table(0)
+    print('done')
+    
+    print('edge_table:')
+    print(edge_table)
+    
+    print('node table:')
+    print(am.df_arguments)
