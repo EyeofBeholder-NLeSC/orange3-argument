@@ -44,7 +44,8 @@ class ArgumentMiner(object):
     wv_model = None
     tokens = None
     cluster_labels = None
-    network = None
+    df_edge = None
+    df_node = None
 
     def __init__(self, fpath: str):
         df = pd.read_json(fpath, lines=True)
@@ -242,32 +243,32 @@ class ArgumentMiner(object):
         """
         Compute the edge table of the attacking network.
         """
-        # if self.network:
-        #     return
-
-        df_network = {"source": [], "target": [], "weight": []}
+        if self.df_edge:
+            return
+        else: 
+            self.df_edge = {"source": [], "target": [], "weight": []}
+        
         for curr_group in range(1, 5):
             group_1 = self.df_arguments[self.df_arguments["overall"] == curr_group]
             group_2 = self.df_arguments[self.df_arguments["overall"] > curr_group]
             if group_1.size == 0 or group_2.size == 0:
                 continue
             temp_source, temp_target, temp_weight = self.__get_attacks(group_1, group_2)
-            df_network["source"] += temp_source
-            df_network["target"] += temp_target
-            df_network["weight"] += temp_weight
-        df_network = pd.DataFrame(df_network)
-        df_network = df_network[df_network["weight"] >= weight_theta]
-        
-        return df_network
+            self.df_edge["source"] += temp_source
+            self.df_edge["target"] += temp_target
+            self.df_edge["weight"] += temp_weight
+        self.df_edge = pd.DataFrame(self.df_edge)
+        self.df_edge = self.df_edge[self.df_edge["weight"] >= weight_theta]
     
-        # self.network = nx.from_pandas_edgelist(
-        #     df=df_network,
-        #     source="source",
-        #     target="target",
-        #     edge_attr=["weight"],
-        #     create_using=nx.DiGraph(), 
-        # )
+    def compute_node_table(self):
+        """Compute node table of the attacking network.
         
+        Columns: [index, argument, score, label]
+        
+        label can be 'supportive' or 'defeated'.
+        """
+        pass 
+    
     def compute_network_node_colors(self):
         """
         Compute node colors based on its labels.
@@ -311,11 +312,11 @@ if __name__ == "__main__":
     print('done')
     
     print('compute edge table', end='')
-    edge_table = am.compute_edge_table(0)
+    am.compute_edge_table(0)
     print('done')
     
     print('edge_table:')
-    print(edge_table)
+    print(am.df_edge)
     
     print('node table:')
-    print(am.df_arguments)
+    print(am.df_node)
