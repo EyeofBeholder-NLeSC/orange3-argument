@@ -15,7 +15,6 @@ import numpy as np
 from itertools import starmap, combinations
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-import networkx as nx
 from typing import Tuple
 
 
@@ -36,7 +35,8 @@ class ArgumentMiner(object):
         wv_model: a word vector model of gensim.
         tokens: a numpy array that contains all tokens in the argument set.
         cluster_labels: a numpy array of token cluster labels, thus with the same size as tokens.
-        network: a networkx graph instance that contains the attacking network and metadata.
+        df_edge: edge table of the attacking network.
+        df_node: node table of the attacking network.
     """
 
     df_arguments = None
@@ -284,28 +284,7 @@ class ArgumentMiner(object):
                 
         self.df_node = pd.DataFrame(self.df_node)
     
-    def compute_network_node_colors(self):
-        """
-        Compute node colors based on its labels.
-        Green means 'supported' and red means 'defeated'.
-
-        Condition: if a node is not under attacked or all its attackers are under attacked, the node is labeled as 'supported'; otherwise, it is 'defeated'.
-        """
-        nodes = list(self.network.nodes)
-        edges = list(self.network.edges)
-        colors = {}
-
-        targets = set([e[1] for e in edges])
-        for n in nodes:
-            attackers = set([e[0] for e in edges if e[1] == n])
-            if not attackers or attackers & targets == attackers:
-                colors[n] = "green"
-            else:
-                colors[n] = "red"
-
-        nx.set_node_attributes(self.network, colors, name="color")
-
-
+   
 if __name__ == "__main__":
     fpath = "../../../example/data/data_processed_1prod_sample.json"
     am = ArgumentMiner(fpath)
