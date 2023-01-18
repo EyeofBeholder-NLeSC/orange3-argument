@@ -263,11 +263,26 @@ class ArgumentMiner(object):
     def compute_node_table(self):
         """Compute node table of the attacking network.
         
-        Columns: [index, argument, score, label]
-        
         label can be 'supportive' or 'defeated'.
         """
-        pass 
+        if self.df_node:
+            return
+        else:
+            self.df_node = {'argument': [], 'score': [], 'label': []}
+        
+        targets = set(self.df_edge['target'].tolist())
+        for i, row in self.df_arguments.iterrows():
+            attackers = self.df_edge[self.df_edge['target'] == i]['source']
+            attackers = set(attackers.tolist())
+            self.df_node['argument'].append(row['reviewText']) 
+            self.df_node['score'].append(row['overall'])
+             
+            if not attackers or attackers & targets == attackers:
+                self.df_node['label'].append('supportive')
+            else:
+                self.df_node['label'].append('defeated')
+                
+        self.df_node = pd.DataFrame(self.df_node)
     
     def compute_network_node_colors(self):
         """
@@ -315,8 +330,15 @@ if __name__ == "__main__":
     am.compute_edge_table(0)
     print('done')
     
+    print('compute node table', end='')
+    am.compute_node_table()
+    print('done')
+    
     print('edge_table:')
     print(am.df_edge)
     
     print('node table:')
     print(am.df_node)
+    
+    print('argument table:')
+    print(am.df_arguments)
