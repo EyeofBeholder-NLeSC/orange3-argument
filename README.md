@@ -1,10 +1,9 @@
-Orange3 Argument Mining Add-on
-======================
+# Orange3 Argument Mining Add-on
 
 This is the Orange3 argument mining add-on for [the Eye of the Beholder project](https://research-software-directory.org/projects/the-eye-of-the-beholder). 
 
-Installation
-------------
+
+## Installation
 
 To install the add-on from source run
 
@@ -21,8 +20,8 @@ Documentation / widget help can be built by running
 
 from the doc directory.
 
-Usage
------
+
+## Usage
 
 After the installation, the widget from this add-on is registered with Orange. To run Orange from the terminal,
 use
