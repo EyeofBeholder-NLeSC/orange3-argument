@@ -1,9 +1,7 @@
-Orange3 Example Add-on
+Orange3 Argument Mining Add-on
 ======================
 
-This is an example add-on for [Orange3](http://orange.biolab.si). Add-on can extend Orange either 
-in scripting or GUI part, or in both. We here focus on the GUI part and implement a simple (empty) widget,
-register it with Orange and add a new workflow with this widget to example tutorials.
+This is the Orange3 argument mining add-on for [the Eye of the Beholder project](https://research-software-directory.org/projects/the-eye-of-the-beholder). 
 
 Installation
 ------------
@@ -36,5 +34,3 @@ or
     python -m Orange.canvas
 
 The new widget appears in the toolbox bar under the section Example.
-
-![screenshot](https://github.com/biolab/orange3-example-addon/blob/master/screenshot.png)
