@@ -19,7 +19,6 @@ class OWArgMiner(OWBaseWidget):
     priority = 100  # where in the widget order it will appear
     keywords = ['widget', 'argument mining']
     want_main_area = False
-    resizing_enabled = False
     
     # GUI variables
     input_url = Setting('')
