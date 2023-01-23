@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scheme version="2.0" title="" description="">
+	<nodes>
+		<node id="0" name="Argument Miner" qualified_name="orangecontrib.argument.widgets.OWArgMiner.OWArgMiner" project_name="Orange3-Argument" version="" title="Argument Miner" position="(220.0, 258.0)" />
+		<node id="1" name="Argument Explorer" qualified_name="orangecontrib.argument.widgets.OWArgExplorer.OWArgExplorer" project_name="Orange3-Argument" version="" title="Argument Explorer" position="(403.0, 259.0)" />
+	</nodes>
+	<links>
+		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Node Data" sink_channel="Node Data" enabled="true" />
+		<link id="1" source_node_id="0" sink_node_id="1" source_channel="Edge Data" sink_channel="Edge Data" enabled="true" />
+	</links>
+	<annotations />
+	<thumbnail />
+	<node_properties>
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01\xaa\x00\x00\x01\x81\x00\x00\x02\xdf\x00\x00\x02-\x00\x00\x01\xab\x00\x00\x01\x9f\x00\x00\x02\xde\x00\x00\x02,\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x01\xab\x00\x00\x01\x9f\x00\x00\x02\xde\x00\x00\x02,', '__version__': 1}</properties>
+		<properties node_id="1" format="pickle">gASVcQIAAAAAAAB9lCiMC2F1dG9fY29tbWl0lImMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBNzYXZl
+ZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAADQAAAAYQAABCYAAAKUAAAA0QAAAH8AAAQlAAAC
+kwAAAAAAAAAABQAAAADRAAAAfwAABCUAAAKTlIwJc2VsZWN0aW9ulE6MD3Zpc3VhbF9zZXR0aW5n
+c5R9lIwFZ3JhcGiUfZQojAthbHBoYV92YWx1ZZRLrYwNY2xhc3NfZGVuc2l0eZSJjAplZGdlX3dp
+ZHRolEsCjAtqaXR0ZXJfc2l6ZZRLAIwTbGFiZWxfb25seV9zZWxlY3RlZJSIjBRsYWJlbF9zZWxl
+Y3RlZF9lZGdlc5SIjAtwb2ludF93aWR0aJRLCYwUcmVsYXRpdmVfZWRnZV93aWR0aHOUiIwRc2hv
+d19lZGdlX3dlaWdodHOUiYwJc2hvd19ncmlklImMC3Nob3dfbGVnZW5klIh1jAtfX3ZlcnNpb25f
+X5RLAYwQY29udGV4dF9zZXR0aW5nc5RdlIwVb3Jhbmdld2lkZ2V0LnNldHRpbmdzlIwHQ29udGV4
+dJSTlCmBlH2UKIwGdmFsdWVzlH2UKIwKYXR0cl9jb2xvcpROSv7///+GlIwKYXR0cl9sYWJlbJRO
+Sv7///+GlIwKYXR0cl9zaGFwZZROSv7///+GlIwJYXR0cl9zaXpllE5K/v///4aUaAh9lGgVSwF1
+jAphdHRyaWJ1dGVzlH2UKIwFc2NvcmWUSwKMBWxhYmVslEsBdYwFbWV0YXOUfZSMCGFyZ3VtZW50
+lEsDc3ViYXUu
+</properties>
+	</node_properties>
+	<session_state>
+		<window_groups />
+	</session_state>
+</scheme>

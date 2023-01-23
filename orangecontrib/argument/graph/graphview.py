@@ -367,17 +367,22 @@ class GraphView(OWScatterPlotBase):
         self.update_edge_labels()
         # marked = self.master.get_marked_nodes()
         
-        # HACK: no marked nodes for now
-        marked = None
-        if marked is None:
-            self.scatterplot_marked.setData([], [])
-            return
+        # # HACK: no marked nodes for now
+        # marked = None
+        # if marked is None:
+        #     self.scatterplot_marked.setData([], [])
+        #     return
         x, y = self.get_coordinates()
+        labels = self.master.get_node_labels().to_numpy()
         if x is None:  # sanity check; there can be no marked nodes if x is None
             return
-        self.scatterplot_marked.setData(
-            x[marked], y[marked], size=25,
-            pen=pg.mkPen(None), brush=pg.mkBrush("aff"))
+        self.scatterplot_marked.clear()
+        self.scatterplot_marked.addPoints(
+            x[labels=='supportive'], y[labels=='supportive'],
+            size=25, pen=pg.mkPen('green', width=3), brush=pg.mkBrush(None))
+        self.scatterplot_marked.addPoints(
+            x[labels=='defeated'], y[labels=='defeated'],
+            size=25, pen=pg.mkPen('red', width=3), brush=pg.mkBrush(None))
 
     def select_by_click(self, _, points):
         # Poor man's double click

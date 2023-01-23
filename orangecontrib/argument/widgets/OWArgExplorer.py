@@ -4,6 +4,7 @@ from Orange.data import Table
 from Orange.widgets.widget import Input
 from Orange.widgets.visualize.utils.widget import OWDataProjectionWidget
 from Orange.widgets.settings import SettingProvider
+from Orange.widgets.utils.plot import OWPlotGUI
 from Orange.data.pandas_compat import table_to_frame
 
 from orangecontrib.argument.graph.graphview import GraphView
@@ -27,6 +28,9 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.node_data = None
         self.positions = None
         
+    def _add_controls(self):
+        self.gui = OWPlotGUI(self)
+        
     @Inputs.edge_data
     def set_edge_data(self, data):
         self.edge_data = data
@@ -36,6 +40,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.node_data = data
         
     def handleNewSignals(self):
+        self.AlphaValue = 0
         self.relayout()
         
     def relayout(self):
@@ -49,6 +54,9 @@ class OWArgExplorer(OWDataProjectionWidget):
         
         self.graph.reset_graph()
         self.graph.update_coordinates()
+        
+    def set_positions(self):
+        pass
             
     def set_random_positions(self):
         if self.node_data is not None:
@@ -60,3 +68,9 @@ class OWArgExplorer(OWDataProjectionWidget):
     
     def get_edges(self):
         return table_to_frame(self.edge_data)
+    
+    def get_marked_nodes(self):
+        return None
+    
+    def get_node_labels(self):
+        return table_to_frame(self.node_data)['label']
