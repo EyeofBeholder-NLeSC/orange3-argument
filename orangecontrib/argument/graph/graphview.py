@@ -233,7 +233,7 @@ class GraphView(OWScatterPlotBase):
         # HACK: get edges from the input table
         srcs = edges['source'].to_numpy()
         dests = edges['target'].to_numpy()
-        weights = edges['weight'].to_numpy().astype(int) # pen width needs to be int
+        weights = edges['weight'].to_numpy() # pen width needs to be int
         if self.edge_curve is None:
             self.pair_indices = np.empty((2 * len(srcs),), dtype=int)
             self.pair_indices[::2] = srcs
@@ -245,6 +245,7 @@ class GraphView(OWScatterPlotBase):
         if self.relative_edge_widths and len(set(weights)) > 1:
             data['widths'] = \
                 scale(weights, .7, 8) * np.log2(self.edge_width / 4 + 1)
+            data['widths'] = data['widths'].astype(int)
         else:
             data['widths'] = None
 
