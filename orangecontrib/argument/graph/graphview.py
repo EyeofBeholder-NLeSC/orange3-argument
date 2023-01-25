@@ -365,13 +365,6 @@ class GraphView(OWScatterPlotBase):
             self.plot_widget.addItem(self.scatterplot_marked)
 
         self.update_edge_labels()
-        # marked = self.master.get_marked_nodes()
-        
-        # # HACK: no marked nodes for now
-        # marked = None
-        # if marked is None:
-        #     self.scatterplot_marked.setData([], [])
-        #     return
         x, y = self.get_coordinates()
         labels = self.master.get_node_labels().to_numpy()
         if x is None:  # sanity check; there can be no marked nodes if x is None

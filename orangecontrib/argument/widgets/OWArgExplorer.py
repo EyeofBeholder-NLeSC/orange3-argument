@@ -1,9 +1,12 @@
 import numpy as np
+import networkx as nx
+from AnyQt.QtCore import Qt
 
 from Orange.data import Table
+from Orange.widgets import gui
 from Orange.widgets.widget import Input
 from Orange.widgets.visualize.utils.widget import OWDataProjectionWidget
-from Orange.widgets.settings import SettingProvider
+from Orange.widgets.settings import SettingProvider, Setting
 from Orange.widgets.utils.plot import OWPlotGUI
 from Orange.data.pandas_compat import table_to_frame
 
@@ -21,6 +24,8 @@ class OWArgExplorer(OWDataProjectionWidget):
     GRAPH_CLASS = GraphView # borrowed from Orange3-network add-on
     graph = SettingProvider(GraphView) 
     
+    node_sparsity = Setting(5)
+    
     def __init__(self):
         super().__init__()
         
@@ -30,6 +35,11 @@ class OWArgExplorer(OWDataProjectionWidget):
         
     def _add_controls(self):
         self.gui = OWPlotGUI(self)
+        layout = gui.vBox(self.controlArea, box='Layout') 
+        gui.hSlider(layout, self, "node_sparsity", 
+                    minValue=0, maxValue=10, intOnly=False, 
+                    label="Node sparsity", orientation=Qt.Horizontal,
+                    callback_finished=self.relayout) 
         
     @Inputs.edge_data
     def set_edge_data(self, data):
@@ -44,9 +54,9 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.relayout()
         
     def relayout(self):
-        if self.positions is None:
-            self.set_random_positions()
-        
+        if self.node_data is None or self.edge_data is None:
+            return
+        self.set_positions()
         self.closeContext()
         self.data = self.node_data
         self.valid_data = np.full(len(self.data), True, dtype=bool)
@@ -55,8 +65,30 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.graph.reset_graph()
         self.graph.update_coordinates()
         
-    def set_positions(self):
-        pass
+    def set_positions(self, layout="default"):
+        """set coordinates of nodes to self.positions.
+
+        Args:
+            layout (str, optional): name of layout. Defaults to "sfdp".
+        """
+        df_edge = table_to_frame(self.edge_data)
+        df_node = table_to_frame(self.node_data)
+        
+        # normalize weights of edges
+        df_edge['weight'] = (df_edge['weight'] - df_edge['weight'].min()) / (df_edge['weight'].max() - df_edge['weight'].min())
+        
+        G = nx.from_pandas_edgelist(
+            df_edge, 
+            source='source', target='target', edge_attr=['weight'], 
+            create_using=nx.DiGraph()) 
+        if layout == 'default':
+            spasity = (self.node_sparsity + 1) / 11.0
+            pos_dict = nx.fruchterman_reingold_layout(G, k=spasity, seed=10)
+       
+        self.positions = []
+        for i, row in df_node.iterrows():
+            self.positions.append(pos_dict[i])  
+        self.positions = np.array([*self.positions])
             
     def set_random_positions(self):
         if self.node_data is not None:
