@@ -38,7 +38,7 @@ DATA_FILES = [
 ]
 
 INSTALL_REQUIRES = [
-    'Orange3', 'pyqt5'
+    'Orange3', 'pyqt5', 'spacy', 'pytextrank', 'spacy_readability', 'gensim'
 ]
 
 ENTRY_POINTS = {
