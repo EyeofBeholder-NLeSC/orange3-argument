@@ -5,7 +5,7 @@ This is the Orange3 argument mining add-on for [the Eye of the Beholder project]
 
 ## Installation
 
-To install everything you need, first navigate to the project folder in terminal. We recommand you to create a virtual environment and install everything there. You can choose whatever tool you prefer to do so.
+To install, first navigate to the project folder in terminal. We recommand you to create a virtual environment and install everything there. You can choose whatever tool you prefer to do so.
 
 After activating your newly created virtual environment, you can install the add-on, together with Orange3 and all the other dependencies by running
 
