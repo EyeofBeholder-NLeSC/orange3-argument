@@ -1,6 +1,10 @@
 import sysconfig
 # Category metadata.
 
+NAME = 'Argument'
+
+DESCRIPTION = 'Argument mining and visualization tools for Orange.'
+
 # Category icon show in the menu
 ICON = "icons/category.svg"
 

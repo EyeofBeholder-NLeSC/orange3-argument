@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-from os import path, walk
+from os import path, walk, system
+import atexit
 
 import sys
 from setuptools import setup, find_packages
+from setuptools.command.install import install
 
 NAME = "Orange3-Argument"
 
@@ -38,14 +40,13 @@ DATA_FILES = [
 ]
 
 INSTALL_REQUIRES = [
-    'Orange3', 'pyqt5', 'spacy', 'pytextrank', 'spacy_readability', 'gensim'
-]
+    'Orange3', 'pyqt5', 'spacy_readability', 'gensim', 'pytextrank', 'pot']
 
 ENTRY_POINTS = {
     # Entry points that marks this package as an orange add-on. If set, addon will
     # be shown in the add-ons manager even if not published on PyPi.
-    'orange3.addon': (
-        'argument = orangecontrib.argument',
+    'orange.addons': (
+       'argument = orangecontrib.argument',
     ),
     # # Entry point used to specify packages containing tutorials accessible
     # # from welcome screen. Tutorials are saved Orange Workflows (.ows files).
@@ -86,6 +87,14 @@ def include_documentation(local_dir, install_dir):
                           [path.join(dirpath, f) for f in files]))
     DATA_FILES.extend(doc_files)
 
+def _post_install():
+    print('POST INSTALL: update spacy to the newest version...')
+    system('pip install -U spacy pytextrank')
+
+class PostInstallCommand(install):
+    def __init__(self, *args, **kwargs):
+        super(PostInstallCommand, self).__init__(*args, **kwargs)
+        atexit.register(_post_install)
 
 if __name__ == '__main__':
     # include_documentation('doc/_build/html', 'help/orange3-example')
@@ -107,4 +116,5 @@ if __name__ == '__main__':
         keywords=KEYWORDS,
         namespace_packages=NAMESPACE_PACKAGES,
         zip_safe=False,
+        cmdclass={'install': PostInstallCommand,}
     )
