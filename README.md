@@ -5,20 +5,15 @@ This is the Orange3 argument mining add-on for [the Eye of the Beholder project]
 
 ## Installation
 
-To install the add-on from source run
+To install everything you need, first navigate to the project folder in terminal. We recommand you to create a virtual environment and install everything there. You can choose whatever tool you prefer to do so.
 
-    pip install .
+After activating your newly created virtual environment, you can install the add-on, together with Orange3 and all the other dependencies by running
 
-To register this add-on with Orange, but keep the code in the development directory (do not copy it to 
-Python's site-packages directory), run
+```
+pip install -e .
+```
 
-    pip install -e .
-
-Documentation / widget help can be built by running
-
-    make html htmlhelp
-
-from the doc directory.
+This will register the add-on but keep the code in the development directory (will not copy it to Python's site-packages directory).
 
 
 ## Usage
@@ -26,10 +21,12 @@ from the doc directory.
 After the installation, the widget from this add-on is registered with Orange. To run Orange from the terminal,
 use
 
-    orange-canvas
+```
+python -m Orange.canvas
+```
 
-or
+This will also allows you to see what's happening in the background from terminal.
 
-    python -m Orange.canvas
-
-The new widget appears in the toolbox bar under the section Example.
+A demo workflow together with a sample dataset are provided alongside this codebase:
+- demo workflow: https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/example/workflows/demo_workflow.ows
+- sample dataset: https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json
