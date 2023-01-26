@@ -25,12 +25,12 @@ use
 python -m Orange.canvas
 ```
 
-This will also allows you to see what's happening in the background from terminal.
+This will also allow you to see what's going on in the background from terminal.
 
 A demo workflow together with a sample dataset are provided alongside this codebase:
 - demo workflow: https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/example/workflows/demo_workflow.ows
 - sample dataset: https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json
 
-After loading the workflow, you should be able to see the interface like this:
+After loading the workflow, you should be able to see the Orange interface like this:
 
 ![image](https://user-images.githubusercontent.com/92043159/214866844-d290a79f-41b7-4f0f-b15c-68cccbe51219.png)
