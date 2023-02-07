@@ -1,12 +1,12 @@
 from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.settings import Setting
-from Orange.widgets.widget import OWBaseWidget, Output
+from Orange.widgets.widget import OWBaseWidget, Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame
 from orangecontrib.argument.miner.miner import ArgumentMiner 
 
 
-class OWArgMiner(OWBaseWidget):
+class OWArgMiner(OWWidget):
     """Argument miner widget
     
     Given a set of arguments (read from URL), mine the attacking relationship and generate
@@ -16,12 +16,12 @@ class OWArgMiner(OWBaseWidget):
     name = "Argument Miner"
     description = "Mine argument set and create edge and node tables of their attacking network."
     icon = "icons/OWArgMiner.svg"
-    priority = 100  # where in the widget order it will appear
-    keywords = ['widget', 'argument mining']
+    
     want_main_area = False
     
     # GUI variables
     input_url = Setting('')
+    thres_edge = Setting(0)
     
     class Outputs:
         edge_data = Output('Edge Data', Table)
@@ -37,6 +37,14 @@ class OWArgMiner(OWBaseWidget):
             value='input_url', 
             label='Input URL',
         )
+        gui.hSlider(
+            widget=self.controlArea, 
+            master=self, 
+            value='thres_edge', 
+            label='Edge control', 
+            minValue=0, 
+            maxValue=50,  
+        )
         gui.button(
             widget=self.controlArea, 
             master=self, 
@@ -51,7 +59,7 @@ class OWArgMiner(OWBaseWidget):
         miner.load_word_vector_model()
         miner.compute_ranks_and_readability()
         miner.compute_clusters_and_weights()
-        miner.compute_edge_table(0) # allow all edges
+        miner.compute_edge_table(self.thres_edge) # allow all edges
         miner.compute_node_table()
         
         # send result to outputs

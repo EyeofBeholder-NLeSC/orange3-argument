@@ -1,3 +1,7 @@
+"""The graph class reused/modified from the original one defined in the Orange3 Network add-on: https://github.com/biolab/orange3-network
+
+"""
+
 import time
 
 import numpy as np
