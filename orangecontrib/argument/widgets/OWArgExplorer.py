@@ -71,10 +71,8 @@ class OWArgExplorer(OWDataProjectionWidget):
         """
         df_edge = table_to_frame(self.edge_data)
         df_node = table_to_frame(self.node_data)
-        
-        # normalize weights of edges
-        # df_edge['weight'] = (df_edge['weight'] - df_edge['weight'].min()) \
-            # / (df_edge['weight'].max() - df_edge['weight'].min())
+       
+        # HACK: tempory solution, may change the way of computing weights in the mining step 
         df_edge['weight'] /= df_edge['weight'].max()
         
         G = nx.from_pandas_edgelist(
