@@ -61,9 +61,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.data = self.node_data
         self.valid_data = np.full(len(self.data), True, dtype=bool)
         self.openContext(self.data)
-        
         self.graph.reset_graph()
-        self.graph.update_coordinates()
         
     def set_positions(self, layout="default"):
         """set coordinates of nodes to self.positions.
@@ -75,21 +73,30 @@ class OWArgExplorer(OWDataProjectionWidget):
         df_node = table_to_frame(self.node_data)
         
         # normalize weights of edges
-        df_edge['weight'] = (df_edge['weight'] - df_edge['weight'].min()) / (df_edge['weight'].max() - df_edge['weight'].min())
+        # df_edge['weight'] = (df_edge['weight'] - df_edge['weight'].min()) \
+            # / (df_edge['weight'].max() - df_edge['weight'].min())
+        df_edge['weight'] /= df_edge['weight'].max()
         
         G = nx.from_pandas_edgelist(
             df_edge, 
             source='source', target='target', edge_attr=['weight'], 
             create_using=nx.DiGraph()) 
+        
+        # in case arguments not appear in the attacking network
+        if len(G.nodes) < df_node.shape[0]:
+            remain_nodes = df_node.iloc[~df_node.index.isin(G.nodes)]
+            G.add_nodes_from(remain_nodes.index.tolist())
+       
         if layout == 'default':
             spasity = (self.node_sparsity + 1) / 11.0
-            pos_dict = nx.fruchterman_reingold_layout(G, k=spasity, seed=10)
+            pos_dict = nx.spring_layout(G, k=spasity, seed=10)
+            print(pos_dict)
        
         self.positions = []
-        for i, row in df_node.iterrows():
+        for i in sorted(pos_dict.keys()):
             self.positions.append(pos_dict[i])  
         self.positions = np.array([*self.positions])
-            
+        
     def set_random_positions(self):
         if self.node_data is not None:
             num_nodes = len(self.node_data)

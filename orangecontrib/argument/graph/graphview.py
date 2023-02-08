@@ -204,7 +204,7 @@ class GraphView(OWScatterPlotBase):
         self.edge_labels = []
         self.scatterplot_marked = None
         self.last_click = (-1, None)
-
+    
     def update_coordinates(self):
         super().update_coordinates()
         self.update_marks()
