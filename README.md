@@ -33,4 +33,4 @@ A demo workflow together with a sample dataset are provided alongside this codeb
 
 After loading the workflow, you should be able to see the Orange interface like this:
 
-![image](https://user-images.githubusercontent.com/92043159/214866844-d290a79f-41b7-4f0f-b15c-68cccbe51219.png)
+![image](https://user-images.githubusercontent.com/92043159/218071751-2da27971-625f-409a-9d0b-1fc7452af9ba.png)
