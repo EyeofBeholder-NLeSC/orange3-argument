@@ -72,9 +72,6 @@ class OWArgExplorer(OWDataProjectionWidget):
         df_edge = table_to_frame(self.edge_data)
         df_node = table_to_frame(self.node_data)
        
-        # HACK: tempory solution, may change the way of computing weights in the mining step 
-        # df_edge['weight'] /= df_edge['weight'].max()
-        
         G = nx.from_pandas_edgelist(
             df_edge, 
             source='source', target='target', edge_attr=['weight'], 
@@ -94,10 +91,6 @@ class OWArgExplorer(OWDataProjectionWidget):
             self.positions.append(pos_dict[i])  
         self.positions = np.array([*self.positions])
         
-    def set_random_positions(self):
-        if self.node_data is not None:
-            num_nodes = len(self.node_data)
-            self.positions = np.random.uniform(size=(num_nodes, 2))
             
     def get_embedding(self):
         return self.positions
@@ -110,3 +103,8 @@ class OWArgExplorer(OWDataProjectionWidget):
     
     def get_node_labels(self):
         return table_to_frame(self.node_data)['label']
+    
+    def selection_changed(self):
+        # TODO: overload this method to update edge colors
+        super().selection_changed()
+        self.graph.update_edges()

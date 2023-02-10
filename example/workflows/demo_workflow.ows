@@ -15,10 +15,10 @@
 	<annotations />
 	<thumbnail />
 	<node_properties>
-		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01\xed\x00\x00\x012\x00\x00\x03\x15\x00\x00\x01\xdd\x00\x00\x01\xee\x00\x00\x01P\x00\x00\x03\x14\x00\x00\x01\xdc\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x01\xee\x00\x00\x01P\x00\x00\x03\x14\x00\x00\x01\xdc', '__version__': 1}</properties>
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01S\xff\xff\xfc\xd3\x00\x00\x02\xb6\xff\xff\xfde\x00\x00\x01T\xff\xff\xfc\xec\x00\x00\x02\xb5\xff\xff\xfdd\x00\x00\x00\x01\x00\x00\x00\x00\x08\x00\x00\x00\x01T\xff\xff\xfc\xec\x00\x00\x02\xb5\xff\xff\xfdd', '__version__': 1}</properties>
 		<properties node_id="1" format="pickle">gASVigIAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjA1ub2Rl
-X3NwYXJzaXR5lEdAJAAAAAAAAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsAAwAAAAAA1wAA
-AIwAAAQrAAACoAAAANcAAACMAAAEKwAAAqAAAAAAAAAAAAUAAAAA1wAAAIwAAAQrAAACoJSMCXNl
+X3NwYXJzaXR5lEdAJAAAAAAAAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsAAwAAAAAAgAAA
+ADgAAASBAAAC1gAAAIEAAABWAAAEgAAAAtUAAAAAAAAAAAUAAAAAgQAAAFYAAASAAAAC1ZSMCXNl
 bGVjdGlvbpROjA92aXN1YWxfc2V0dGluZ3OUfZSMBWdyYXBolH2UKIwLYWxwaGFfdmFsdWWUS4CM
 DWNsYXNzX2RlbnNpdHmUiYwKZWRnZV93aWR0aJRLAowLaml0dGVyX3NpemWUSwCME2xhYmVsX29u
 bHlfc2VsZWN0ZWSUiYwUbGFiZWxfc2VsZWN0ZWRfZWRnZXOUiIwLcG9pbnRfd2lkdGiUSwqMFHJl

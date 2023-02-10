@@ -8,7 +8,7 @@ import numpy as np
 import pyqtgraph as pg
 
 from AnyQt.QtCore import QLineF, Qt, QRectF
-from AnyQt.QtGui import QPen
+from AnyQt.QtGui import QPen, QColor
 
 from Orange.util import scale
 from Orange.widgets.settings import Setting
@@ -21,6 +21,7 @@ class PlotVarWidthCurveItem(pg.PlotCurveItem):
         self.widths = kwargs.pop("widths", None)
         self.setPen(kwargs.pop("pen", pg.mkPen(0.0)))
         self.sizes = kwargs.pop("size", None)
+        self.selection = kwargs.pop("selection", None)
         self.coss = self.sins = None
         super().__init__(*args, **kwargs)
 
@@ -36,6 +37,7 @@ class PlotVarWidthCurveItem(pg.PlotCurveItem):
         self.widths = kwargs.pop("widths", self.widths)
         self.setPen(kwargs.pop("pen", self.pen))
         self.sizes = kwargs.pop("size", self.sizes)
+        self.selection = kwargs.pop("selection", self.selection)
         super().setData(*args, **kwargs)
 
     def paint(self, p, opt, widget):
@@ -107,26 +109,31 @@ class PlotVarWidthCurveItem(pg.PlotCurveItem):
                                  x1s - fxcos * sizes1, y1s + fysin * sizes1)).T
 
         pen = QPen(self.pen)
+        SHOW_COLOR = QColor(0, 0, 0, 255)
+        HIDE_COLOR = QColor(0, 0, 0, 31)
         p.setRenderHint(p.Antialiasing, True)
         p.setCompositionMode(p.CompositionMode_SourceOver)
         if self.widths is None:
-            p.setPen(pen)
             if self.directed:
-                for (x0, y0, x1, y1), (x1w, y1w), (xa1, ya1, xa2, ya2), arc in zip(
-                        edge_coords, get_short_edge_coords(), get_arrows(), arcs):
+                for (x0, y0, x1, y1), (x1w, y1w), (xa1, ya1, xa2, ya2), arc, sel in zip(
+                        edge_coords, get_short_edge_coords(), get_arrows(), arcs, self.selection):
                     if not arc:
+                        pen.setColor(SHOW_COLOR if sel else HIDE_COLOR)
+                        p.setPen(pen)
                         p.drawLine(QLineF(x0, y0, x1w, y1w))
                         p.drawLine(QLineF(xa1, ya1, x1, y1))
                         p.drawLine(QLineF(xa2, ya2, x1, y1))
             else:
                 for ecoords in edge_coords[~arcs]:
+                    p.setPen(pen)
                     p.drawLine(QLineF(*ecoords))
         else:
             if self.directed:
-                for (x0, y0, x1, y1), (x1w, y1w), (xa1, ya1, xa2, ya2), w, arc in zip(
+                for (x0, y0, x1, y1), (x1w, y1w), (xa1, ya1, xa2, ya2), w, arc, sel in zip(
                         edge_coords, get_short_edge_coords(), get_arrows(),
-                        self.widths, arcs):
+                        self.widths, arcs, self.selection):
                     if not arc:
+                        pen.setColor(SHOW_COLOR if sel else HIDE_COLOR)
                         pen.setWidth(w)
                         p.setPen(pen)
                         p.drawLine(QLineF(x0, y0, x1w, y1w))
@@ -230,10 +237,9 @@ class GraphView(OWScatterPlotBase):
         if not self.scatterplot_item \
                 or self.simplify & self.Simplifications.NoEdges:
             return
+        print("update done!")
         x, y = self.scatterplot_item.getData()
         edges = self.master.get_edges()
-        
-        # HACK: get edges from the input table
         srcs = edges['source'].to_numpy()
         dests = edges['target'].to_numpy()
         weights = edges['weight'].to_numpy() # pen width needs to be int
@@ -243,13 +249,24 @@ class GraphView(OWScatterPlotBase):
             self.pair_indices[1::2] = dests
 
         data = dict(x=x[self.pair_indices], y=y[self.pair_indices],
-                    pen=self._edge_curve_pen(), antialias=True,
+                        pen=self._edge_curve_pen(), antialias=True,
                     size=self.scatterplot_item.data["size"][self.pair_indices] / 2)
         if self.relative_edge_widths and len(set(weights)) > 1:
             data['widths'] = scale(weights, .7, 8) * np.log2(self.edge_width / 4 + 1)
             data['widths'] = data['widths'].astype(int)
         else:
             data['widths'] = None
+
+        # TODO: find edges that should be hidden based on the node selection
+        if self.selection is None: 
+            edge_mark = np.ones(len(edges.index), dtype=int).tolist()
+        else:
+            edge_mark = np.zeros(len(edges.index), dtype=int).tolist()
+            selected = [i for i, v in enumerate(self.selection) if v]
+            relevant_edges = edges[edges['source'].isin(selected) | edges['target'].isin(selected)]
+            for i in relevant_edges.index.tolist():
+                edge_mark[i] = 1
+        data['selection'] = edge_mark
 
         if self.edge_curve is None:
             self.edge_curve = PlotVarWidthCurveItem(True, **data)
@@ -264,11 +281,12 @@ class GraphView(OWScatterPlotBase):
             self.edge_curve.setPen(self._edge_curve_pen())
 
     def _edge_curve_pen(self):
-        return pg.mkPen(
-            0.5 if self.class_density else 0.3,
-            width=self.edge_width,
-            cosmetic=True)
-
+        return pg.mkPen({
+            'color': '#000', 
+            'width': self.edge_width, 
+            'cosmetic': True
+        })
+        
     def update_edge_labels(self):
         for label in self.edge_labels:
             self.plot_widget.removeItem(label)
