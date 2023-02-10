@@ -43,7 +43,10 @@ class OWArgMiner(OWWidget):
             value='thres_edge', 
             label='Edge control', 
             minValue=0, 
-            maxValue=50,  
+            maxValue=1,  
+            step=0.01,
+            intOnly=False, 
+            labelFormat=" %.2f"
         )
         gui.button(
             widget=self.controlArea, 

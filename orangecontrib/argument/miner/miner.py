@@ -212,6 +212,7 @@ class ArgumentMiner(object):
             weights.append(weight)
         self.df_arguments.loc[self.df_arguments.index, "clusters"] = clusters
         self.df_arguments.loc[self.df_arguments.index, "weight"] = weights
+        
 
     @staticmethod
     def __get_attacks(
@@ -239,7 +240,7 @@ class ArgumentMiner(object):
 
         return source, target, weight
 
-    def compute_edge_table(self, weight_theta: int = 60):
+    def compute_edge_table(self):
         """
         Compute the edge table of the attacking network.
         """
@@ -258,7 +259,12 @@ class ArgumentMiner(object):
             self.df_edge["target"] += temp_target
             self.df_edge["weight"] += temp_weight
         self.df_edge = pd.DataFrame(self.df_edge)
-        self.df_edge = self.df_edge[self.df_edge["weight"] >= weight_theta]
+        
+        w_min, w_max = self.df_edge['weight'].min(), self.df_edge['weight'].max()
+        if w_min == w_max:
+            self.df_edge.assign(weight=1.0)
+        else:
+            self.df_edge['weight'] = (self.df_edge['weight'] - w_min) / (w_max - w_min)
     
     def compute_node_table(self):
         """Compute node table of the attacking network.
