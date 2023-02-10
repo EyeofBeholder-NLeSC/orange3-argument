@@ -73,7 +73,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         df_node = table_to_frame(self.node_data)
        
         # HACK: tempory solution, may change the way of computing weights in the mining step 
-        df_edge['weight'] /= df_edge['weight'].max()
+        # df_edge['weight'] /= df_edge['weight'].max()
         
         G = nx.from_pandas_edgelist(
             df_edge, 
@@ -88,7 +88,6 @@ class OWArgExplorer(OWDataProjectionWidget):
         if layout == 'default':
             spasity = (self.node_sparsity + 1) / 11.0
             pos_dict = nx.spring_layout(G, k=spasity, seed=10)
-            print(pos_dict)
        
         self.positions = []
         for i in sorted(pos_dict.keys()):
