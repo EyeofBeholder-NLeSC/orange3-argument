@@ -1,42 +1,51 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme version="2.0" title="" description="">
 	<nodes>
-		<node id="0" name="Argument Miner" qualified_name="orangecontrib.argument.widgets.OWArgMiner.OWArgMiner" project_name="Orange3-Argument" version="" title="Argument Miner" position="(150, 150)" />
-		<node id="1" name="Argument Explorer" qualified_name="orangecontrib.argument.widgets.OWArgExplorer.OWArgExplorer" project_name="Orange3-Argument" version="" title="Argument Explorer" position="(408.0, 149.0)" />
-		<node id="2" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWDataTable" project_name="Orange3" version="" title="Edges" position="(308.0, 259.0)" />
-		<node id="3" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWDataTable" project_name="Orange3" version="" title="Nodes" position="(269.0, 370.0)" />
-		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWDataTable" project_name="Orange3" version="" title="Selection" position="(563.0, 150.0)" />
+		<node id="0" name="Argument Miner" qualified_name="orangecontrib.argument.widgets.OWArgMiner.OWArgMiner" project_name="Orange3-Argument" version="" title="Argument Miner" position="(141.0, 203.0)" />
+		<node id="1" name="Argument Explorer" qualified_name="orangecontrib.argument.widgets.OWArgExplorer.OWArgExplorer" project_name="Orange3-Argument" version="" title="Argument Explorer" position="(446.0, 199.0)" />
+		<node id="2" name="Feature Statistics" qualified_name="Orange.widgets.data.owfeaturestatistics.OWFeatureStatistics" project_name="Orange3" version="" title="Feature Statistics" position="(286.0, 364.0)" />
+		<node id="3" name="Select Rows" qualified_name="Orange.widgets.data.owselectrows.OWSelectRows" project_name="Orange3" version="" title="Select Rows" position="(289.0, 263.0)" />
 	</nodes>
 	<links>
-		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Edge Data" sink_channel="Edge Data" enabled="true" />
-		<link id="1" source_node_id="0" sink_node_id="1" source_channel="Node Data" sink_channel="Node Data" enabled="true" />
-		<link id="2" source_node_id="0" sink_node_id="2" source_channel="Edge Data" sink_channel="Data" enabled="true" />
-		<link id="3" source_node_id="0" sink_node_id="3" source_channel="Node Data" sink_channel="Data" enabled="true" />
-		<link id="4" source_node_id="1" sink_node_id="4" source_channel="Selected Data" sink_channel="Data" enabled="true" />
+		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Node Data" sink_channel="Node Data" enabled="true" />
+		<link id="1" source_node_id="0" sink_node_id="2" source_channel="Edge Data" sink_channel="Data" enabled="true" />
+		<link id="2" source_node_id="0" sink_node_id="3" source_channel="Edge Data" sink_channel="Data" enabled="true" />
+		<link id="3" source_node_id="3" sink_node_id="1" source_channel="Matching Data" sink_channel="Edge Data" enabled="true" />
 	</links>
 	<annotations />
 	<thumbnail />
 	<node_properties>
-		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x1c\x00\x00\x00~\x00\x00\x03B\x00\x00\x00\xee\x00\x00\x02\x1c\x00\x00\x00~\x00\x00\x03B\x00\x00\x00\xee\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x02\x1c\x00\x00\x00~\x00\x00\x03B\x00\x00\x00\xee', '__version__': 1}</properties>
-		<properties node_id="1" format="pickle">gASVHAMAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjA1ub2Rl
-X3NwYXJzaXR5lEdAFAAAAAAAAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsAAwAAAAAA1gAA
-AG4AAAQqAAACggAAANYAAABuAAAEKgAAAoIAAAAAAAAAAAUAAAAA1gAAAG4AAAQqAAACgpSMCXNl
-bGVjdGlvbpRdlChLAIwVbnVtcHkuY29yZS5tdWx0aWFycmF5lIwGc2NhbGFylJOUjAVudW1weZSM
-BWR0eXBllJOUjAJ1MZSJiIeUUpQoSwOMAXyUTk5OSv////9K/////0sAdJRiQwEBlIaUUpSGlEsF
-aApoEGgThpRSlIaUSwdoCmgQaBOGlFKUhpRLCGgKaBBoE4aUUpSGlGWMD3Zpc3VhbF9zZXR0aW5n
-c5R9lIwFZ3JhcGiUfZQojAthbHBoYV92YWx1ZZRLgIwNY2xhc3NfZGVuc2l0eZSJjAplZGdlX3dp
-ZHRolEsCjAtqaXR0ZXJfc2l6ZZRLAIwTbGFiZWxfb25seV9zZWxlY3RlZJSJjBRsYWJlbF9zZWxl
-Y3RlZF9lZGdlc5SIjAtwb2ludF93aWR0aJRLCowUcmVsYXRpdmVfZWRnZV93aWR0aHOUiIwRc2hv
-d19lZGdlX3dlaWdodHOUiYwJc2hvd19ncmlklImMC3Nob3dfbGVnZW5klIh1jAtfX3ZlcnNpb25f
-X5RLAYwQY29udGV4dF9zZXR0aW5nc5RdlIwVb3Jhbmdld2lkZ2V0LnNldHRpbmdzlIwHQ29udGV4
-dJSTlCmBlH2UKIwGdmFsdWVzlH2UKIwKYXR0cl9jb2xvcpROSv7///+GlIwKYXR0cl9sYWJlbJRO
-Sv7///+GlIwKYXR0cl9zaGFwZZROSv7///+GlIwJYXR0cl9zaXpllE5K/v///4aUaCJ9lGgvSwF1
-jAphdHRyaWJ1dGVzlH2UKIwFc2NvcmWUSwKMBWxhYmVslEsBdYwFbWV0YXOUfZSMCGFyZ3VtZW50
-lEsDc3ViYXUu
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01\xed\x00\x00\x012\x00\x00\x03\x15\x00\x00\x01\xdd\x00\x00\x01\xee\x00\x00\x01P\x00\x00\x03\x14\x00\x00\x01\xdc\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x01\xee\x00\x00\x01P\x00\x00\x03\x14\x00\x00\x01\xdc', '__version__': 1}</properties>
+		<properties node_id="1" format="pickle">gASVigIAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjA1ub2Rl
+X3NwYXJzaXR5lEdAJAAAAAAAAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsAAwAAAAAA1wAA
+AIwAAAQrAAACoAAAANcAAACMAAAEKwAAAqAAAAAAAAAAAAUAAAAA1wAAAIwAAAQrAAACoJSMCXNl
+bGVjdGlvbpROjA92aXN1YWxfc2V0dGluZ3OUfZSMBWdyYXBolH2UKIwLYWxwaGFfdmFsdWWUS4CM
+DWNsYXNzX2RlbnNpdHmUiYwKZWRnZV93aWR0aJRLAowLaml0dGVyX3NpemWUSwCME2xhYmVsX29u
+bHlfc2VsZWN0ZWSUiYwUbGFiZWxfc2VsZWN0ZWRfZWRnZXOUiIwLcG9pbnRfd2lkdGiUSwqMFHJl
+bGF0aXZlX2VkZ2Vfd2lkdGhzlIiMEXNob3dfZWRnZV93ZWlnaHRzlImMCXNob3dfZ3JpZJSJjAtz
+aG93X2xlZ2VuZJSIdYwLX192ZXJzaW9uX1+USwGMEGNvbnRleHRfc2V0dGluZ3OUXZSMFW9yYW5n
+ZXdpZGdldC5zZXR0aW5nc5SMB0NvbnRleHSUk5QpgZR9lCiMBnZhbHVlc5R9lCiMCmF0dHJfY29s
+b3KUTkr+////hpSMCmF0dHJfbGFiZWyUTkr+////hpSMCmF0dHJfc2hhcGWUTkr+////hpSMCWF0
+dHJfc2l6ZZROSv7///+GlGgJfZRoFksBdYwKYXR0cmlidXRlc5R9lCiMBXNjb3JllEsCjAVsYWJl
+bJRLAXWMBW1ldGFzlH2UjAhhcmd1bWVudJRLA3N1YmF1Lg==
 </properties>
-		<properties node_id="2" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'dist_color_RGB': (220, 220, 220, 255), 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xef\x00\x00\x00`\x00\x00\x04\x10\x00\x00\x02r\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q', 'select_rows': True, 'selected_cols': [], 'selected_rows': [], 'show_attribute_labels': True, 'show_distributions': False, '__version__': 2}</properties>
-		<properties node_id="3" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'dist_color_RGB': (220, 220, 220, 255), 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xef\x00\x00\x00`\x00\x00\x04\x10\x00\x00\x02r\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q', 'select_rows': True, 'selected_cols': [], 'selected_rows': [], 'show_attribute_labels': True, 'show_distributions': False, '__version__': 2}</properties>
-		<properties node_id="4" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'dist_color_RGB': (220, 220, 220, 255), 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xef\x00\x00\x00`\x00\x00\x04\x10\x00\x00\x02r\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\xf0\x00\x00\x00~\x00\x00\x04\x0f\x00\x00\x02q', 'select_rows': True, 'selected_cols': [], 'selected_rows': [], 'show_attribute_labels': True, 'show_distributions': False, '__version__': 2}</properties>
+		<properties node_id="2" format="pickle">gASVoAEAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBNzYXZl
+ZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAABcAAAA/QAABIEAAAJwAAAAXQAAARsAAASAAAAC
+bwAAAAAAAAAABQAAAABdAAABGwAABIAAAAJvlIwHc29ydGluZ5RLBowDc2lwlIwOX3VucGlja2xl
+X2VudW2Uk5SMDFB5UXQ1LlF0Q29yZZSMCVNvcnRPcmRlcpRLAIeUUpSGlIwLX192ZXJzaW9uX1+U
+SwKMEGNvbnRleHRfc2V0dGluZ3OUXZSMFW9yYW5nZXdpZGdldC5zZXR0aW5nc5SMB0NvbnRleHSU
+k5QpgZR9lCiMBnZhbHVlc5R9lCiMCWNvbG9yX3ZhcpROSv7///+GlIwNc2VsZWN0ZWRfdmFyc5Rd
+lIwGd2VpZ2h0lEtmhpRhSv3///+GlGgOSwJ1jAphdHRyaWJ1dGVzlH2UKIwGc291cmNllEsCjAZ0
+YXJnZXSUSwJoHEsCdYwFbWV0YXOUfZR1YmF1Lg==
+</properties>
+		<properties node_id="3" format="pickle">gASVggEAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBBwdXJn
+ZV9hdHRyaWJ1dGVzlImMDXB1cmdlX2NsYXNzZXOUiYwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ
+0MsAAwAAAAABUwAAAJIAAAKtAAABggAAAVQAAACwAAACrAAAAYEAAAAAAAAAAAUAAAABVAAAALAA
+AAKsAAABgZSMEHVwZGF0ZV9vbl9jaGFuZ2WUiIwLX192ZXJzaW9uX1+USwKMEGNvbnRleHRfc2V0
+dGluZ3OUXZSMFW9yYW5nZXdpZGdldC5zZXR0aW5nc5SMB0NvbnRleHSUk5QpgZR9lCiMBnZhbHVl
+c5R9lCiMCmNvbmRpdGlvbnOUXZQojAZ3ZWlnaHSUSwJLBF2URz/Ao9cKPXCkYXSUYWgISwJ1jAph
+dHRyaWJ1dGVzlH2UKIwGc291cmNllEsCjAZ0YXJnZXSUSwJoFEsCdYwFbWV0YXOUfZR1YmF1Lg==
+</properties>
 	</node_properties>
 	<session_state>
 		<window_groups />
