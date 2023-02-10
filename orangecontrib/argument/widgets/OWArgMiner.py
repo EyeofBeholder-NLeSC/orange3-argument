@@ -21,7 +21,6 @@ class OWArgMiner(OWWidget):
     
     # GUI variables
     input_url = Setting('')
-    thres_edge = Setting(0)
     
     class Outputs:
         edge_data = Output('Edge Data', Table)
@@ -37,17 +36,6 @@ class OWArgMiner(OWWidget):
             value='input_url', 
             label='Input URL',
         )
-        gui.hSlider(
-            widget=self.controlArea, 
-            master=self, 
-            value='thres_edge', 
-            label='Edge control', 
-            minValue=0, 
-            maxValue=1,  
-            step=0.01,
-            intOnly=False, 
-            labelFormat=" %.2f"
-        )
         gui.button(
             widget=self.controlArea, 
             master=self, 
@@ -62,7 +50,7 @@ class OWArgMiner(OWWidget):
         miner.load_word_vector_model()
         miner.compute_ranks_and_readability()
         miner.compute_clusters_and_weights()
-        miner.compute_edge_table(self.thres_edge) # allow all edges
+        miner.compute_edge_table()
         miner.compute_node_table()
         
         # send result to outputs
