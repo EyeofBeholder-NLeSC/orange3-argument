@@ -105,6 +105,5 @@ class OWArgExplorer(OWDataProjectionWidget):
         return table_to_frame(self.node_data)['label']
     
     def selection_changed(self):
-        # TODO: overload this method to update edge colors
         super().selection_changed()
         self.graph.update_edges()

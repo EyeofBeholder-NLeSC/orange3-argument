@@ -110,7 +110,7 @@ class PlotVarWidthCurveItem(pg.PlotCurveItem):
 
         pen = QPen(self.pen)
         SHOW_COLOR = QColor(0, 0, 0, 255)
-        HIDE_COLOR = QColor(0, 0, 0, 31)
+        HIDE_COLOR = QColor(0, 0, 0, 15)
         p.setRenderHint(p.Antialiasing, True)
         p.setCompositionMode(p.CompositionMode_SourceOver)
         if self.widths is None:
@@ -237,7 +237,6 @@ class GraphView(OWScatterPlotBase):
         if not self.scatterplot_item \
                 or self.simplify & self.Simplifications.NoEdges:
             return
-        print("update done!")
         x, y = self.scatterplot_item.getData()
         edges = self.master.get_edges()
         srcs = edges['source'].to_numpy()
