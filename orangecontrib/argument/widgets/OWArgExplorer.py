@@ -23,11 +23,11 @@ class OWArgExplorer(OWDataProjectionWidget):
         edge_data = Input('Edge Data', Table)
         node_data = Input('Node Data', Table)
         
-    GRAPH_CLASS = GraphView # borrowed from Orange3-network add-on
+    GRAPH_CLASS = GraphView
     graph = SettingProvider(GraphView) 
     
     node_sparsity = Setting(5)
-    graph_layout = Setting(0)
+    graph_layout = Setting(0) # comboBox widget returns index of the selection
     
     def __init__(self):
         super().__init__()
@@ -61,14 +61,12 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.relayout()
         
     def relayout(self):
-        if self.graph_layout == 0:
-            self.sparsity_control.setEnabled(True)
-        else:
-            self.sparsity_control.setEnabled(False)
-            
+        """recompute positions of nodes and reset the graph
+        """
         if self.node_data is None or self.edge_data is None:
             return
         
+        self.sparsity_control.setEnabled(self.graph_layout == 0)
         self.set_positions()
         self.closeContext()
         self.data = self.node_data
