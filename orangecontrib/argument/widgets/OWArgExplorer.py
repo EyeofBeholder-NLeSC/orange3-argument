@@ -39,14 +39,14 @@ class OWArgExplorer(OWDataProjectionWidget):
     def _add_controls(self):
         self.gui = OWPlotGUI(self)
         layout = gui.vBox(self.controlArea, box='Layout') 
-        gui.hSlider(layout, self, "node_sparsity", 
-                    minValue=0, maxValue=10, intOnly=False, 
-                    label="Node sparsity", orientation=Qt.Horizontal,
-                    callback_finished=self.relayout) 
         gui.comboBox(layout, self, 'graph_layout', 
                      label='Graph layout', 
                      items=GRAPH_LAYOUT, 
                      callback=self.relayout)
+        self.sparsity_control = gui.hSlider(layout, self, "node_sparsity", 
+                    minValue=0, maxValue=10, intOnly=False, 
+                    label="Node sparsity", orientation=Qt.Horizontal,
+                    callback_finished=self.relayout)
         
     @Inputs.edge_data
     def set_edge_data(self, data):
@@ -61,8 +61,14 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.relayout()
         
     def relayout(self):
+        if self.graph_layout == 0:
+            self.sparsity_control.setEnabled(True)
+        else:
+            self.sparsity_control.setEnabled(False)
+            
         if self.node_data is None or self.edge_data is None:
             return
+        
         self.set_positions()
         self.closeContext()
         self.data = self.node_data

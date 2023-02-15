@@ -110,7 +110,7 @@ class PlotVarWidthCurveItem(pg.PlotCurveItem):
 
         pen = QPen(self.pen)
         SHOW_COLOR = QColor(0, 0, 0, 255)
-        HIDE_COLOR = QColor(0, 0, 0, 15)
+        HIDE_COLOR = QColor(0, 0, 0, 10)
         p.setRenderHint(p.Antialiasing, True)
         p.setCompositionMode(p.CompositionMode_SourceOver)
         if self.widths is None:
