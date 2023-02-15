@@ -15,19 +15,19 @@
 	<annotations />
 	<thumbnail />
 	<node_properties>
-		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01S\xff\xff\xfc\xd3\x00\x00\x02\xb6\xff\xff\xfde\x00\x00\x01T\xff\xff\xfc\xec\x00\x00\x02\xb5\xff\xff\xfdd\x00\x00\x00\x01\x00\x00\x00\x00\x08\x00\x00\x00\x01T\xff\xff\xfc\xec\x00\x00\x02\xb5\xff\xff\xfdd', '__version__': 1}</properties>
-		<properties node_id="1" format="pickle">gASVigIAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjA1ub2Rl
-X3NwYXJzaXR5lEdAJAAAAAAAAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsAAwAAAAAAgAAA
-ADgAAASBAAAC1gAAAIEAAABWAAAEgAAAAtUAAAAAAAAAAAUAAAAAgQAAAFYAAASAAAAC1ZSMCXNl
-bGVjdGlvbpROjA92aXN1YWxfc2V0dGluZ3OUfZSMBWdyYXBolH2UKIwLYWxwaGFfdmFsdWWUS4CM
-DWNsYXNzX2RlbnNpdHmUiYwKZWRnZV93aWR0aJRLAowLaml0dGVyX3NpemWUSwCME2xhYmVsX29u
-bHlfc2VsZWN0ZWSUiYwUbGFiZWxfc2VsZWN0ZWRfZWRnZXOUiIwLcG9pbnRfd2lkdGiUSwqMFHJl
-bGF0aXZlX2VkZ2Vfd2lkdGhzlIiMEXNob3dfZWRnZV93ZWlnaHRzlImMCXNob3dfZ3JpZJSJjAtz
-aG93X2xlZ2VuZJSIdYwLX192ZXJzaW9uX1+USwGMEGNvbnRleHRfc2V0dGluZ3OUXZSMFW9yYW5n
-ZXdpZGdldC5zZXR0aW5nc5SMB0NvbnRleHSUk5QpgZR9lCiMBnZhbHVlc5R9lCiMCmF0dHJfY29s
-b3KUTkr+////hpSMCmF0dHJfbGFiZWyUTkr+////hpSMCmF0dHJfc2hhcGWUTkr+////hpSMCWF0
-dHJfc2l6ZZROSv7///+GlGgJfZRoFksBdYwKYXR0cmlidXRlc5R9lCiMBXNjb3JllEsCjAVsYWJl
-bJRLAXWMBW1ldGFzlH2UjAhhcmd1bWVudJRLA3N1YmF1Lg==
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'input_url': 'https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02M\x00\x00\x01\xdb\x00\x00\x03\xc1\x00\x00\x02\x86\x00\x00\x02N\x00\x00\x01\xf9\x00\x00\x03\xc0\x00\x00\x02\x85\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x02N\x00\x00\x01\xf9\x00\x00\x03\xc0\x00\x00\x02\x85', '__version__': 1}</properties>
+		<properties node_id="1" format="pickle">gASVmwIAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjAxncmFw
+aF9sYXlvdXSUSwCMDW5vZGVfc3BhcnNpdHmUR0AkAAAAAAAAjBNzYXZlZFdpZGdldEdlb21ldHJ5
+lENCAdnQywADAAAAAACAAAAAOAAABIEAAALWAAAAgQAAAFYAAASAAAAC1QAAAAAAAAAABQAAAACB
+AAAAVgAABIAAAALVlIwJc2VsZWN0aW9ulE6MD3Zpc3VhbF9zZXR0aW5nc5R9lIwFZ3JhcGiUfZQo
+jAthbHBoYV92YWx1ZZRLgIwNY2xhc3NfZGVuc2l0eZSJjAplZGdlX3dpZHRolEsCjAtqaXR0ZXJf
+c2l6ZZRLAIwTbGFiZWxfb25seV9zZWxlY3RlZJSJjBRsYWJlbF9zZWxlY3RlZF9lZGdlc5SIjAtw
+b2ludF93aWR0aJRLCowUcmVsYXRpdmVfZWRnZV93aWR0aHOUiIwRc2hvd19lZGdlX3dlaWdodHOU
+iYwJc2hvd19ncmlklImMC3Nob3dfbGVnZW5klIh1jAtfX3ZlcnNpb25fX5RLAYwQY29udGV4dF9z
+ZXR0aW5nc5RdlIwVb3Jhbmdld2lkZ2V0LnNldHRpbmdzlIwHQ29udGV4dJSTlCmBlH2UKIwGdmFs
+dWVzlH2UKIwKYXR0cl9jb2xvcpROSv7///+GlIwKYXR0cl9sYWJlbJROSv7///+GlIwKYXR0cl9z
+aGFwZZROSv7///+GlIwJYXR0cl9zaXpllE5K/v///4aUaAp9lGgXSwF1jAphdHRyaWJ1dGVzlH2U
+KIwFc2NvcmWUSwKMBWxhYmVslEsBdYwFbWV0YXOUfZSMCGFyZ3VtZW50lEsDc3ViYXUu
 </properties>
 		<properties node_id="2" format="pickle">gASVoAEAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBNzYXZl
 ZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAABcAAAA/QAABIEAAAJwAAAAXQAAARsAAASAAAAC

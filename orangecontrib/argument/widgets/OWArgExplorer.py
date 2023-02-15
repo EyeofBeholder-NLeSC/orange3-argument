@@ -12,6 +12,8 @@ from Orange.data.pandas_compat import table_to_frame
 
 from orangecontrib.argument.graph.graphview import GraphView
 
+GRAPH_LAYOUT = ('spring', 'multipartite', 'kamada kawai', 'spectral')
+
 class OWArgExplorer(OWDataProjectionWidget):
     name = 'Argument Explorer'
     description = 'Visually explore arguments in their attacking network.'
@@ -25,6 +27,7 @@ class OWArgExplorer(OWDataProjectionWidget):
     graph = SettingProvider(GraphView) 
     
     node_sparsity = Setting(5)
+    graph_layout = Setting(0)
     
     def __init__(self):
         super().__init__()
@@ -40,6 +43,10 @@ class OWArgExplorer(OWDataProjectionWidget):
                     minValue=0, maxValue=10, intOnly=False, 
                     label="Node sparsity", orientation=Qt.Horizontal,
                     callback_finished=self.relayout) 
+        gui.comboBox(layout, self, 'graph_layout', 
+                     label='Graph layout', 
+                     items=GRAPH_LAYOUT, 
+                     callback=self.relayout)
         
     @Inputs.edge_data
     def set_edge_data(self, data):
@@ -63,7 +70,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         self.openContext(self.data)
         self.graph.reset_graph()
         
-    def set_positions(self, layout="default"):
+    def set_positions(self):
         """set coordinates of nodes to self.positions.
 
         Args:
@@ -76,21 +83,28 @@ class OWArgExplorer(OWDataProjectionWidget):
             df_edge, 
             source='source', target='target', edge_attr=['weight'], 
             create_using=nx.DiGraph()) 
+        node_attrs = {i: {'subset': df_node['label'][i]} for i in G.nodes}
+        nx.set_node_attributes(G, node_attrs)
         
         # in case arguments not appear in the attacking network
         if len(G.nodes) < df_node.shape[0]:
             remain_nodes = df_node.iloc[~df_node.index.isin(G.nodes)]
             G.add_nodes_from(remain_nodes.index.tolist())
-       
-        if layout == 'default':
+     
+        if self.graph_layout == 0:
             spasity = (self.node_sparsity + 1) / 11.0
             pos_dict = nx.spring_layout(G, k=spasity, seed=10)
+        elif self.graph_layout == 1:
+            pos_dict = nx.multipartite_layout(G) 
+        elif self.graph_layout == 2:
+            pos_dict = nx.kamada_kawai_layout(G)
+        elif self.graph_layout == 3:
+            pos_dict = nx.spectral_layout(G)
        
         self.positions = []
         for i in sorted(pos_dict.keys()):
             self.positions.append(pos_dict[i])  
         self.positions = np.array([*self.positions])
-        
             
     def get_embedding(self):
         return self.positions
