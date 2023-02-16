@@ -42,16 +42,20 @@ class OWArgMiner(OWWidget):
             label='Mine', 
             callback=self.commit,
         )
-        
+         
     def commit(self):
         # argument mining
+        progressbar = gui.ProgressBar(self, 100) 
         miner = ArgumentMiner(self.input_url)
         miner.load_nlp_pipeline() 
+        progressbar.advance(10)
         miner.load_word_vector_model()
+        progressbar.advance(80)
         miner.compute_ranks_and_readability()
         miner.compute_clusters_and_weights()
         miner.compute_edge_table()
         miner.compute_node_table()
+        progressbar.finish()
         
         # send result to outputs
         self.Outputs.edge_data.send(table_from_frame(miner.df_edge))
