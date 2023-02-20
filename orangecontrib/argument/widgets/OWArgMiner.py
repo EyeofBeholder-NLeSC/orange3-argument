@@ -1,7 +1,7 @@
 from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.settings import Setting
-from Orange.widgets.widget import OWBaseWidget, Output, OWWidget
+from Orange.widgets.widget import Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame
 from orangecontrib.argument.miner.miner import ArgumentMiner 
 
