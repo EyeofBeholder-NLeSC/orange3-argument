@@ -94,4 +94,4 @@ class OWJSONReader(OWWidget):
         
 if __name__ == "__main__":
     from Orange.widgets.utils.widgetpreview import WidgetPreview  # since Orange 3.20.0
-    WidgetPreview(OWArgMiner).run()
+    WidgetPreview(OWJSONReader).run()
