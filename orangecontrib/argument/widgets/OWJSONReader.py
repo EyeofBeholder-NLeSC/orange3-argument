@@ -65,6 +65,7 @@ class OWJSONReader(OWWidget):
                                  callback=self.load_data, autoDefault=False)
         self.path_label = gui.label(None, self, '%(file_loc)s', 
                                     addToLayout=False, labelWidth=300)
+        self.format_path_label()
         layout.addWidget(load_button, 5, 0)
         layout.addWidget(self.path_label, 5, 1)
 
@@ -77,14 +78,26 @@ class OWJSONReader(OWWidget):
             self.file_button.setEnabled(False)
             self.url_edit.setEnabled(True)
             self.file_loc = self.url
+        self.format_path_label()
             
     def browse_file(self):
         start_dir = os.path.expanduser('~/')
         self.fpath, _ = QFileDialog.getOpenFileName(self, 'Open File', start_dir, "")
         self.file_loc = self.fpath
+        self.format_path_label()
         
     def edit_url(self):
         self.file_loc = self.url
+        self.format_path_label()
+        
+    def format_path_label(self):
+        len_limit = 40
+        text = self.path_label.text()
+        if len(text) <= len_limit:
+            return
+        else:
+            text = '...' + text[-len_limit:]
+            self.path_label.setText(text)
         
     def load_data(self):
         try:
