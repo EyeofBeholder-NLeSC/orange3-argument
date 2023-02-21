@@ -8,10 +8,11 @@ from AnyQt.QtWidgets import QGridLayout, QStyle, QFileDialog
 from AnyQt.QtCore import Qt
 
 import pandas as pd
-
 import os
 
+
 LOCAL_FILE, URL = (0, 1)
+    
 
 class OWJSONReader(OWWidget):
     """Json file reader widget
@@ -29,7 +30,7 @@ class OWJSONReader(OWWidget):
     source = Setting(LOCAL_FILE)
     fpath = Setting('')
     url = Setting('')
-    file_loc = fpath
+    file_loc = Setting('')
     
     class Outputs:
         output_data = Output('Data', Table)
@@ -62,7 +63,8 @@ class OWJSONReader(OWWidget):
         
         load_button = gui.button(None, self, 'Load', 
                                  callback=self.load_data, autoDefault=False)
-        self.path_label = gui.label(None, self, '%(file_loc)s', addToLayout=False)
+        self.path_label = gui.label(None, self, '%(file_loc)s', 
+                                    addToLayout=False, labelWidth=300)
         layout.addWidget(load_button, 5, 0)
         layout.addWidget(self.path_label, 5, 1)
 
@@ -90,7 +92,7 @@ class OWJSONReader(OWWidget):
         except ValueError:
             df = pd.read_json(self.file_loc, lines=True) 
         self.Outputs.output_data.send(table_from_frame(df))
-        
+
         
 if __name__ == "__main__":
     from Orange.widgets.utils.widgetpreview import WidgetPreview  # since Orange 3.20.0
