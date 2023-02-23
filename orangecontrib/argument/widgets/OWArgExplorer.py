@@ -27,7 +27,7 @@ class OWArgExplorer(OWDataProjectionWidget):
     graph = SettingProvider(GraphView) 
     
     node_sparsity = Setting(5)
-    graph_layout = Setting(0) # comboBox widget returns index of the selection
+    graph_layout = Setting(GRAPH_LAYOUT[0]) # comboBox widget returns index of the selection
     
     def __init__(self):
         super().__init__()
@@ -41,6 +41,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         layout = gui.vBox(self.controlArea, box='Layout') 
         gui.comboBox(layout, self, 'graph_layout', 
                      label='Graph layout', 
+                     sendSelectedValue=True,
                      items=GRAPH_LAYOUT, 
                      callback=self.relayout)
         self.sparsity_control = gui.hSlider(layout, self, "node_sparsity", 
@@ -66,7 +67,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         if self.node_data is None or self.edge_data is None:
             return
         
-        self.sparsity_control.setEnabled(self.graph_layout == 0)
+        self.sparsity_control.setEnabled(self.graph_layout == GRAPH_LAYOUT[0])
         self.set_positions()
         self.closeContext()
         self.data = self.node_data
@@ -94,15 +95,15 @@ class OWArgExplorer(OWDataProjectionWidget):
         if len(G.nodes) < df_node.shape[0]:
             remain_nodes = df_node.iloc[~df_node.index.isin(G.nodes)]
             G.add_nodes_from(remain_nodes.index.tolist())
-     
-        if self.graph_layout == 0:
+    
+        if self.graph_layout == GRAPH_LAYOUT[0]:
             spasity = (self.node_sparsity + 1) / 11.0
             pos_dict = nx.spring_layout(G, k=spasity, seed=10)
-        elif self.graph_layout == 1:
+        elif self.graph_layout == GRAPH_LAYOUT[1]:
             pos_dict = nx.multipartite_layout(G) 
-        elif self.graph_layout == 2:
+        elif self.graph_layout == GRAPH_LAYOUT[2]:
             pos_dict = nx.kamada_kawai_layout(G)
-        elif self.graph_layout == 3:
+        elif self.graph_layout == GRAPH_LAYOUT[3]:
             pos_dict = nx.spectral_layout(G)
        
         self.positions = []

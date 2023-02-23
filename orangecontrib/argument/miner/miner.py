@@ -55,6 +55,9 @@ class ArgumentMiner(object):
         """
         if df is not None: 
             self.df_arguments = df.loc[df.astype(str).drop_duplicates().index]
+            
+    def rename_column(self, old_name, new_name):
+        self.df_arguments.rename({old_name: new_name}, axis=1, inplace=True)
 
     def load_nlp_pipeline(self, pipe_name: str = "en_core_web_md"):
         """
@@ -111,7 +114,7 @@ class ArgumentMiner(object):
         ranks = []
         readabilities = []
         stopwords = list(self.nlp_pipe.Defaults.stop_words)
-        docs = self.nlp_pipe.pipe(texts=self.df_arguments["reviewText"].astype("str"))
+        docs = self.nlp_pipe.pipe(texts=self.df_arguments["argument"].astype("str"))
         for doc in docs:
             ranks.append(self.__get_token_ranks(doc, stopwords, token_theta))
             readabilities.append(self.__get_doc_readability(doc))
@@ -255,8 +258,8 @@ class ArgumentMiner(object):
             self.df_edge = {"source": [], "target": [], "weight": []}
         
         for curr_group in range(1, 5):
-            group_1 = self.df_arguments[self.df_arguments["overall"] == curr_group]
-            group_2 = self.df_arguments[self.df_arguments["overall"] > curr_group]
+            group_1 = self.df_arguments[self.df_arguments["score"] == curr_group]
+            group_2 = self.df_arguments[self.df_arguments["score"] > curr_group]
             if group_1.size == 0 or group_2.size == 0:
                 continue
             temp_source, temp_target, temp_weight = self.__get_attacks(group_1, group_2)
@@ -285,8 +288,8 @@ class ArgumentMiner(object):
         for i, row in self.df_arguments.iterrows():
             attackers = self.df_edge[self.df_edge['target'] == i]['source']
             attackers = set(attackers.tolist())
-            self.df_node['argument'].append(row['reviewText']) 
-            self.df_node['score'].append(row['overall'])
+            self.df_node['argument'].append(row['argument']) 
+            self.df_node['score'].append(row['score'])
              
             if not attackers or attackers & targets == attackers:
                 self.df_node['label'].append('supportive')
