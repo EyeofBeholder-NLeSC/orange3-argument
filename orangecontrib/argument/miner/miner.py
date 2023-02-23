@@ -47,9 +47,14 @@ class ArgumentMiner(object):
     df_edge = None
     df_node = None
 
-    def __init__(self, fpath: str):
-        df = pd.read_json(fpath, lines=True)
-        self.df_arguments = df.loc[df.astype(str).drop_duplicates().index]
+    def __init__(self, df=None):
+        """Contstructor
+
+        Args:
+            df (Pandas.DataFrame): input data table that contains the argument texts and overal scores
+        """
+        if df is not None: 
+            self.df_arguments = df.loc[df.astype(str).drop_duplicates().index]
 
     def load_nlp_pipeline(self, pipe_name: str = "en_core_web_md"):
         """

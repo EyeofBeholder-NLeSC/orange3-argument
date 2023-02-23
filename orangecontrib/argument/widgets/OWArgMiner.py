@@ -1,8 +1,8 @@
 from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.settings import Setting
-from Orange.widgets.widget import Output, OWWidget
-from Orange.data.pandas_compat import table_from_frame
+from Orange.widgets.widget import Input, Output, OWWidget
+from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from orangecontrib.argument.miner.miner import ArgumentMiner 
 
 
@@ -20,7 +20,8 @@ class OWArgMiner(OWWidget):
     want_main_area = False
     
     # GUI variables
-    input_url = Setting('')
+    class Inputs:
+        input_data = Input('Data', Table)
     
     class Outputs:
         edge_data = Output('Edge Data', Table)
@@ -30,23 +31,22 @@ class OWArgMiner(OWWidget):
         super().__init__()
        
         # GUI
-        gui.lineEdit(
-            widget=self.controlArea, 
-            master=self, 
-            value='input_url', 
-            label='Input URL',
-        )
         gui.button(
             widget=self.controlArea, 
             master=self, 
             label='Mine', 
             callback=self.commit,
         )
+        
+    @Inputs.input_data
+    def set_data(self, data):
+        self.input_data = data
          
     def commit(self):
         # argument mining
         progressbar = gui.ProgressBar(self, 100) 
-        miner = ArgumentMiner(self.input_url)
+        miner = ArgumentMiner(
+            table_to_frame(self.input_data, include_metas=True))
         miner.load_nlp_pipeline() 
         progressbar.advance(10)
         miner.load_word_vector_model()
