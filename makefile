@@ -1,3 +1,6 @@
+preinstall:
+	@pip install pip-tools
+
 compile:
 	@rm -f requirements*.txt
 	@pip-compile requirements.in
