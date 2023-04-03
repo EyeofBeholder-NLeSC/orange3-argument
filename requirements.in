@@ -5,5 +5,6 @@ networkx
 numpy
 Orange3
 pandas
+pot
 scikit_learn
 spacy_readability
