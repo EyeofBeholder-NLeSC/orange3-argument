@@ -82,8 +82,3 @@ class OWArgMiner(OWWidget):
         # send result to outputs
         self.Outputs.edge_data.send(table_from_frame(miner.df_edge))
         self.Outputs.node_data.send(table_from_frame(miner.df_node))
-
-
-if __name__ == "__main__":
-    from Orange.widgets.utils.widgetpreview import WidgetPreview  # since Orange 3.20.0
-    WidgetPreview(OWArgMiner).run()

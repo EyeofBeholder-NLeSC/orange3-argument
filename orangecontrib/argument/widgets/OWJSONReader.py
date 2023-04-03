@@ -105,8 +105,3 @@ class OWJSONReader(OWWidget):
         except ValueError:
             df = pd.read_json(self.file_loc, lines=True) 
         self.Outputs.output_data.send(table_from_frame(df))
-
-        
-if __name__ == "__main__":
-    from Orange.widgets.utils.widgetpreview import WidgetPreview  # since Orange 3.20.0
-    WidgetPreview(OWJSONReader).run()
