@@ -40,7 +40,19 @@ DATA_FILES = [
 ]
 
 INSTALL_REQUIRES = [
-    'Orange3', 'pyqt5', 'spacy_readability', 'gensim', 'pytextrank', 'pot']
+    'AnyQt', 
+    'pyqt6', 
+    'pyqtgraph', 
+    'gensim', 
+    'networkx', 
+    'numpy', 
+    'Orange3', 
+    'pandas', 
+    'pot', 
+    'scikit_learn', 
+    'spacy_readability', 
+    'pytextrank'
+    ]
 
 ENTRY_POINTS = {
     # Entry points that marks this package as an orange add-on. If set, addon will
