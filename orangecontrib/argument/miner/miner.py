@@ -25,6 +25,53 @@ def readability(doc):
     return doc
 
 
+class ArgumentProcessor(object):
+    """_summary_
+
+    Args:
+        object (_type_): _description_
+    """
+  
+    def __init__(self, df, lang: str = "en"):
+        if df is None:
+            raise TypeError("Input data frame must not be None!")
+        
+        lang2name = {"en": "en_core_web_md"}
+        pipe_name = lang2name[lang]
+        if find_spec(pipe_name) is None:
+            spacy.cli.download(pipe_name)
+        nlp_pipe = spacy.load(pipe_name)
+        nlp_pipe.add_pipe('textrank', last=True)
+        nlp_pipe.add_pipe('readability', last=True)
+        
+        self.df = df
+        self.stopwords = nlp_pipe.Defaults.stop_words
+        self.stopwords = list(self.stopwords) 
+        self.docs = self.df['argument'].astype('str')
+        self.docs = nlp_pipe.pipe(texts=self.docs)
+            
+    def rename_column(self, old_name, new_name):
+        """Rename a column with old_name to new_name.
+        """ 
+        self.df.rename({old_name: new_name}, axis=1, inplace=True)
+        
+    def compute_textrank(self, theta: float = 0):
+        """Compute textrank of tokens in each document.
+        """
+        if 'textrank' in self.df.columns:
+            return
+        pass
+    
+    def compute_readability(self):
+        pass
+    
+    def compute_sentiment(self):
+        pass
+    
+    def compute_usefulness(self):
+        pass
+
+
 class ArgumentMiner(object):
     """
     Accept a json file of arguments and scores as input and create an attacking network.
