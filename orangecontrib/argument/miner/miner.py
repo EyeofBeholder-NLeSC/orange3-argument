@@ -40,15 +40,10 @@ class ArgumentProcessor(object):
         pipe_name = lang2name[lang]
         if find_spec(pipe_name) is None:
             spacy.cli.download(pipe_name)
-        nlp_pipe = spacy.load(pipe_name)
-        nlp_pipe.add_pipe('textrank', last=True)
-        nlp_pipe.add_pipe('readability', last=True)
-        
+        self.nlp_pipe = spacy.load(pipe_name)
+        self.nlp_pipe.add_pipe('textrank', last=True)
+        self.nlp_pipe.add_pipe('readability', last=True)
         self.df = df
-        self.stopwords = nlp_pipe.Defaults.stop_words
-        self.stopwords = list(self.stopwords) 
-        self.docs = self.df['argument'].astype('str')
-        self.docs = nlp_pipe.pipe(texts=self.docs)
             
     def rename_column(self, old_name, new_name):
         """Rename a column with old_name to new_name.
@@ -56,15 +51,53 @@ class ArgumentProcessor(object):
         self.df.rename({old_name: new_name}, axis=1, inplace=True)
         
     def compute_textrank(self, theta: float = 0):
-        """Compute textrank of tokens in each document.
+        """Compute textrank of tokens in each argument.
         """
-        if 'textrank' in self.df.columns:
+        if 'ranks' in self.df.columns:
             return
-        pass
+        
+        stopwords = self.nlp_pipe.Defaults.stop_words
+        stopwords = list(stopwords) 
+        docs = self.df['argument'].astype('str')
+        docs = self.nlp_pipe.pipe(texts=docs)
+        
+        def get_token_rank(doc): 
+            """Get list of (text, textrank) of all tokens in a document
+            """
+            result = []
+            for token in doc._.phrases:
+                rank = token.rank
+                if rank and rank >= theta:
+                    text = token.text 
+                    text = text.lower().split(' ')
+                    text = filter(lambda x: x not in stopwords, text)
+                    text = ' '.join(text)
+                    result.append((text, rank))
+            return result
+       
+        ranks = []
+        for doc in docs:
+            ranks.append(get_token_rank(doc))
+        self.df['ranks'] = ranks
     
     def compute_readability(self):
-        pass
-    
+        """Compute readability of each argument.
+        """
+        if 'readability' in self.df.columns:
+            return
+       
+        docs = self.df['argument'].astype('str')
+        docs = self.nlp_pipe.pipe(texts=docs)
+        
+        readabilities = [] 
+        for doc in docs:
+            readability = doc._.flesch_kincaid_reading_ease
+            readabilities.append(readability)
+        v_min = min(readabilities)
+        v_max = max(readabilities)    
+        readabilities = [(r - v_min) * 10 / (v_max - v_min) for r in readabilities] 
+        self.df['readability'] = readabilities
+        
     def compute_sentiment(self):
         pass
     
