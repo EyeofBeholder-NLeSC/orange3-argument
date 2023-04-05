@@ -51,7 +51,8 @@ INSTALL_REQUIRES = [
     'pot', 
     'scikit_learn', 
     'spacy_readability', 
-    'pytextrank'
+    'pytextrank', 
+    'flair'
     ]
 
 ENTRY_POINTS = {
