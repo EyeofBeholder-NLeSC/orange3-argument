@@ -9,6 +9,8 @@ import spacy
 import pytextrank
 from spacy.language import Language
 from spacy_readability import Readability
+from flair.nn import Classifier
+from flair.data import Sentence
 from importlib.util import find_spec
 import gensim.downloader as api
 import numpy as np
@@ -40,10 +42,12 @@ class ArgumentProcessor(object):
         pipe_name = lang2name[lang]
         if find_spec(pipe_name) is None:
             spacy.cli.download(pipe_name)
+            
+        self.df = df
         self.nlp_pipe = spacy.load(pipe_name)
         self.nlp_pipe.add_pipe('textrank', last=True)
         self.nlp_pipe.add_pipe('readability', last=True)
-        self.df = df
+        self.sa_pipe = Classifier.load('sentiment')
             
     def rename_column(self, old_name, new_name):
         """Rename a column with old_name to new_name.
@@ -99,7 +103,24 @@ class ArgumentProcessor(object):
         self.df['readability'] = readabilities
         
     def compute_sentiment(self):
-        pass
+        """Compute sentiment of each argument.
+        """
+        if 'sentiment' in self.df.columns:
+            return 
+        
+        sentiments = [] 
+        for index, row in self.df.iterrows():
+            text = row['argument'] 
+            sentence = Sentence(text)
+            self.sa_pipe.predict(sentence)
+            sentence = str(sentence)
+            if 'POSITIVE' in sentence:
+                sentiments.append(1)
+            elif 'NEGATIVE' in sentence:
+                sentiments.append(-1)
+            else:
+                sentiments.append(0)
+        self.df['sentiment'] = sentiments
     
     def compute_usefulness(self):
         pass
