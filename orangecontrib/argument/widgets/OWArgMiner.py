@@ -18,11 +18,11 @@ class OWArgMiner(OWWidget):
     icon = "icons/OWArgMiner.svg"
     
     want_main_area = False
-    
+   
+    # GUI variables 
     col_argument = Setting("")
     col_score = Setting("")
     
-    # GUI variables
     class Inputs:
         input_data = Input('Data', Table)
     
@@ -51,7 +51,7 @@ class OWArgMiner(OWWidget):
         )
         
     @Inputs.input_data
-    def set_data(self, data):
+    def set_input_data(self, data):
         self.input_data = data
         df = table_to_frame(data, include_metas=True)
         items = list(df.columns)
