@@ -149,6 +149,17 @@ class ArgumentProcessor(object):
             u = row['readable'] + row['coherence']
             usefulness.append(u)
         self.df['usefulness'] = usefulness
+        
+    def filter(self, usefulness_theta: int = 2):
+        """Filter out the arguments that are not of interest.
+        """
+        assert 0 <= usefulness_theta <= 2, "Usefulness should be in range [0, 2]!"
+       
+        result = self.df.copy()
+        result = result[result['ranks'].astype(bool)] 
+        result = result[result['usefulness'] >= usefulness_theta]
+        result = result.reset_index(drop=True)
+        return result
 
 
 class ArgumentMiner(object):
