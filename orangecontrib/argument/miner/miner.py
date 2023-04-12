@@ -88,7 +88,7 @@ class ArgumentProcessor(object):
         self.df['ranks'] = ranks
         self.df['ranks'] = self.df['ranks'].astype('str')
     
-    def compute_readability(self):
+    def compute_readability(self, readable_theta: int = 4):
         """Compute readability of each argument.
         """
         if 'readability' in self.df.columns:
@@ -105,6 +105,7 @@ class ArgumentProcessor(object):
         v_max = max(readabilities)    
         readabilities = [(r - v_min) * 10 / (v_max - v_min) for r in readabilities] 
         self.df['readability'] = readabilities
+        self.df['readable'] = [r >= readable_theta for r in readabilities]
         
     def compute_sentiment(self):
         """Compute sentiment of each argument.
@@ -280,6 +281,7 @@ class ArgumentMiner(object):
 
         self.tokens = []
         for doc in list(self.df_arguments["ranks"]):
+            doc = eval(doc) # parse str to list
             for token in doc:
                 token = token[0]
                 if token:
@@ -359,9 +361,10 @@ class ArgumentMiner(object):
         clusters = []
         weights = []
         for i, row in self.df_arguments.iterrows():
-            query = np.array([t[0] for t in row["ranks"]])
+            ranks = eval(row['ranks'])
+            query = np.array([t[0] for t in ranks])
             cluster_set = self.__get_cluster_set(query)
-            weight = max([t[1] for t in row["ranks"]]) * row["readability"]
+            weight = max([t[1] for t in ranks]) * row["readability"]
             clusters.append(cluster_set)
             weights.append(weight)
         self.df_arguments.loc[self.df_arguments.index, "clusters"] = clusters
