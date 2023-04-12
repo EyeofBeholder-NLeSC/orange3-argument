@@ -28,7 +28,10 @@ def readability(doc):
 
 
 class ArgumentProcessor(object):
-    """_summary_
+    """Process argument before mining.
+    
+    - Rename argument and score columns; 
+    - Label arguments by usefulness.
 
     Args:
         object (_type_): _description_
@@ -83,8 +86,9 @@ class ArgumentProcessor(object):
         for doc in docs:
             ranks.append(get_token_rank(doc))
         self.df['ranks'] = ranks
+        self.df['ranks'] = self.df['ranks'].astype('str')
     
-    def compute_readability(self, theta: float = 4):
+    def compute_readability(self):
         """Compute readability of each argument.
         """
         if 'readability' in self.df.columns:
@@ -101,7 +105,6 @@ class ArgumentProcessor(object):
         v_max = max(readabilities)    
         readabilities = [(r - v_min) * 10 / (v_max - v_min) for r in readabilities] 
         self.df['readability'] = readabilities
-        self.df['readable'] = [r >= theta for r in readabilities]
         
     def compute_sentiment(self):
         """Compute sentiment of each argument.
@@ -126,6 +129,9 @@ class ArgumentProcessor(object):
     def compute_coherence(self):
         """Compute coherence between the argument sentiment and its score
         """
+        if 'coherence' in self.df.columns:
+            return
+        
         # this is based on the way how the flair sentiment model works    
         score2sentiment = {
             1: -1, 
@@ -144,6 +150,9 @@ class ArgumentProcessor(object):
     def compute_usefulness(self):
         """Compute usefulness (0~2) of each argument. 
         """
+        if 'usefulness' in self.df.columns:
+            return
+        
         usefulness = []  
         for index, row in self.df.iterrows():
             u = row['readable'] + row['coherence']
