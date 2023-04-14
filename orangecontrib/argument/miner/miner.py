@@ -187,91 +187,19 @@ class ArgumentMiner(object):
     """
 
     df_arguments = None
-    nlp_pipe = None
     wv_model = None
     tokens = None
     cluster_labels = None
     df_edge = None
     df_node = None
 
-    def __init__(self, df=None):
-        """Contstructor
-
-        Args:
-            df (Pandas.DataFrame): input data table that contains the argument texts and overal scores
-        """
-        if df is not None: 
-            self.df_arguments = df.loc[df.astype(str).drop_duplicates().index]
-            
-    def rename_column(self, old_name, new_name):
-        self.df_arguments.rename({old_name: new_name}, axis=1, inplace=True)
-
-    def load_nlp_pipeline(self, pipe_name: str = "en_core_web_md"):
-        """
-        Load the NLP pipeline that is built in spacy package.
-        Will download the pipeline files if not exist.
-        """
-        if find_spec(pipe_name) is None:
-            spacy.cli.download(pipe_name)
-
-        self.nlp_pipe = spacy.load(pipe_name)
-        self.nlp_pipe.add_pipe("textrank", last=True)
-        self.nlp_pipe.add_pipe("readability", last=True)
-
-    def load_word_vector_model(self, model_name: str = "word2vec-google-news-300"):
-        """
-        Load the word vector model that is built in gensim package.
-        Will download the model files if not exist.
-        """
+    def __init__(self, df: pd.DataFrame = None, lang: str ='en'):
+        lang2name = {'en': 'word2vec-google-news-300'}
+        model_name = lang2name[lang]
+        
+        self.df = df
         self.wv_model = api.load(model_name)
-
-    @staticmethod
-    def __get_token_ranks(
-        doc: spacy.tokens.Doc, stopwords: list, trt: float = 0
-    ) -> list[Tuple[str, float]]:
-        """
-        Get text rank of each token.
-        """
-        results = []
-        for token in doc._.phrases:
-            text = token.text
-            text = text.lower().split(" ")
-            text = filter(lambda x: x not in stopwords, text)
-            text = " ".join(text)
-            if token.rank and token.rank >= trt:
-                results.append((text, token.rank))
-
-        return results
-
-    @staticmethod
-    def __get_doc_readability(doc: spacy.tokens.Doc) -> float:
-        """
-        Get readability score of a document.
-        """
-        return doc._.flesch_kincaid_reading_ease
-
-    def compute_ranks_and_readability(self, token_theta: float = 0):
-        """
-        For each argument in the input dataset, compute the token text ranks and readability.
-        These data will be addd to the arguments dataframe as two columns.
-        """
-        if {"ranks", "readability"}.issubset(self.df_arguments.columns):
-            return
-
-        ranks = []
-        readabilities = []
-        stopwords = list(self.nlp_pipe.Defaults.stop_words)
-        docs = self.nlp_pipe.pipe(texts=self.df_arguments["argument"].astype("str"))
-        for doc in docs:
-            ranks.append(self.__get_token_ranks(doc, stopwords, token_theta))
-            readabilities.append(self.__get_doc_readability(doc))
-        self.df_arguments["ranks"] = ranks
-        self.df_arguments["readability"] = readabilities
-        self.df_arguments = self.df_arguments[
-            self.df_arguments["ranks"].astype("str") != "[]"
-        ]  # remove arguments with no token
-        self.df_arguments = self.df_arguments.reset_index(drop=True)
-
+            
     def __compute_all_tokens(self):
         """
         Compute the full list of tokens in the arguments
@@ -397,6 +325,7 @@ class ArgumentMiner(object):
 
         return source, target, weight
 
+    # TODO: remove instance variable df_edge and df_node, but just return values
     def compute_edge_table(self):
         """
         Compute the edge table of the attacking network.
@@ -446,41 +375,3 @@ class ArgumentMiner(object):
                 self.df_node['label'].append('defeated')
                 
         self.df_node = pd.DataFrame(self.df_node)
-    
-   
-if __name__ == "__main__":
-    fpath = "../../../example/data/data_processed_1prod_sample.json"
-    am = ArgumentMiner(fpath)
-    
-    print('load nlp pipeline...', end='')
-    am.load_nlp_pipeline()
-    print("done")
-   
-    print('load word vector model...', end='') 
-    am.load_word_vector_model()
-    print('done')
-    
-    print('compute ranks and readability...', end='')
-    am.compute_ranks_and_readability()
-    print('done')
-    
-    print('compute clusters and weights...', end='')
-    am.compute_clusters_and_weights()
-    print('done')
-    
-    print('compute edge table', end='')
-    am.compute_edge_table(0)
-    print('done')
-    
-    print('compute node table', end='')
-    am.compute_node_table()
-    print('done')
-    
-    print('edge_table:')
-    print(am.df_edge)
-    
-    print('node table:')
-    print(am.df_node)
-    
-    print('argument table:')
-    print(am.df_arguments)
