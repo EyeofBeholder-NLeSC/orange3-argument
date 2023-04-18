@@ -197,7 +197,7 @@ class ArgumentMiner(object):
         lang2name = {'en': 'word2vec-google-news-300'}
         model_name = lang2name[lang]
         
-        self.df = df
+        self.df_arguments = df
         self.wv_model = api.load(model_name)
             
     def __compute_all_tokens(self):
