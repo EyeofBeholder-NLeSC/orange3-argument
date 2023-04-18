@@ -10,3 +10,4 @@ pot
 scikit_learn
 spacy_readability
 flair
+bertopic

@@ -52,7 +52,8 @@ INSTALL_REQUIRES = [
     'scikit_learn', 
     'spacy_readability', 
     'pytextrank', 
-    'flair'
+    'flair', 
+    'bertopic'
     ]
 
 ENTRY_POINTS = {
