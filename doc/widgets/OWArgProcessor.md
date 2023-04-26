@@ -1,20 +1,30 @@
-Hello World
-===========
+# JSON File Reader
 
-![image](icons/mywidget.png)
+<img src="./icons/OWArgProcessor.svg" width="100" height="100">
 
-A dummy widget that greets the world.
+Read tabular data in JSON format as Orange table.
 
-Signals
--------
+## Signals
+
+**Inputs**
 
 - (None)
 
 **Outputs**:
 
-- (None)
+- `Data`: Output data table
 
-Description
------------
+## Description
 
-This is a simple widget that greets the world using a QLabel. If you are interested in widget development, you should take a look at it's source code.
+**JSON File Reader** reads contents of a JSON file from either a local path or an URL, and output the content as a able.
+
+## Control
+
+- `File`: File browser that helps finding the target file.
+- `URL`: Edit box for inputing the URL to the target file.
+
+## Example
+
+This example reads a local JSON file and output its content as a Orange data table. The JSON file can be found [here](https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json). 
+
+![image](./screenshots/OWJSONReader.png)
