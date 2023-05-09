@@ -5,13 +5,16 @@ Author: @jiqicn
 """
 
 import pandas as pd
-import spacy
-import pytextrank
+from bertopic import BERTopic
+from sentence_transformers import SentenceTransformer
+from umap import UMAP
+from sklearn.decomposition import TruncatedSVD
+from bertopic.dimensionality import BaseDimensionalityReduction
+from hdbscan import HDBSCAN
+from sklearn.cluster import KMeans, AgglomerativeClustering, Birch
+
 from spacy.language import Language
 from spacy_readability import Readability
-from flair.nn import Classifier
-from flair.data import Sentence
-from importlib.util import find_spec
 import gensim.downloader as api
 import numpy as np
 from itertools import starmap, combinations
@@ -20,15 +23,104 @@ from sklearn.metrics import silhouette_score
 from typing import Tuple
 
 
-@Language.component("readability")
-def readability(doc):
-    read = Readability()
-    doc = read(doc)
-    return doc
-
-
 class ArgumentMinerBERT:
-    def __init__(self) -> None:
+    """Argument mining module based on BERT-based topic modeling.
+    """
+    EMBEDDING_MODELS = [
+        'all-MiniLM-L12-v1', 
+        'all-mpnet-base-v1', 
+        'all-distilroberta-v1', 
+        'all-roberta-large-v1', 
+        'distiluse-base-multilingual-cased-v1', 
+        'paraphrase-multilingual-MiniLM-L12-v2', 
+        'paraphrase-multilingual-mpnet-base-v2', 
+        'gtr-t5-large', 
+        'sentence-t5-large', 
+        'average_word_embeddings_glove.6B.300d',
+        'average_word_embeddings_komninos'
+    ]
+    DIMENSION_REDUCTION_MODELS = [
+        'UMAP', 
+        'SVD', 
+        'NONE'
+    ]
+    CLUSTERING_MODELS = [
+        'HDBSCAN', 
+        'K-Means', 
+        'Agglomerative Clustering', 
+        'BIRCH'
+    ]
+    
+    def __init__(self, df: pd.DataFrame):
+        self.model = None
+        self.df = df
+       
+    def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
+        """Choose and setup the embedding model.
+        """
+        assert model_name in self.EMBEDDING_MODELS, 'Embedding model not found: %s' % model_name
+        
+        self.embedding_model = SentenceTransformer(model_name)
+    
+    def set_dimension_reduction_model(self, model_name: str = 'UMAP', n_components: int = 5):
+        """Choose and setup the dimensionality reduction model
+        """
+        assert model_name in self.DIMENSION_REDUCTION_MODELS, 'Dimensionality reduction model not found: %s' % model_name
+        
+        if model_name == 'UMAP': 
+            self.umap_model = UMAP(n_components=n_components)
+        elif model_name == 'SVD':
+            self.umap_model = TruncatedSVD(n_components=n_components)
+        elif model_name == 'NONE':
+            self.umap_model = BaseDimensionalityReduction() 
+    
+    def set_clustering_model(self, model_name: str = 'HDBSCAN', min_cluster_size: int = None, n_clusters: int = None):
+        """Choose and setup the clustering model.
+        """
+        assert model_name in self.CLUSTERING_MODELS, 'Clustering model not found: %s' % model_name
+       
+        if model_name == 'HDBSCAN':
+            assert min_cluster_size is not None, 'Fail to set model parameter: %s' % model_name
+            self.hdbscan_model = HDBSCAN(
+                min_cluster_size=min_cluster_size, 
+                prediction_data=True
+            )
+        else:
+            assert n_clusters is not None, 'Fail to set model parameter: %s' % model_name 
+            if model_name == 'K-Means':
+                self.hdbscan_model = KMeans(n_clusters=n_clusters)
+            elif model_name == 'Agglomerative Clustering':
+                self.hdbscan_model = AgglomerativeClustering(n_clusters=n_clusters)
+            elif model_name == 'BIRCH':
+                self.hdbscan_model = Birch(n_clusters=n_clusters)
+    
+    def set_topic_conduction_models(self, **kwargs):
+        """Set parameters for tokenizer, c-tf-if, and representation models.
+        """
+        self.vectorizer_model = None
+        self.ctfidf_model = None
+        self.representation_model = None
+    
+    def do_topic_modeling(self):
+        """Perform topic modeling with a given setup.
+        """
+        self.model = BERTopic(
+            embedding_model=self.embedding_model, 
+            umap_model=self.umap_model, 
+            hdbscan_model=self.hdbscan_model, 
+            vectorizer_model=self.vectorizer_model, 
+            ctfidf_model=self.ctfidf_model, 
+            representation_model=self.representation_model, 
+            calculate_probabilities=True # compute probabilities of all topics cross all docs
+        )
+        
+        topic, probs = self.model.fit_transform(self.df['argument']) 
+        self.df['topics'] = topic 
+        self.df['topic_distr'] = probs
+    
+    def get_topics(self):
+        """Get the topic information table.
+        """
         pass
 
 class ArgumentMiner(object):
