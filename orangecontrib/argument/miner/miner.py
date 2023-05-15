@@ -4,6 +4,7 @@ Argument mining module.
 Author: @jiqicn
 """
 
+from functools import partial
 import pandas as pd
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
@@ -12,6 +13,12 @@ from sklearn.decomposition import TruncatedSVD
 from bertopic.dimensionality import BaseDimensionalityReduction
 from hdbscan import HDBSCAN
 from sklearn.cluster import KMeans, AgglomerativeClustering, Birch
+from sklearn.feature_extraction.text import CountVectorizer
+from nltk.stem.snowball import SnowballStemmer
+from nltk.corpus import stopwords
+import nltk
+from bertopic.vectorizers import ClassTfidfTransformer
+from bertopic.representation import KeyBERTInspired
 
 from spacy.language import Language
 from spacy_readability import Readability
@@ -20,52 +27,79 @@ import numpy as np
 from itertools import starmap, combinations
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-from typing import Tuple
+from typing import Callable, Tuple
 
 
-class ArgumentMinerBERT:
+class ArgumentTopicModeler:
     """Argument mining module based on BERT-based topic modeling.
     """
-    EMBEDDING_MODELS = [
+    embedding_models_eng = [
         'all-MiniLM-L12-v1', 
         'all-mpnet-base-v1', 
         'all-distilroberta-v1', 
         'all-roberta-large-v1', 
-        'distiluse-base-multilingual-cased-v1', 
-        'paraphrase-multilingual-MiniLM-L12-v2', 
-        'paraphrase-multilingual-mpnet-base-v2', 
         'gtr-t5-large', 
         'sentence-t5-large', 
         'average_word_embeddings_glove.6B.300d',
         'average_word_embeddings_komninos'
     ]
-    DIMENSION_REDUCTION_MODELS = [
+    embedding_model_multi = [
+        'distiluse-base-multilingual-cased-v1', 
+        'paraphrase-multilingual-MiniLM-L12-v2', 
+        'paraphrase-multilingual-mpnet-base-v2', 
+    ]
+    dimension_reduction_models = [
         'UMAP', 
         'SVD', 
         'NONE'
     ]
-    CLUSTERING_MODELS = [
+    clustering_models = [
         'HDBSCAN', 
         'K-Means', 
         'Agglomerative Clustering', 
         'BIRCH'
     ]
+    languages = [
+        'english', 
+        'dutch'
+    ]
     
     def __init__(self, df: pd.DataFrame):
         self.model = None
         self.df = df
-       
-    def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
-        """Choose and setup the embedding model.
+        self.language = 'english'
+    
+    def set_language(self, language: str):
+        """Set language of the input corpus.
+
+        Args:
+            language (str): Name of language.
         """
-        assert model_name in self.EMBEDDING_MODELS, 'Embedding model not found: %s' % model_name
+        assert language in self.languages, 'Language not supported: %s.' % language
+        self.language = language
+    
+    def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
+        """Choose and set document embedding model.
+
+        Args:
+            model_name (str, optional): Model name. Defaults to 'all-mpnet-base-v1'.
+        """
+        if self.language == 'english':
+            embeddling_models = self.embedding_models_eng
+        else:
+            embeddling_models = self.embedding_model_multi
+        assert model_name in embeddling_models, 'Embedding model not supported: %s.' % model_name
         
         self.embedding_model = SentenceTransformer(model_name)
     
     def set_dimension_reduction_model(self, model_name: str = 'UMAP', n_components: int = 5):
-        """Choose and setup the dimensionality reduction model
+        """Choose and set dimensionality reduction model.
+
+        Args:
+            model_name (str, optional): Model name. Defaults to 'UMAP'.
+            n_components (int, optional): Number of resulting dimensions. Defaults to 5.
         """
-        assert model_name in self.DIMENSION_REDUCTION_MODELS, 'Dimensionality reduction model not found: %s' % model_name
+        assert model_name in self.dimension_reduction_models, 'Dimensionality reduction model not supported: %s.' % model_name
         
         if model_name == 'UMAP': 
             self.umap_model = UMAP(n_components=n_components)
@@ -75,9 +109,14 @@ class ArgumentMinerBERT:
             self.umap_model = BaseDimensionalityReduction() 
     
     def set_clustering_model(self, model_name: str = 'HDBSCAN', min_cluster_size: int = None, n_clusters: int = None):
-        """Choose and setup the clustering model.
+        """Choose and set clustering model.
+
+        Args:
+            model_name (str, optional): Model name. Defaults to 'HDBSCAN'.
+            min_cluster_size (int, optional): Only applicable to HDBSCAN model, miniman size of a cluster found by the algorithm. Defaults to None.
+            n_clusters (int, optional): Appliable to the other models, number of clusters. Defaults to None.
         """
-        assert model_name in self.CLUSTERING_MODELS, 'Clustering model not found: %s' % model_name
+        assert model_name in self.clustering_models, 'Clustering model not supported: %s.' % model_name
        
         if model_name == 'HDBSCAN':
             assert min_cluster_size is not None, 'Fail to set model parameter: %s' % model_name
@@ -94,12 +133,27 @@ class ArgumentMinerBERT:
             elif model_name == 'BIRCH':
                 self.hdbscan_model = Birch(n_clusters=n_clusters)
     
-    def set_topic_conduction_models(self, **kwargs):
-        """Set parameters for tokenizer, c-tf-if, and representation models.
-        """
-        self.vectorizer_model = None
-        self.ctfidf_model = None
-        self.representation_model = None
+    def set_topic_conduction_models(self):
+        # CountVectorizer class with support of stemming 
+        nltk.download('stopwords')
+        stemmer = SnowballStemmer(self.language)
+        stopword_list = stopwords.words(self.language)
+        class StemmedCountVectorizer(CountVectorizer):
+            def build_analyzer(self):
+                analyzer = super(StemmedCountVectorizer, self).build_analyzer()
+                return lambda doc: ([stemmer.stem(w) for w in analyzer(doc)])
+        self.vectorizer_model = CountVectorizer(
+            stop_words=stopword_list, 
+            analyzer='word'
+        )
+       
+        # further reduce frequent but useless words that are not stopwords 
+        self.ctfidf_model = ClassTfidfTransformer(
+            reduce_frequent_words=True
+        )
+        
+        self.reprentation_model = KeyBERTInspired()
+        
     
     def do_topic_modeling(self):
         """Perform topic modeling with a given setup.
