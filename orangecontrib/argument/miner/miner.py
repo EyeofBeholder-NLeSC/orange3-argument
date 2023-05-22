@@ -14,10 +14,11 @@ from hdbscan import HDBSCAN
 from sklearn.cluster import KMeans, AgglomerativeClustering, Birch
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.stem.snowball import SnowballStemmer
-from nltk.corpus import stopwords
-import nltk
 from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import KeyBERTInspired
+import torch
+import networkx as nx
+import spacy
 
 from spacy.language import Language
 from spacy_readability import Readability
@@ -29,14 +30,59 @@ from sklearn.metrics import silhouette_score
 from typing import Callable, Tuple
 
 
-class ArguChunker:
-    pass
+def sentrank(emb):
+    """Compute sentence rank with the given embedding vectors.
+
+    Args:
+        emb (list): embedding vectors.
+        
+    Return:
+        (dict): sentence index and rank score.
+    """
+    # compute cosine similarity matrix
+    emb = torch.tensor(emb) 
+    emb /= emb.norm(dim=-1).unsqueeze(-1)
+    sim_mat = emb @ emb.t()
+    sim_mat = sim_mat.numpy(force=True)
+    
+    # compute pagerank score 
+    G = nx.from_numpy_array(sim_mat) 
+    return nx.pagerank(G)
+
+def chunker(docs):
+    """Split argument docs into chunks by dependency parsing.
+
+    Args:
+        docs (list): input argument docs.
+    """
+    nlp = spacy.load('en_core_web_md')
+    doc_ids = []
+    chunks = []
+    
+    for i, doc in enumerate(docs):
+        seen = set()
+        doc = nlp(doc)
+        for sent in doc.sents:
+            heads = [c for c in sent.root.children if c.dep_ in ['conj']]
+            for head in heads:
+                head_chunk = [w for w in head.subtree]
+                [seen.add(w) for w in head_chunk]
+                chunk = ' '.join([w.text for w in head_chunk]) 
+                doc_ids.append(i)
+                chunks.append(chunk)
+            
+            unseen = [w for w in sent if w not in seen]
+            chunk = ' '.join([w.text for w in unseen])
+            doc_ids.append(i)
+            chunks.append(chunk)
+    
+    return pd.DataFrame({
+        'doc_id': doc_ids, 
+        'chunk': chunks
+    })    
 
 class ArguTopic:
-    """Argument topic modeling.
-    
-    Given a list of argument documents, get topic for each argument using BERT-based
-    topic modeling techniques. Each component can be customized to some extend.
+    """Build BERT-based topic modeler with given models and parameters.
     """
     EMBEDDING_MODELS = [
         'all-MiniLM-L12-v1', 
@@ -154,6 +200,19 @@ class ArguTopic:
             'docs': docs, 
             'topics': topics, 
         }) 
+        
+    def get_doc_embed(self, docs):
+        """Get the document embedding vectors after dimension reduction.
+
+        Args:
+            docs (list): list of documentations
+
+        Returns:
+            numpy.array: doc embedding vectors
+        """
+        embed = self.model.embedding_model.embed_documents(docs)
+        embed = self.model._reduce_dimensionality(embed)
+        return embed
 
 class ArgumentMiner(object):
     """
