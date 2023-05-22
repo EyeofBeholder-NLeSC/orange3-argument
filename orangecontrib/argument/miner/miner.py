@@ -4,7 +4,6 @@ Argument mining module.
 Author: @jiqicn
 """
 
-from functools import partial
 import pandas as pd
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
@@ -30,53 +29,37 @@ from sklearn.metrics import silhouette_score
 from typing import Callable, Tuple
 
 
-class ArgumentTopicModeler:
-    """Argument mining module based on BERT-based topic modeling.
+class ArguChunker:
+    pass
+
+class ArguTopic:
+    """Argument topic modeling.
+    
+    Given a list of argument documents, get topic for each argument using BERT-based
+    topic modeling techniques. Each component can be customized to some extend.
     """
-    embedding_models_eng = [
+    EMBEDDING_MODELS = [
         'all-MiniLM-L12-v1', 
         'all-mpnet-base-v1', 
         'all-distilroberta-v1', 
         'all-roberta-large-v1', 
         'gtr-t5-large', 
         'sentence-t5-large', 
-        'average_word_embeddings_glove.6B.300d',
-        'average_word_embeddings_komninos'
     ]
-    embedding_model_multi = [
-        'distiluse-base-multilingual-cased-v1', 
-        'paraphrase-multilingual-MiniLM-L12-v2', 
-        'paraphrase-multilingual-mpnet-base-v2', 
-    ]
-    dimension_reduction_models = [
+    DR_MODELS = [
         'UMAP', 
         'SVD', 
         'NONE'
     ]
-    clustering_models = [
+    CLUSTERING_MODELS = [
         'HDBSCAN', 
         'K-Means', 
         'Agglomerative Clustering', 
         'BIRCH'
     ]
-    languages = [
-        'english', 
-        'dutch'
-    ]
     
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self):
         self.model = None
-        self.df = df
-        self.language = 'english'
-    
-    def set_language(self, language: str):
-        """Set language of the input corpus.
-
-        Args:
-            language (str): Name of language.
-        """
-        assert language in self.languages, 'Language not supported: %s.' % language
-        self.language = language
     
     def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
         """Choose and set document embedding model.
@@ -84,22 +67,21 @@ class ArgumentTopicModeler:
         Args:
             model_name (str, optional): Model name. Defaults to 'all-mpnet-base-v1'.
         """
-        if self.language == 'english':
-            embeddling_models = self.embedding_models_eng
-        else:
-            embeddling_models = self.embedding_model_multi
-        assert model_name in embeddling_models, 'Embedding model not supported: %s.' % model_name
+        assert model_name in self.EMBEDDING_MODELS, \
+            'Embedding model not supported: %s.' % model_name
         
         self.embedding_model = SentenceTransformer(model_name)
     
-    def set_dimension_reduction_model(self, model_name: str = 'UMAP', n_components: int = 5):
+    def set_dimension_reduction_model(self, model_name: str = 'UMAP', \
+        n_components: int = 5):
         """Choose and set dimensionality reduction model.
 
         Args:
             model_name (str, optional): Model name. Defaults to 'UMAP'.
             n_components (int, optional): Number of resulting dimensions. Defaults to 5.
         """
-        assert model_name in self.dimension_reduction_models, 'Dimensionality reduction model not supported: %s.' % model_name
+        assert model_name in self.DR_MODELS, \
+            'Dimensionality reduction model not supported: %s.' % model_name
         
         if model_name == 'UMAP': 
             self.umap_model = UMAP(n_components=n_components)
@@ -108,7 +90,8 @@ class ArgumentTopicModeler:
         elif model_name == 'NONE':
             self.umap_model = BaseDimensionalityReduction() 
     
-    def set_clustering_model(self, model_name: str = 'HDBSCAN', min_cluster_size: int = None, n_clusters: int = None):
+    def set_clustering_model(self, model_name: str = 'HDBSCAN', \
+        min_cluster_size: int = None, n_clusters: int = None):
         """Choose and set clustering model.
 
         Args:
@@ -116,16 +99,19 @@ class ArgumentTopicModeler:
             min_cluster_size (int, optional): Only applicable to HDBSCAN model, miniman size of a cluster found by the algorithm. Defaults to None.
             n_clusters (int, optional): Appliable to the other models, number of clusters. Defaults to None.
         """
-        assert model_name in self.clustering_models, 'Clustering model not supported: %s.' % model_name
+        assert model_name in self.CLUSTERING_MODELS, \
+            'Clustering model not supported: %s.' % model_name
        
         if model_name == 'HDBSCAN':
-            assert min_cluster_size is not None, 'Fail to set model parameter: %s' % model_name
+            assert min_cluster_size is not None, \
+                'Missing parameter: min_cluster_size.'
             self.hdbscan_model = HDBSCAN(
                 min_cluster_size=min_cluster_size, 
                 prediction_data=True
             )
         else:
-            assert n_clusters is not None, 'Fail to set model parameter: %s' % model_name 
+            assert n_clusters is not None, \
+                'Missing parameter: n_clusters.'
             if model_name == 'K-Means':
                 self.hdbscan_model = KMeans(n_clusters=n_clusters)
             elif model_name == 'Agglomerative Clustering':
@@ -134,29 +120,25 @@ class ArgumentTopicModeler:
                 self.hdbscan_model = Birch(n_clusters=n_clusters)
     
     def set_topic_conduction_models(self):
-        # CountVectorizer class with support of stemming 
-        nltk.download('stopwords')
-        stemmer = SnowballStemmer(self.language)
-        stopword_list = stopwords.words(self.language)
+        """Set topic conduction models.
+        """
         class StemmedCountVectorizer(CountVectorizer):
             def build_analyzer(self):
+                stemmer = SnowballStemmer('english')
                 analyzer = super(StemmedCountVectorizer, self).build_analyzer()
                 return lambda doc: ([stemmer.stem(w) for w in analyzer(doc)])
+            
         self.vectorizer_model = CountVectorizer(
-            stop_words=stopword_list, 
+            stop_words='english', 
             analyzer='word'
         )
-       
-        # further reduce frequent but useless words that are not stopwords 
         self.ctfidf_model = ClassTfidfTransformer(
             reduce_frequent_words=True
         )
-        
-        self.reprentation_model = KeyBERTInspired()
-        
+        self.representation_model = KeyBERTInspired()
     
-    def do_topic_modeling(self):
-        """Perform topic modeling with a given setup.
+    def run(self, docs):
+        """Perform topic modeling and return results.
         """
         self.model = BERTopic(
             embedding_model=self.embedding_model, 
@@ -167,15 +149,11 @@ class ArgumentTopicModeler:
             representation_model=self.representation_model, 
             calculate_probabilities=True # compute probabilities of all topics cross all docs
         )
-        
-        topic, probs = self.model.fit_transform(self.df['argument']) 
-        self.df['topics'] = topic 
-        self.df['topic_distr'] = probs
-    
-    def get_topics(self):
-        """Get the topic information table.
-        """
-        pass
+        topics, _ = self.model.fit_transform(docs) 
+        return pd.DataFrame({
+            'docs': docs, 
+            'topics': topics, 
+        }) 
 
 class ArgumentMiner(object):
     """
