@@ -13,9 +13,11 @@ from bertopic.dimensionality import BaseDimensionalityReduction
 from hdbscan import HDBSCAN
 from sklearn.cluster import KMeans, AgglomerativeClustering, Birch
 from sklearn.feature_extraction.text import CountVectorizer
-from nltk.stem.snowball import SnowballStemmer
+from nltk import word_tokenize
+from nltk.stem import WordNetLemmatizer
 from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import KeyBERTInspired
+from bertopic.representation import MaximalMarginalRelevance
 import torch
 import networkx as nx
 import spacy
@@ -27,7 +29,7 @@ import numpy as np
 from itertools import starmap, combinations
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-from typing import Callable, Tuple
+from typing import Any, Callable, Tuple
 
 
 def sentrank(emb):
@@ -55,7 +57,12 @@ def chunker(docs):
     Args:
         docs (list): input argument docs.
     """
-    nlp = spacy.load('en_core_web_md')
+    try:
+        nlp = spacy.load('en_core_web_md')
+    except OSError:
+        from spacy.cli import download
+        download('en_core_web_md')
+        nlp = spacy.load('en_core_web_md') 
     doc_ids = []
     chunks = []
     
@@ -106,6 +113,11 @@ class ArguTopic:
     
     def __init__(self):
         self.model = None
+
+        from nltk import download
+        download('punkt')
+        download('wordnet')
+        
     
     def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
         """Choose and set document embedding model.
@@ -168,23 +180,24 @@ class ArguTopic:
     def set_topic_conduction_models(self):
         """Set topic conduction models.
         """
-        class StemmedCountVectorizer(CountVectorizer):
-            def build_analyzer(self):
-                stemmer = SnowballStemmer('english')
-                analyzer = super(StemmedCountVectorizer, self).build_analyzer()
-                return lambda doc: ([stemmer.stem(w) for w in analyzer(doc)])
+        class LemmaTokenizer:
+            def __init__(self):
+                self.wnl = WordNetLemmatizer()
+            def __call__(self, doc):
+                return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
             
         self.vectorizer_model = CountVectorizer(
             stop_words='english', 
-            analyzer='word'
+            # tokenizer=LemmaTokenizer()
         )
         self.ctfidf_model = ClassTfidfTransformer(
             reduce_frequent_words=True
         )
         self.representation_model = KeyBERTInspired()
-    
-    def run(self, docs):
-        """Perform topic modeling and return results.
+        # self.representation_model = MaximalMarginalRelevance(diversity=.3)
+        
+    def build_model(self):
+        """Build topic model with the given setup.
         """
         self.model = BERTopic(
             embedding_model=self.embedding_model, 
@@ -193,8 +206,14 @@ class ArguTopic:
             vectorizer_model=self.vectorizer_model, 
             ctfidf_model=self.ctfidf_model, 
             representation_model=self.representation_model, 
-            calculate_probabilities=True # compute probabilities of all topics cross all docs
+            calculate_probabilities=True, 
+            nr_topics='auto'
         )
+    
+    def run(self, docs):
+        """Run topic modeling on the given docs.
+        """
+        assert self.model, "Model not built!"
         topics, _ = self.model.fit_transform(docs) 
         return pd.DataFrame({
             'docs': docs, 
