@@ -11,6 +11,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import PartOfSpeech
 import spacy
+import copy
 
 
 def chunker(docs:List[str]):
@@ -40,6 +41,12 @@ def chunker(docs:List[str]):
             chunks.append(chunk)
     
     return pd.DataFrame({'doc_id': doc_ids, 'chunk': chunks})    
+
+def merger(docs:List[str], topics:list[int], topic_keywords:dict):
+    """For each argument, merge topics of chunks into one, in format of keyword and importance.
+    """
+    pass
+
 
 class ArguTopic(BERTopic):
     
@@ -82,4 +89,18 @@ class ArguTopic(BERTopic):
         
         return topics, probs
     
-    
+    def get_keywords(self, probs, n_keywords:int):
+        """Get topic keywords and importance scores for each doc.
+        """
+        topics = copy.deepcopy(self.get_topics())
+        topics.pop(-1)
+        assert len(topics) == probs.shape[1], \
+            "Size of topics (%i) and probs (%i) not aligned." % (len(topics), probs.shape[1])
+            
+        # NOTE: Give empty keyword and score list to chunks with topic -1. Also, 
+        # merge topics of a chunk by distribution may result in worse keyword list. 
+        # As far as explored, there is no improvement case. Thus, decide not to do that. 
+        # Keyword list of argument then is to simply merge keywords of chunks. This 
+        # merging function doesn't have to be a instance function of the ArguTopic class.
+        
+        
