@@ -17,7 +17,6 @@ from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import KeyBERTInspired
-from bertopic.representation import MaximalMarginalRelevance
 import torch
 import networkx as nx
 import spacy
@@ -30,7 +29,6 @@ from itertools import starmap, combinations
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from typing import Any, Callable, Tuple
-
 
 def sentrank(emb):
     """Compute sentence rank with the given embedding vectors.
@@ -113,11 +111,6 @@ class ArguTopic:
     
     def __init__(self):
         self.model = None
-
-        from nltk import download
-        download('punkt')
-        download('wordnet')
-        
     
     def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
         """Choose and set document embedding model.
@@ -177,26 +170,22 @@ class ArguTopic:
             elif model_name == 'BIRCH':
                 self.hdbscan_model = Birch(n_clusters=n_clusters)
     
+    # TODO: lemma doesn't work in CountVectorizer as suggested 
+    # here: https://github.com/MaartenGr/BERTopic/issues/286#issuecomment-942353059.
+    # Need further research.
     def set_topic_conduction_models(self):
         """Set topic conduction models.
         """
-        class LemmaTokenizer:
-            def __init__(self):
-                self.wnl = WordNetLemmatizer()
-            def __call__(self, doc):
-                return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
-            
         self.vectorizer_model = CountVectorizer(
             stop_words='english', 
-            # tokenizer=LemmaTokenizer()
+            ngram_range=[1, 2]
         )
         self.ctfidf_model = ClassTfidfTransformer(
             reduce_frequent_words=True
         )
         self.representation_model = KeyBERTInspired()
-        # self.representation_model = MaximalMarginalRelevance(diversity=.3)
         
-    def build_model(self):
+    def build_model(self, reduce_topic:bool=False):
         """Build topic model with the given setup.
         """
         self.model = BERTopic(
@@ -207,14 +196,23 @@ class ArguTopic:
             ctfidf_model=self.ctfidf_model, 
             representation_model=self.representation_model, 
             calculate_probabilities=True, 
-            nr_topics='auto'
+            nr_topics="auto" if reduce_topic else None
         )
     
-    def run(self, docs):
+    def run(self, docs, reduce_outlier:bool=False):
         """Run topic modeling on the given docs.
         """
         assert self.model, "Model not built!"
-        topics, _ = self.model.fit_transform(docs) 
+        topics, probs = self.model.fit_transform(docs)
+        if reduce_outlier:
+            new_topics = self.model.reduce_outliers(
+                docs, topics, strategy="c-tf-idf", threshold=0.1
+            )
+            new_topics = self.model.reduce_outliers(
+                docs, new_topics, strategy="distributions"
+            )
+            topics = new_topics
+            self.model.update_topics(docs, topics=new_topics)
         return pd.DataFrame({
             'docs': docs, 
             'topics': topics, 
