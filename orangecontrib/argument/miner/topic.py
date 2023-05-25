@@ -12,6 +12,7 @@ from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import PartOfSpeech
 import spacy
 import copy
+import itertools
 
 
 def chunker(docs:List[str]):
@@ -42,11 +43,40 @@ def chunker(docs:List[str]):
     
     return pd.DataFrame({'doc_id': doc_ids, 'chunk': chunks})    
 
-def merger(docs:List[str], topics:list[int], topic_keywords:dict):
+def merger(docs:List[str], doc_ids:list[int], topics:list[int], \
+    topic_keywords:dict, n_keywords:int):
     """For each argument, merge topics of chunks into one, in format of keyword and importance.
-    """
-    pass
 
+    Args:
+        docs (List[str]): argument doc list.
+        doc_ids (list[int]): chunk's doc ids.
+        topics (list[int]): chunk's topic ids.
+        topic_keywords (dict): all topic keywords and importance.
+    """
+    docs = pd.DataFrame({"doc": docs}) 
+    chunks = pd.DataFrame({
+        "doc_id": doc_ids, 
+        "topic": topics
+    })
+    
+    def get_keywords_scores(topics:List[int]):
+        keywords = [topic_keywords[t] for t in topics if t != -1]
+        keywords = list(itertools.chain.from_iterable(keywords))
+        keywords = pd.DataFrame({
+            "keyword": [kw[0] for kw in keywords], 
+            "keyword_scores": [kw[1] for kw in keywords]
+        }) 
+        keywords = keywords.groupby("keyword", as_index=False).\
+            sum().sort_values(by="keyword_scores", ascending=False).reset_index(drop=True)
+        keywords = keywords.loc[0:n_keywords-1]
+        return keywords["keyword"].tolist(), keywords["keyword_scores"].tolist()
+    
+    chunks["topic"] = chunks["topic"].apply(lambda x: [x])
+    docs["topic"] = chunks.groupby("doc_id", as_index=False).agg("sum")["topic"]
+    temp = docs["topic"].apply(get_keywords_scores)
+    docs[["keyword", "keyword_scores"]] = pd.DataFrame(temp.tolist(), index=temp.index)
+    
+    return docs
 
 class ArguTopic(BERTopic):
     
@@ -56,6 +86,8 @@ class ArguTopic(BERTopic):
         self.hdbscan_model = HDBSCAN(min_cluster_size=10, prediction_data=True)
         self.vectorizer_model = CountVectorizer(stop_words='english', ngram_range=[1, 1])
         self.ctfidf_model = ClassTfidfTransformer(reduce_frequent_words=True)
+        
+        # NOTE: The POS patterns should be discussed further.
         self.representation_model = PartOfSpeech("en_core_web_md", pos_patterns=[
             [{"POS": "NOUN"}], 
             [{"POS": "ADJ"}], 
@@ -89,18 +121,18 @@ class ArguTopic(BERTopic):
         
         return topics, probs
     
-    def get_keywords(self, probs, n_keywords:int):
-        """Get topic keywords and importance scores for each doc.
+    def get_topic_table(self):
+        """Return topic information as a table.
         """
-        topics = copy.deepcopy(self.get_topics())
-        topics.pop(-1)
-        assert len(topics) == probs.shape[1], \
-            "Size of topics (%i) and probs (%i) not aligned." % (len(topics), probs.shape[1])
-            
-        # NOTE: Give empty keyword and score list to chunks with topic -1. Also, 
-        # merge topics of a chunk by distribution may result in worse keyword list. 
-        # As far as explored, there is no improvement case. Thus, decide not to do that. 
-        # Keyword list of argument then is to simply merge keywords of chunks. This 
-        # merging function doesn't have to be a instance function of the ArguTopic class.
+        topic_list = self.get_topics()
+        topic_info = copy.deepcopy(self.get_topic_info()) 
+        keywords = []
+        keyword_scores = []
         
+        for i, topic in topic_list.items():
+            keywords.append([kw[0] for kw in topic])
+            keyword_scores.append([kw[1] for kw in topic])
+        topic_info["keyword"] = keywords
+        topic_info["keyword_scores"] = keyword_scores
         
+        return topic_info
