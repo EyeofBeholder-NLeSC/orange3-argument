@@ -13,6 +13,9 @@ from bertopic.representation import PartOfSpeech
 import spacy
 import copy
 import itertools
+import torch
+import networkx as nx
+import numpy as np
 
 
 def chunker(docs:List[str]):
@@ -41,10 +44,12 @@ def chunker(docs:List[str]):
             doc_ids.append(i)
             chunks.append(chunk)
     
-    return pd.DataFrame({'doc_id': doc_ids, 'chunk': chunks})    
+    result = pd.DataFrame({'doc_id': doc_ids, 'chunk': chunks})
+    return result
 
-def merger(docs:List[str], doc_ids:list[int], topics:list[int], \
-    topic_keywords:dict, n_keywords:int):
+# TODO: add merging of chunk ranks and polarities
+def merger(docs:List[str], doc_ids:List[int], topics:List[int], chunk_ranks:list[float], \
+    chunk_polarity_scores:List[float], topic_keywords:dict, n_keywords:int):
     """For each argument, merge topics of chunks into one, in format of keyword and importance.
 
     Args:
@@ -101,10 +106,10 @@ class ArguTopic(BERTopic):
             vectorizer_model=self.vectorizer_model, 
             ctfidf_model=self.ctfidf_model, 
             representation_model=self.representation_model, 
-            calculate_probabilities=True
+            calculate_probabilities=False
         )
-        
-    def fit_transform_reduce_outliers(self, docs: List[str]):
+     
+    def fit_transform_reduce_outliers(self, docs:List[str]):
         """Fit documents and reduce outliers by default.
         """
         topics, probs = self.fit_transform(docs)
@@ -136,3 +141,23 @@ class ArguTopic(BERTopic):
         topic_info["keyword_scores"] = keyword_scores
         
         return topic_info
+    
+    def get_doc_ranks(self):
+        """Return document pagerank.
+        """
+        embeds = self.umap_model.embedding_
+        embeds = torch.tensor(embeds)
+        embeds /= embeds.norm(dim=-1).unsqueeze(-1)
+        sim_mat = embeds @ embeds.t()
+        sim_mat = sim_mat.numpy(force=True)
+        G = nx.from_numpy_array(sim_mat)
+        ranks = list(nx.pagerank(G).values())
+        ranks = np.array(ranks)
+        ranks = ranks / ranks.max()
+        return ranks
+    
+    # TODO: need to decide how to store polarity numerically.
+    def get_doc_polarities(self, docs:List[str]):
+        """Compute polarity of docs as -1 (neg), 0 (neu), or 1 (pos).
+        """
+        pass
