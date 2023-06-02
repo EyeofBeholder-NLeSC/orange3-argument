@@ -1,28 +1,10 @@
 """
 Argument mining module.
 
-Author: @jiqicn
+This maps arguments into an attacking network based on topic modeling results.
 """
 
 import pandas as pd
-from bertopic import BERTopic
-from sentence_transformers import SentenceTransformer
-from umap import UMAP
-from sklearn.decomposition import TruncatedSVD
-from bertopic.dimensionality import BaseDimensionalityReduction
-from hdbscan import HDBSCAN
-from sklearn.cluster import KMeans, AgglomerativeClustering, Birch
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk import word_tokenize
-from nltk.stem import WordNetLemmatizer
-from bertopic.vectorizers import ClassTfidfTransformer
-from bertopic.representation import KeyBERTInspired
-import torch
-import networkx as nx
-import spacy
-
-from spacy.language import Language
-from spacy_readability import Readability
 import gensim.downloader as api
 import numpy as np
 from itertools import starmap, combinations
@@ -30,208 +12,41 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from typing import Any, Callable, Tuple
 
-def sentrank(emb):
-    """Compute sentence rank with the given embedding vectors.
 
-    Args:
-        emb (list): embedding vectors.
+class ArgumentMiner:
+    def __init__(self, df_arguments, df_chunks):
+        self.df_arguments = df_arguments
+        self.df_chunks = df_chunks
+        self.df_edges = None
+        self.df_nodes = None
         
-    Return:
-        (dict): sentence index and rank score.
-    """
-    # compute cosine similarity matrix
-    emb = torch.tensor(emb) 
-    emb /= emb.norm(dim=-1).unsqueeze(-1)
-    sim_mat = emb @ emb.t()
-    sim_mat = sim_mat.numpy(force=True)
-    
-    # compute pagerank score 
-    G = nx.from_numpy_array(sim_mat) 
-    return nx.pagerank(G)
-
-def chunker(docs):
-    """Split argument docs into chunks by dependency parsing.
-
-    Args:
-        docs (list): input argument docs.
-    """
-    try:
-        nlp = spacy.load('en_core_web_md')
-    except OSError:
-        from spacy.cli import download
-        download('en_core_web_md')
-        nlp = spacy.load('en_core_web_md') 
-    doc_ids = []
-    chunks = []
-    
-    for i, doc in enumerate(docs):
-        seen = set()
-        doc = nlp(doc)
-        for sent in doc.sents:
-            heads = [c for c in sent.root.children if c.dep_ in ['conj']]
-            for head in heads:
-                head_chunk = [w for w in head.subtree]
-                [seen.add(w) for w in head_chunk]
-                chunk = ' '.join([w.text for w in head_chunk]) 
-                doc_ids.append(i)
-                chunks.append(chunk)
-            
-            unseen = [w for w in sent if w not in seen]
-            chunk = ' '.join([w.text for w in unseen])
-            doc_ids.append(i)
-            chunks.append(chunk)
-    
-    return pd.DataFrame({
-        'doc_id': doc_ids, 
-        'chunk': chunks
-    })    
-
-class ArguTopic:
-    """Build BERT-based topic modeler with given models and parameters.
-    """
-    EMBEDDING_MODELS = [
-        'all-MiniLM-L12-v1', 
-        'all-mpnet-base-v1', 
-        'all-distilroberta-v1', 
-        'all-roberta-large-v1', 
-        'gtr-t5-large', 
-        'sentence-t5-large', 
-    ]
-    DR_MODELS = [
-        'UMAP', 
-        'SVD', 
-        'NONE'
-    ]
-    CLUSTERING_MODELS = [
-        'HDBSCAN', 
-        'K-Means', 
-        'Agglomerative Clustering', 
-        'BIRCH'
-    ]
-    
-    def __init__(self):
-        self.model = None
-    
-    def set_embedding_model(self, model_name: str = 'all-mpnet-base-v1'):
-        """Choose and set document embedding model.
-
-        Args:
-            model_name (str, optional): Model name. Defaults to 'all-mpnet-base-v1'.
+    def get_attacks(self):
+        """Get all possible pairs of arguments that attack each other.
         """
-        assert model_name in self.EMBEDDING_MODELS, \
-            'Embedding model not supported: %s.' % model_name
+        pass
+    
+    def get_attack_weights(self):
+        """Get weights (and directions) of attacks.
+        """
+        pass
+    
+    def get_edge_table(self):
+        """Get table of edges and weights.
         
-        self.embedding_model = SentenceTransformer(model_name)
+        Attack exists if two arguments sharing at least one topic, but with
+        different argument score. 
+        """
+        if self.df_edges:
+            return
     
-    def set_dimension_reduction_model(self, model_name: str = 'UMAP', \
-        n_components: int = 5):
-        """Choose and set dimensionality reduction model.
+    def get_node_table(self):
+        """Get table of nodes and labels (supportive/defeated).
+        """
+        if self.df_nodes:
+            return
 
-        Args:
-            model_name (str, optional): Model name. Defaults to 'UMAP'.
-            n_components (int, optional): Number of resulting dimensions. Defaults to 5.
-        """
-        assert model_name in self.DR_MODELS, \
-            'Dimensionality reduction model not supported: %s.' % model_name
-        
-        if model_name == 'UMAP': 
-            self.umap_model = UMAP(n_components=n_components)
-        elif model_name == 'SVD':
-            self.umap_model = TruncatedSVD(n_components=n_components)
-        elif model_name == 'NONE':
-            self.umap_model = BaseDimensionalityReduction() 
-    
-    def set_clustering_model(self, model_name: str = 'HDBSCAN', \
-        min_cluster_size: int = None, n_clusters: int = None):
-        """Choose and set clustering model.
 
-        Args:
-            model_name (str, optional): Model name. Defaults to 'HDBSCAN'.
-            min_cluster_size (int, optional): Only applicable to HDBSCAN model, miniman size of a cluster found by the algorithm. Defaults to None.
-            n_clusters (int, optional): Appliable to the other models, number of clusters. Defaults to None.
-        """
-        assert model_name in self.CLUSTERING_MODELS, \
-            'Clustering model not supported: %s.' % model_name
-       
-        if model_name == 'HDBSCAN':
-            assert min_cluster_size is not None, \
-                'Missing parameter: min_cluster_size.'
-            self.hdbscan_model = HDBSCAN(
-                min_cluster_size=min_cluster_size, 
-                prediction_data=True
-            )
-        else:
-            assert n_clusters is not None, \
-                'Missing parameter: n_clusters.'
-            if model_name == 'K-Means':
-                self.hdbscan_model = KMeans(n_clusters=n_clusters)
-            elif model_name == 'Agglomerative Clustering':
-                self.hdbscan_model = AgglomerativeClustering(n_clusters=n_clusters)
-            elif model_name == 'BIRCH':
-                self.hdbscan_model = Birch(n_clusters=n_clusters)
-    
-    # TODO: lemma doesn't work in CountVectorizer as suggested 
-    # here: https://github.com/MaartenGr/BERTopic/issues/286#issuecomment-942353059.
-    # Need further research.
-    def set_topic_conduction_models(self):
-        """Set topic conduction models.
-        """
-        self.vectorizer_model = CountVectorizer(
-            stop_words='english', 
-            ngram_range=[1, 2]
-        )
-        self.ctfidf_model = ClassTfidfTransformer(
-            reduce_frequent_words=True
-        )
-        self.representation_model = KeyBERTInspired()
-        
-    def build_model(self, reduce_topic:bool=False):
-        """Build topic model with the given setup.
-        """
-        self.model = BERTopic(
-            embedding_model=self.embedding_model, 
-            umap_model=self.umap_model, 
-            hdbscan_model=self.hdbscan_model, 
-            vectorizer_model=self.vectorizer_model, 
-            ctfidf_model=self.ctfidf_model, 
-            representation_model=self.representation_model, 
-            calculate_probabilities=True, 
-            nr_topics="auto" if reduce_topic else None
-        )
-    
-    def run(self, docs, reduce_outlier:bool=False):
-        """Run topic modeling on the given docs.
-        """
-        assert self.model, "Model not built!"
-        topics, probs = self.model.fit_transform(docs)
-        if reduce_outlier:
-            new_topics = self.model.reduce_outliers(
-                docs, topics, strategy="c-tf-idf", threshold=0.1
-            )
-            new_topics = self.model.reduce_outliers(
-                docs, new_topics, strategy="distributions"
-            )
-            topics = new_topics
-            self.model.update_topics(docs, topics=new_topics)
-        return pd.DataFrame({
-            'docs': docs, 
-            'topics': topics, 
-        }) 
-        
-    def get_doc_embed(self, docs):
-        """Get the document embedding vectors after dimension reduction.
-
-        Args:
-            docs (list): list of documentations
-
-        Returns:
-            numpy.array: doc embedding vectors
-        """
-        embed = self.model.embedding_model.embed_documents(docs)
-        embed = self.model._reduce_dimensionality(embed)
-        return embed
-
-class ArgumentMiner(object):
+class ArgumentMinerOld:
     """
     Accept a json file of arguments and scores as input and create an attacking network.
 

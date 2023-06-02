@@ -1,4 +1,7 @@
 """Argument topic modeling module.
+
+This splits arguments into smaller but still meaningful chunks, 
+and compute topics and other scores for each chunk.
 """
 
 from typing import List
@@ -78,7 +81,9 @@ class ArgumentChunker:
             self.df_chunks["chunk"])
         self.df_chunks["topic"] = topics
         self.df_chunks["topic_prob"] = probs
-        
+    
+    # TODO: ranks should be computed within arguments, that means this should be recomputed.    
+    # max normalization should also be applied.
     def chunk_rank(self):
         """Compute sentence rank of chunks.
         """
@@ -90,19 +95,35 @@ class ArgumentChunker:
         ranks = self.topic_model.get_doc_rank()
         self.df_chunks["rank"] = ranks
         
+    def chunk_embed(self):
+        """Add embeddings of chunks to the result table.
+        """
+        if "embedding" in self.df_chunks.columns:
+            return
+        assert "topic" in self.df_chunks.columns, \
+            "Should do topic modeling before adding chunk embeddings!"
+        
+        embeds = self.topic_model.get_doc_embed()
+        self.df_chunks["embedding"] = embeds.tolist()
+        
     def get_chunk_table(self):
-        """Get full info table of chunks that include topic, sentence rank, 
-        and polarity
+        """Get full info table of chunks.
+        
+        This table will include the following columns: chunk, argument_id, 
+        topic, topic_prob, rank, polarity_score.
         """ 
         self.chunk()
         self.chunk_topic()
-        self.chunk_rank()
+        # self.chunk_rank()
+        self.chunk_embed()
         self.chunk_polarity_score()
         return copy.deepcopy(self.df_chunks)
     
     def get_topic_table(self):
-        """Get topic info table that includes the index, name, count of 
-        corresponding chunks, keywords, and scores.
+        """Get topic info table.
+        
+        This table will include the following columns: topic, name, count, 
+        keywords, keyword_scores.
         """
         assert "topic" in self.df_chunks.columns, \
             "Should do topic modeling before getting topic info table!"
@@ -162,7 +183,7 @@ class ArgumentTopic(BERTopic):
         for _, topic in topic_list.items():
             keywords.append([kw[0] for kw in topic])
             keyword_scores.append([kw[1] for kw in topic])
-        topic_info["keyword"] = keywords
+        topic_info["keywords"] = keywords
         topic_info["keyword_scores"] = keyword_scores
         topic_info.rename(columns={
             "Topic": "topic", 
@@ -172,6 +193,7 @@ class ArgumentTopic(BERTopic):
         
         return topic_info
     
+    # TODO: this should be removed as embeddings of docs will be output for computing ranks    
     def get_doc_rank(self):
         """compute sentence rank of docs in corpus.
         """
@@ -185,6 +207,11 @@ class ArgumentTopic(BERTopic):
         ranks = np.array(ranks)
         ranks = ranks / ranks.max() # max normalization
         return ranks
+    
+    def get_doc_embed(self):
+        """Get document embeddings after dimensionality reduction.
+        """
+        return self.umap_model.embedding_
     
     
 # # HACK: not sure we will need to merge chunks back, just leave it for now.

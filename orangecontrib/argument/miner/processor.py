@@ -1,7 +1,7 @@
-"""
-Argument processor module.
+"""Argument processor module.
 
-Author: @jiqicn
+This compute the usefulness of arguments that will be used for
+pre-filtering the arguments for the following mining steps.
 """
 
 import spacy
