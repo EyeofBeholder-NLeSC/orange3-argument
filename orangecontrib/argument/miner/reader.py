@@ -11,9 +11,9 @@ from json import JSONDecodeError
 
 
 def read_json_file(fpath:str):
-    """Read json file while handling validation.
+    """Read json file into flat table.
    
-    Cases to be handled include:
+    Things handled include:
         - multiple json objects
         - semi-structured json string 
     """
@@ -32,3 +32,26 @@ def read_json_file(fpath:str):
     
     return pd.json_normalize(json_data) # read semi-structured json as flat table
 
+def validate(df_arguments):
+    """Validate input argument dataframe.
+    
+    Things handled include:
+        - check number and dtype of columns
+        - rename columns for future analysis
+    """
+    assert df_arguments.columns.size == 2, \
+        "More columns found, only need argument texts and scores!"
+        
+    argument_col = df_arguments.select_dtypes(include=["object"]).columns
+    score_col = df_arguments.select_dtypes(include=["number"]).columns
+    assert argument_col.size == 1, "Missing argument text column!"
+    assert score_col.size == 1, "Missing score text column!"
+    
+    mapper = {
+        argument_col[0]: "argument", 
+        score_col[0]: "score"
+    }
+    df_arguments = df_arguments.rename(columns=mapper)
+    df_arguments["argument"] = df_arguments["argument"].astype(str) # to string type
+    
+    return df_arguments

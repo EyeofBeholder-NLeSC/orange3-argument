@@ -1,4 +1,4 @@
-"""Argument topic modeling module.
+"""Argument chunker module
 
 This splits arguments into smaller but still meaningful chunks, 
 and compute topics and other scores for each chunk.
@@ -77,10 +77,9 @@ class ArgumentChunker:
         if "topic" in self.df_chunks.columns:
             return 
         
-        topics, probs = self.topic_model.fit_transform_reduced(
+        topics, _ = self.topic_model.fit_transform_reduced(
             self.df_chunks["chunk"])
         self.df_chunks["topic"] = topics
-        self.df_chunks["topic_prob"] = probs
     
     # TODO: ranks should be computed within arguments, that means this should be recomputed.    
     # max normalization should also be applied.
@@ -114,8 +113,8 @@ class ArgumentChunker:
         """ 
         self.chunk()
         self.chunk_topic()
-        # self.chunk_rank()
-        self.chunk_embed()
+        self.chunk_rank()
+        # self.chunk_embed()
         self.chunk_polarity_score()
         return copy.deepcopy(self.df_chunks)
     
@@ -127,7 +126,7 @@ class ArgumentChunker:
         """
         assert "topic" in self.df_chunks.columns, \
             "Should do topic modeling before getting topic info table!"
-        self.topic_model.get_topic_table()
+        return self.topic_model.get_topic_table()
     
 class ArgumentTopic(BERTopic):
     """
@@ -185,7 +184,7 @@ class ArgumentTopic(BERTopic):
             keyword_scores.append([kw[1] for kw in topic])
         topic_info["keywords"] = keywords
         topic_info["keyword_scores"] = keyword_scores
-        topic_info.rename(columns={
+        topic_info = topic_info.rename(columns={
             "Topic": "topic", 
             "Count": "count", 
             "Name": "name"
@@ -212,41 +211,3 @@ class ArgumentTopic(BERTopic):
         """Get document embeddings after dimensionality reduction.
         """
         return self.umap_model.embedding_
-    
-    
-# # HACK: not sure we will need to merge chunks back, just leave it for now.
-# def merge_chunks(docs:List[str], doc_ids:List[int], topics:List[int], \
-#     chunk_ranks:list[float], chunk_polarity_scores:List[float], \
-#         topic_keywords:dict, n_keywords:int):
-#     """For each argument, merge topics of chunks into one, in format of keyword and importance.
-#         docs (List[str]): argument doc list.
-#         doc_ids (list[int]): chunk's doc ids.
-#         topics (list[int]): chunk's topic ids.
-#         chunk_ranks: list[float]: chunkrank in chunk corpus.
-#         chunk_polarity_scores: list[float]: chunk polarity scores.
-#         topic_keywords (dict): all topic keywords and importance.
-#     """
-#     docs = pd.DataFrame({"doc": docs}) 
-#     chunks = pd.DataFrame({
-#         "doc_id": doc_ids, 
-#         "topic": topics
-#     })
-    
-#     def get_keywords_scores(topics:List[int]):
-#         keywords = [topic_keywords[t] for t in topics if t != -1]
-#         keywords = list(itertools.chain.from_iterable(keywords))
-#         keywords = pd.DataFrame({
-#             "keyword": [kw[0] for kw in keywords], 
-#             "keyword_scores": [kw[1] for kw in keywords]
-#         }) 
-#         keywords = keywords.groupby("keyword", as_index=False).\
-#             sum().sort_values(by="keyword_scores", ascending=False).reset_index(drop=True)
-#         keywords = keywords.loc[0:n_keywords-1]
-#         return keywords["keyword"].tolist(), keywords["keyword_scores"].tolist()
-    
-#     chunks["topic"] = chunks["topic"].apply(lambda x: [x])
-#     docs["topic"] = chunks.groupby("doc_id", as_index=False).agg("sum")["topic"]
-#     temp = docs["topic"].apply(get_keywords_scores)
-#     docs[["keyword", "keyword_scores"]] = pd.DataFrame(temp.tolist(), index=temp.index)
-    
-#     return docs
