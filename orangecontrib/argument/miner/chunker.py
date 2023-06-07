@@ -18,6 +18,7 @@ import copy
 import torch
 import networkx as nx
 import numpy as np
+import itertools
 from textblob import TextBlob
 
 class ArgumentChunker:
@@ -81,8 +82,6 @@ class ArgumentChunker:
             self.df_chunks["chunk"])
         self.df_chunks["topic"] = topics
     
-    # TODO: ranks should be computed within arguments, that means this should be recomputed.    
-    # max normalization should also be applied.
     def chunk_rank(self):
         """Compute sentence rank of chunks.
         """
@@ -91,19 +90,28 @@ class ArgumentChunker:
         assert "topic" in self.df_chunks.columns, \
             "Should do topic modeling before computing chunk ranks!"
         
-        ranks = self.topic_model.get_doc_rank()
-        self.df_chunks["rank"] = ranks
-        
-    def chunk_embed(self):
-        """Add embeddings of chunks to the result table.
-        """
-        if "embedding" in self.df_chunks.columns:
-            return
-        assert "topic" in self.df_chunks.columns, \
-            "Should do topic modeling before adding chunk embeddings!"
+        def rank_in_argument(embeds):
+            embeds = list(embeds)
+            embeds = torch.tensor(embeds)    
+            embeds /= embeds.norm(dim=-1).unsqueeze(-1)
+            sim_mat = embeds @ embeds.t()
+            sim_mat = sim_mat.numpy(force=True)
+            G = nx.from_numpy_array(sim_mat)
+            ranks = list(nx.pagerank(G).values())
+            ranks = np.array(ranks)
+            return list(ranks)
         
         embeds = self.topic_model.get_doc_embed()
-        self.df_chunks["embedding"] = embeds.tolist()
+        df_temp = pd.DataFrame({
+            "argument_id": self.df_chunks["argument_id"], 
+            "embed": embeds.tolist()
+        })
+        df_temp = df_temp.groupby(by="argument_id", as_index=False).agg({
+            "embed": rank_in_argument
+        })
+        ranks = df_temp["embed"].tolist()
+        ranks = list(itertools.chain(*ranks))
+        self.df_chunks["rank"] = ranks
         
     def get_chunk_table(self):
         """Get full info table of chunks.
@@ -114,7 +122,6 @@ class ArgumentChunker:
         self.chunk()
         self.chunk_topic()
         self.chunk_rank()
-        # self.chunk_embed()
         self.chunk_polarity_score()
         return copy.deepcopy(self.df_chunks)
     
@@ -191,21 +198,6 @@ class ArgumentTopic(BERTopic):
         })
         
         return topic_info
-    
-    # TODO: this should be removed as embeddings of docs will be output for computing ranks    
-    def get_doc_rank(self):
-        """compute sentence rank of docs in corpus.
-        """
-        embeds = self.umap_model.embedding_
-        embeds = torch.tensor(embeds)
-        embeds /= embeds.norm(dim=-1).unsqueeze(-1)
-        sim_mat = embeds @ embeds.t()
-        sim_mat = sim_mat.numpy(force=True)
-        G = nx.from_numpy_array(sim_mat)
-        ranks = list(nx.pagerank(G).values())
-        ranks = np.array(ranks)
-        ranks = ranks / ranks.max() # max normalization
-        return ranks
     
     def get_doc_embed(self):
         """Get document embeddings after dimensionality reduction.
