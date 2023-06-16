@@ -1,23 +1,21 @@
 from Orange.data import Table
 from Orange.widgets import gui
-from Orange.widgets.settings import Setting
 from Orange.widgets.widget import Input, Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from orangecontrib.argument.miner.miner import ArgumentProcessor
 
+
 class OWArgProcessor(OWWidget):
-    """Argument processor widget
+    """Argument processor widget.
     
-    Functions:
-    - Indicating the argument content and score columns
-    - Filtering arguments by their usefulness
+    Merge chunks back into arguments with the associated meta information, and compute
+    other measures like readibility, sentiment, and coherence of arguments. 
     """
-    
     name = 'Argument Processor'
     description = 'Process input argument table and prepare it for the mining step.'
     icon = 'icons/OWArgProcessor.svg'
-    
     want_main_area = False
+    resizing_enabled = False
     
     # GUI variables
     col_argument = Setting('')

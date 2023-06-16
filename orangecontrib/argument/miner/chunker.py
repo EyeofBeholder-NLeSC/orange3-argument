@@ -187,8 +187,8 @@ class ArgumentTopic(BERTopic):
         keyword_scores = []
         
         for _, topic in topic_list.items():
-            keywords.append([kw[0] for kw in topic])
-            keyword_scores.append([kw[1] for kw in topic])
+            keywords.append(str([kw[0] for kw in topic]))
+            keyword_scores.append(str([kw[1] for kw in topic]))
         topic_info["keywords"] = keywords
         topic_info["keyword_scores"] = keyword_scores
         topic_info = topic_info.rename(columns={
