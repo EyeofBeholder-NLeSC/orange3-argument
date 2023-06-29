@@ -2,7 +2,7 @@ from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.widget import Input, Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
-from orangecontrib.argument.miner.miner import ArgumentProcessor
+from orangecontrib.argument.miner.processor import ArgumentProcessor
 
 
 class OWArgProcessor(OWWidget):
@@ -18,64 +18,54 @@ class OWArgProcessor(OWWidget):
     resizing_enabled = False
     
     # GUI variables
-    col_argument = Setting('')
-    col_score = Setting('')
-    usefulness_theta = Setting(0)
     
     class Inputs:
-        input_data = Input('Data', Table)
+        argument_data = Input("Argument Data", Table)
+        chunk_data = Input("Chunk Data", Table)
         
     class Outputs:
-        output_data = Output('Data', Table) 
+        argument_data = Output("Argument Data", Table) 
        
     def __init__(self):
         super().__init__() 
+        self.df_arguments = None
+        self.df_chunks = None
         
         # GUI
-        rename_columns = gui.vBox(self.controlArea, box='Rename')
-        self.rename_arg = gui.comboBox(rename_columns, self, 'col_argument', 
-                                       label='Column of Argument Text', 
-                                       sendSelectedValue=True, 
-                                       items=())
-        self.rename_score = gui.comboBox(rename_columns, self, 'col_score', 
-                                         label='Column of Argument Score', 
-                                         sendSelectedValue=True, 
-                                         items=())
-        filter = gui.vBox(self.controlArea, box='Filter')
-        self.usefulness_filter = gui.hSlider(filter, self, 'usefulness_theta', 
-                                             minValue=0, maxValue=2)
-        gui.button(self.controlArea, self, 
-                   label='Process', 
-                   callback=self.process)
+        gui.button(self.controlArea, self, label='Process', callback=self.process)
     
-    @Inputs.input_data
-    def set_input_data(self, data):
-        self.input_data = data
-        df = table_to_frame(data, include_metas=True)
-        items = list(df.columns)
+    @Inputs.argument_data
+    def set_argument_data(self, data):
+        self.df_arguments = table_to_frame(data, include_metas=True)   
         
-        # udpate combobox
-        self.rename_arg.clear()
-        self.rename_score.clear()
-        self.rename_arg.addItems(items)
-        self.rename_score.addItems(items)
-        self.col_argument = items[0]
-        self.col_score = items[0]
-        
+    @Inputs.chunk_data
+    def set_chunk_data(self, data):
+        self.df_chunks = table_to_frame(data, include_metas=True)
+     
     def process(self):
-        processor = ArgumentProcessor(
-            table_to_frame(self.input_data, include_metas=True)
-        )
-        
-        if not {'argument', 'score'}.issubset(processor.df.columns): 
-            processor.rename_column(self.col_argument, 'argument')
-            processor.rename_column(self.col_score, 'score')
-        processor.compute_textrank()
-        processor.compute_readability()
-        processor.compute_sentiment()
-        processor.compute_coherence()
-        processor.compute_usefulness()
-        result = processor.filter(usefulness_theta=self.usefulness_theta)
-        
-        self.Outputs.output_data.send(table_from_frame(result))
-        
+        """Call back: merge chunks back to arguments and compute all the measures.
+        """ 
+        processor = ArgumentProcessor(self.df_arguments)
+        self.df_arguments = processor.get_argument_table(self.df_chunks)
+        table_arguments = table_from_frame(self.df_arguments)
+        self.Outputs.output_data.send(table_arguments)
+       
+
+if __name__ == "__main__":
+    from Orange.widgets.utils.widgetpreview import WidgetPreview
+    from orangecontrib.argument.miner.reader import read_json_file
+    from orangecontrib.argument.miner.chunker import ArgumentChunker
+    
+    fpath = "./example/data/data_processed_1prod_full.json"
+    df_arguments = read_json_file(fpath)
+    df_arguments = df_arguments[["reviewText", "overall"]]
+    df_arguments = df_arguments.rename(columns={
+        "reviewText": "argument", 
+        "overall": "score"
+    })
+    chunker = ArgumentChunker(df_arguments["argument"])
+    df_chunks = chunker.get_chunk_table()
+    df_topics = chunker.get_topic_table()
+    table_chunks = table_from_frame(df_chunks)
+    table_arguments = table_from_frame(df_arguments)
+    WidgetPreview(OWArgProcessor).run(argument_data=df_arguments, chunk_data=df_chunks)

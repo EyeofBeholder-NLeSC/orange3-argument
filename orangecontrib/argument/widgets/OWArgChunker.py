@@ -47,7 +47,7 @@ class OWArgChunker(OWWidget):
         
 if __name__ == "__main__":
     from Orange.widgets.utils.widgetpreview import WidgetPreview
-    from orangecontrib.argument.miner.reader import read_json_file, validate
+    from orangecontrib.argument.miner.reader import read_json_file
    
     fpath = "./example/data/data_processed_1prod_full.json" 
     df_arguments = read_json_file(fpath)
