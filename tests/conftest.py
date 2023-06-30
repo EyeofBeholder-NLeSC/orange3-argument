@@ -5,7 +5,7 @@ import pandas as pd
 def input_fpath():
     """fiture for getting the input file path
     """
-    return "./example/data/data_processed_1prod_full.json"
+    yield "./example/data/data_processed_1prod_full.json"
 
 @pytest.fixture(scope="session")
 def input_df(input_fpath):
@@ -17,4 +17,5 @@ def input_df(input_fpath):
         "overall": "score"
     })
     df = df.drop(columns=["vote"]) 
-    return df
+    df["argument"] = df["argument"].astype(str)
+    yield df

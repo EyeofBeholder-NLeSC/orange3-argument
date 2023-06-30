@@ -32,7 +32,7 @@ class ArgumentChunker:
     def chunk(self):
         """Split argument into chunks.
         """
-        if self.df_chunks and "chunk" in self.df_chunks.columns:
+        if self.df_chunks is not None and "chunk" in self.df_chunks.columns:
             return
         
         nlp_pip = "en_core_web_md"
@@ -165,8 +165,10 @@ class ArgumentTopic(BERTopic):
         """Fit documents and reduce outliers by default.
         """
         topics, probs = self.fit_transform(docs)
-        new_topics = self.reduce_outliers(docs, topics, strategy="c-tf-idf", threshold=0.1)
-        new_topics = self.reduce_outliers(docs, new_topics, strategy="distributions")
+        try:
+            new_topics = self.reduce_outliers(docs, topics, strategy="c-tf-idf", threshold=0.1)
+        except:
+            new_topics = self.reduce_outliers(docs, topics, strategy="distributions")
         topics = new_topics
         
         self.update_topics(
