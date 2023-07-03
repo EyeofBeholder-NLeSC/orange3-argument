@@ -10,6 +10,7 @@ from spacy_readability import Readability
 from importlib.util import find_spec
 import numpy as np
 import copy
+import math
 
 @Language.component("readability")
 def readability(doc):
@@ -69,8 +70,9 @@ class ArgumentProcessor:
             "rank": lambda x: list(x), 
             "polarity_score": lambda x: list(x)
         })
-        sentiments = df_temp.apply(lambda x: np.dot(x["rank"], x["polarity_score"]), axis=1)
-        sentiments = (1 - sentiments) / 2 # normalize to (0, 1)
+        sentiments = df_temp.apply(
+            lambda x: np.dot(x["rank"], x["polarity_score"]), axis=1)
+        sentiments = sentiments / 2 + 0.5 # normalize to (0, 1)
         self.df_arguments["sentiment"] = sentiments
     
     def argument_coherence(self, df_chunks):
@@ -81,10 +83,14 @@ class ArgumentProcessor:
         assert "sentiment" in self.df_arguments.columns, \
             "Should compute sentiment first!"
         
+        def gaussian(x):
+            """Gaussian activation function.
+            """
+            return math.e ** (-x**2 / 0.4) 
+        
         max_score = self.df_arguments["score"].max()
-        coherences = self.df_arguments.apply(
-            lambda x: 1 / abs(x["sentiment"] - x["score"] / max_score), axis=1
-        )
+        coherences = (self.df_arguments["sentiment"] - \
+            self.df_arguments["score"] / max_score).apply(gaussian)
         self.df_arguments["coherence"] = coherences
     
     def get_argument_table(self, df_chunks):
