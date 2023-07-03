@@ -41,7 +41,7 @@ class ArgumentProcessor:
         if 'readability' in self.df_arguments.columns:
             return
        
-        docs = self.df_arguments['argument']
+        docs = self.df_arguments['argument'].astype(str)
         docs = self.nlp_pipe.pipe(texts=docs)
         readabilities = [] 
         for doc in docs:
