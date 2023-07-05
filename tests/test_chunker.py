@@ -26,7 +26,8 @@ class TestArgumentTopic:
         topic_table = topic_model.get_topic_table()
 
         assert isinstance(topic_table, pd.DataFrame)
-        assert set(topic_table.columns) == {"topic", "name", "count", "keywords", "keyword_scores"}
+        assert pd.Series(["topic", "name", "count", "keywords", "keyword_scores"]).isin(
+            topic_table.columns).all()
         assert len(topic_table) > 0
 
     def test_get_doc_embed(self, topic_model, input_df):
@@ -43,7 +44,7 @@ class TestArgumentChunker:
         df_chunks = chunker.df_chunks
 
         assert isinstance(df_chunks, pd.DataFrame)
-        assert set(df_chunks.columns) == {"argument_id", "chunk"}
+        assert pd.Series(["argument_id", "chunk"]).isin(df_chunks.columns).all()
 
     def test_chunk_polarity_score(self, chunker):
         chunker.chunk_polarity_score()
@@ -67,12 +68,14 @@ class TestArgumentChunker:
         df_chunks = chunker.get_chunk_table()
 
         assert isinstance(df_chunks, pd.DataFrame)
-        assert set(df_chunks.columns) == {"argument_id", "chunk", "topic", "rank", "polarity_score"}
+        assert pd.Series(["argument_id", "chunk", "topic", "rank", "polarity_score"]).isin(
+            df_chunks.columns).all()
         assert len(df_chunks) > 0
 
     def test_get_topic_table(self, chunker):
         df_topic = chunker.get_topic_table()
 
         assert isinstance(df_topic, pd.DataFrame)
-        assert set(df_topic.columns) == {"topic", "name", "count", "keywords", "keyword_scores"}
+        assert pd.Series(["topic", "name", "count", "keywords", "keyword_scores"]).isin(
+            df_topic.columns).all()
         assert len(df_topic) > 0

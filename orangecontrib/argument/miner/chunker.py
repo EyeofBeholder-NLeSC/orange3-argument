@@ -35,11 +35,7 @@ class ArgumentChunker:
         if self.df_chunks is not None and "chunk" in self.df_chunks.columns:
             return
         
-        nlp_pip = "en_core_web_md"
-        if nlp_pip not in spacy.cli.info()['pipelines']:
-            spacy.cli.download(nlp_pip)
-        nlp = spacy.load(nlp_pip)
-        
+        nlp = spacy.load("en_core_web_md")
         argt_ids = []
         chunks = []
         for i, doc in enumerate(self.docs):

@@ -5,7 +5,6 @@ This maps arguments into an attacking network based on topic modeling results.
 """
 
 import pandas as pd
-import gensim.downloader as api
 import numpy as np
 from itertools import starmap, combinations
 from sklearn.cluster import KMeans

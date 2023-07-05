@@ -6,8 +6,9 @@ import atexit
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.install import install
+from setuptools.command.develop import develop
 
-NAME = "Orange3-Argument"
+NAME = "Eye of the Beholder"
 
 VERSION = "0.1.0"
 
@@ -15,7 +16,7 @@ AUTHOR = 'Ji Qi, Netherlands eScience Center, NL'
 AUTHOR_EMAIL = 'j.qi@esciencecenter.nl'
 
 URL = 'https://github.com/EyeofBeholder-NLeSC/orange3-argument'
-DESCRIPTION = "Argument mining and reasoning add-on for Orange3."
+DESCRIPTION = "Argument mining and reasoning add-on developed for the Eye of the Beholder project."
 LONG_DESCRIPTION = open(path.join(
     path.dirname(__file__), 'README.pypi'), 'r', encoding='utf-8').read()
 
@@ -26,6 +27,7 @@ KEYWORDS = (
     # can be installed using the Orange Add-on Manager
     'orange3 add-on',
     'argument mining', 
+    'topic modeling', 
     'network visualization'
 )
 
@@ -43,18 +45,15 @@ INSTALL_REQUIRES = [
     'AnyQt', 
     'pyqt6', 
     'pyqtgraph', 
-    'gensim', 
     'networkx', 
-    'numpy', 
     'Orange3', 
     'pandas', 
-    'pot', 
     'scikit_learn', 
     'spacy_readability', 
-    'pytextrank', 
-    'flair', 
-    'bertopic'
-    ]
+    'textblob',  
+    'bertopic', 
+    'torch'
+]
 
 ENTRY_POINTS = {
     # Entry points that marks this package as an orange add-on. If set, addon will
@@ -100,14 +99,23 @@ def include_documentation(local_dir, install_dir):
         doc_files.append((dirpath.replace(local_dir, install_dir),
                           [path.join(dirpath, f) for f in files]))
     DATA_FILES.extend(doc_files)
-
+   
 def _post_install():
-    print('POST INSTALL: update spacy to the newest version...')
-    system('pip install -U spacy pytextrank')
-
+    """Upgrade spacy and install the desired nlp pipe
+    """
+    system(''' 
+        pip install -U spacy
+        python -m spacy download en_core_web_md
+    ''')
+    
 class PostInstallCommand(install):
     def __init__(self, *args, **kwargs):
         super(PostInstallCommand, self).__init__(*args, **kwargs)
+        atexit.register(_post_install)
+        
+class PostDevelopCommand(develop):
+    def __init__(self, *args, **kwargs):
+        super(PostDevelopCommand, self).__init__(*args, **kwargs)
         atexit.register(_post_install)
 
 if __name__ == '__main__':
@@ -130,5 +138,8 @@ if __name__ == '__main__':
         keywords=KEYWORDS,
         namespace_packages=NAMESPACE_PACKAGES,
         zip_safe=False,
-        cmdclass={'install': PostInstallCommand,}
+        cmdclass={
+            "install": PostInstallCommand, 
+            "develop": PostDevelopCommand, 
+        }
     )
