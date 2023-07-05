@@ -1,0 +1,12 @@
+AnyQt
+pyqt6
+pyqtgraph
+networkx
+Orange3
+pandas
+scikit_learn
+spacy_readability
+textblob
+bertopic
+torch
+spacy
