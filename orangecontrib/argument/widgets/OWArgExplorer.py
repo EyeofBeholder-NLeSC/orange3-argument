@@ -1,7 +1,7 @@
 import numpy as np
 import networkx as nx
+import pandas as pd
 from AnyQt.QtCore import Qt
-
 from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.widget import Input
@@ -9,7 +9,6 @@ from Orange.widgets.visualize.utils.widget import OWDataProjectionWidget
 from Orange.widgets.settings import SettingProvider, Setting
 from Orange.widgets.utils.plot import OWPlotGUI
 from Orange.data.pandas_compat import table_to_frame
-
 from orangecontrib.argument.graph.graphview import GraphView
 
 GRAPH_LAYOUT = ('spring', 'multipartite', 'kamada kawai', 'spectral')
@@ -83,7 +82,7 @@ class OWArgExplorer(OWDataProjectionWidget):
         """
         df_edge = table_to_frame(self.edge_data)
         df_node = table_to_frame(self.node_data)
-       
+        
         G = nx.from_pandas_edgelist(
             df_edge, 
             source='source', target='target', edge_attr=['weight'], 

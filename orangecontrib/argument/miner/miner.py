@@ -67,6 +67,7 @@ class ArgumentMiner:
             .reset_index(drop=True)
         df_edges["target"] = df_selection.loc[df_edges["target"]]["argument_id"]\
             .reset_index(drop=True)
+            
         return df_edges
         
     def get_node_table(self, df_edges, df_nodes):
@@ -96,3 +97,13 @@ class ArgumentMiner:
                 return "supportive"
         df_nodes["label"] = df_nodes.apply(assign_label, axis=1)
         return df_nodes
+    
+    def map_edge_tables(self, df_edges, df_nodes):
+        """Map source and target in df_edges to indices of nodes in df_nodes.
+        """ 
+        mapper = df_nodes["argument_id"]
+        mapper = pd.Series(mapper.index.values, mapper)
+        df_edges["source"] = df_edges["source"].apply(lambda x: mapper[x])
+        df_edges["target"] = df_edges["target"].apply(lambda x: mapper[x])  
+        
+        return df_edges

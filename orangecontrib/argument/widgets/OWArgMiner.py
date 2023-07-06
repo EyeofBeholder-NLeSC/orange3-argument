@@ -74,6 +74,7 @@ class OWArgMiner(OWWidget):
         df_nodes = miner.select_by_topic(int(self.selected_topic))
         df_edges = miner.get_edge_table(df_nodes)
         df_nodes = miner.get_node_table(df_edges, df_nodes)
+        df_edges = miner.map_edge_tables(df_edges, df_nodes)
         progressbar.finish()
         
         # send result to outputs
