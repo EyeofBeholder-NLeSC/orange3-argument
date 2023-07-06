@@ -1,4 +1,4 @@
-AnyQt
+anyqt
 pyqt6
 pyqtgraph
 networkx

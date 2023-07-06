@@ -47,8 +47,13 @@ class OWArgProcessor(OWWidget):
         """ 
         processor = ArgumentProcessor(self.df_arguments)
         self.df_arguments = processor.get_argument_table(self.df_chunks)
+       
+        # deal with the type error when hashing list values in df 
+        object_cols = self.df_arguments.select_dtypes(include=[object]).columns
+        self.df_arguments[object_cols] = self.df_arguments[object_cols].astype(str)
+        
         table_arguments = table_from_frame(self.df_arguments)
-        self.Outputs.output_data.send(table_arguments)
+        self.Outputs.argument_data.send(table_arguments)
        
 
 if __name__ == "__main__":

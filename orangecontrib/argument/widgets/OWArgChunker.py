@@ -40,6 +40,12 @@ class OWArgChunker(OWWidget):
         chunker = ArgumentChunker(self.df_arguments["argument"])
         df_chunks = chunker.get_chunk_table()
         df_topics = chunker.get_topic_table()
+       
+        # list values in dataframe will encounter hashing issue. 
+        # convert to string before output.
+        object_cols = df_topics.select_dtypes(include=[object]).columns
+        df_topics[object_cols] = df_topics[object_cols].astype(str)
+        
         table_chunks = table_from_frame(df_chunks)
         table_topics = table_from_frame(df_topics)
         self.Outputs.chunk_data.send(table_chunks)

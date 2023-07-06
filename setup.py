@@ -42,7 +42,7 @@ DATA_FILES = [
 ]
 
 INSTALL_REQUIRES = [
-    'AnyQt', 
+    'anyqt', 
     'pyqt6', 
     'pyqtgraph', 
     'networkx', 

@@ -4,6 +4,7 @@ from Orange.widgets.settings import Setting
 from Orange.widgets.widget import Input, Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from orangecontrib.argument.miner.miner import ArgumentMiner 
+from AnyQt.QtCore import Qt
 
 
 class OWArgMiner(OWWidget):
@@ -16,11 +17,15 @@ class OWArgMiner(OWWidget):
     name = "Argument Miner"
     description = "Mine argument set and create edge and node tables of their attacking network."
     icon = "icons/OWArgMiner.svg"
-    
+    resizing_enabled = False 
     want_main_area = False
+    
+    # GUI variables
+    selected_topic = Setting(0)
    
     class Inputs:
-        input_data = Input('Data', Table)
+        argument_data = Input('Argument Data', Table)
+        topic_data = Input('Topic Data', Table) 
     
     class Outputs:
         edge_data = Output('Edge Data', Table)
@@ -28,7 +33,14 @@ class OWArgMiner(OWWidget):
     
     def __init__(self):
         super().__init__()
-       
+        
+        # GUI
+        box_select_topic = gui.widgetBox(self.controlArea, 
+                                         orientation=Qt.Vertical, 
+                                         box="Select Topic")
+        self.combo_topic = gui.comboBox(box_select_topic, self, 
+                                        'selected_topic', label="Select a topic", 
+                                        sendSelectedValue=False, items=())
         gui.button(
             widget=self.controlArea, 
             master=self, 
@@ -36,22 +48,34 @@ class OWArgMiner(OWWidget):
             callback=self.commit,
         )
         
-    @Inputs.input_data
-    def set_input_data(self, data):
-        self.input_data = data
+    @Inputs.argument_data
+    def set_argument_data(self, data):
+        self.df_arguments = table_to_frame(data, include_metas=True)
+        
+    @Inputs.topic_data
+    def set_topic_data(self, data):
+        self.df_topics = table_to_frame(data, include_metas=True)
+        topics = self.df_topics["topic"].sort_values(ascending=True)
+        topics = topics.drop(labels=[0]).reset_index(drop=True)
+        topics = topics.astype(str).tolist()
+        
+        # update combobox
+        self.combo_topic.clear()
+        self.combo_topic.addItems(topics)
+        self.selected_topic = 0
+        
          
     def commit(self):
         # argument mining
         progressbar = gui.ProgressBar(self, 100) 
         progressbar.advance(10)
-        miner = ArgumentMiner(
-            table_to_frame(self.input_data, include_metas=True))
-        progressbar.advance(80)
-        miner.compute_clusters_and_weights()
-        miner.compute_edge_table()
-        miner.compute_node_table()
+        miner = ArgumentMiner(self.df_arguments)
+        progressbar.advance(20)
+        df_nodes = miner.select_by_topic(int(self.selected_topic))
+        df_edges = miner.get_edge_table(df_nodes)
+        df_nodes = miner.get_node_table(df_edges, df_nodes)
         progressbar.finish()
         
         # send result to outputs
-        self.Outputs.edge_data.send(table_from_frame(miner.df_edge))
-        self.Outputs.node_data.send(table_from_frame(miner.df_node))
+        self.Outputs.edge_data.send(table_from_frame(df_edges))
+        self.Outputs.node_data.send(table_from_frame(df_nodes))

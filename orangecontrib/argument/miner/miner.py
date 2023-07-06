@@ -12,6 +12,7 @@ from sklearn.metrics import silhouette_score
 from typing import Any, Callable, Tuple
 import copy
 import itertools
+from numpy import nan
 
 
 class ArgumentMiner:
@@ -21,7 +22,17 @@ class ArgumentMiner:
     def select_by_topic(self, topic:int):
         """Get arguments that cover a given topic.
         """
-        index = self.df_arguments["topics"].apply(lambda x: topic in x)
+        def check_topic_included(x):
+            # value of "topics" can be string type (due to pandas operations of Orange3)
+            # parse string of list into list if that is the case
+            if isinstance(x, str):
+                x = eval(x)
+            try:
+                return topic in x
+            except TypeError:
+                return False
+        
+        index = self.df_arguments["topics"].apply(check_topic_included)
         df_selection = self.df_arguments[index]
         df_selection["argument_id"] = df_selection.index
         df_selection = df_selection.reset_index(drop=True)
