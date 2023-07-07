@@ -88,9 +88,9 @@ class ArgumentProcessor:
             """
             return math.e ** (-x**2 / 0.4) 
         
-        max_score = self.df_arguments["score"].max()
+        max_score = self.df_arguments["score"].max() - 1
         coherences = (self.df_arguments["sentiment"] - \
-            self.df_arguments["score"] / max_score).apply(gaussian)
+            (self.df_arguments["score"] - 1) / max_score).apply(gaussian)
         self.df_arguments["coherence"] = coherences
     
     def get_argument_table(self, df_chunks):
