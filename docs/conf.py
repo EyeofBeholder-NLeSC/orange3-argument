@@ -32,10 +32,13 @@ import shlex
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx', 
+    'sphinx.ext.napoleon', 
+    'recommonmark', 
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['templates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -50,7 +53,7 @@ source_parsers = {".md": "recommonmark.parser.CommonMarkParser"}
 master_doc = 'index'
 
 # General information about the project.
-project = 'Orange3 Example Add-on'
+project = 'Orange3-Argument'
 copyright = '2015, Biolab'
 author = 'Biolab'
 
@@ -68,7 +71,7 @@ release = '0.1'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -78,7 +81,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['build']
+exclude_patterns = ['_build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -112,7 +115,7 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'nature'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -204,7 +207,7 @@ html_static_path = ['static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Orange3ExampleAdd-ondoc'
+htmlhelp_basename = 'Orange3-Argumentdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -226,7 +229,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Orange3ExampleAdd-on.tex', 'Orange3 Example Add-on Documentation',
+  (master_doc, 'Orange3-Argument.tex', 'Orange3-Argument Documentation',
    'Biolab', 'manual'),
 ]
 
@@ -256,7 +259,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'orange3exampleadd-on', 'Orange3 Example Add-on Documentation',
+    (master_doc, 'orange3-argument', 'Orange3-Argument Documentation',
      [author], 1)
 ]
 
@@ -270,8 +273,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'Orange3ExampleAdd-on', 'Orange3 Example Add-on Documentation',
-   author, 'Orange3ExampleAdd-on', 'One line description of project.',
+  (master_doc, 'Orange3-Argument', 'Orange3-Argument Documentation',
+   author, 'Orange3-Argument', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -286,3 +289,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {'https://docs.python.org/': None}

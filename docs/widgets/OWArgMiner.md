@@ -1,4 +1,5 @@
-# JSON File Reader
+Argument Miner
+================
 
 <img src="./icons/OWArgMiner.svg" width="100" height="100">
 
@@ -44,4 +45,4 @@ For now, no extra control is provided in this widget, but only a button to trigg
 
 This example shows a demo workflow and the output, generated from a [sample dataset](https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json) that is also provided in the GitHub repository of this widget. 
 
-![image](./screenshots/OWArgMiner.png)
+![image](./images/OWArgMiner.png)
