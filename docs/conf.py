@@ -17,6 +17,9 @@ import sys
 import os
 import shlex
 
+# add the path to the modules to add module index
+sys.path.insert(0, "../orangecontrib/argument/miner")
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -34,7 +37,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx', 
     'sphinx.ext.napoleon', 
-    'recommonmark', 
+    # 'recommonmark', 
+    'myst_parser'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -44,7 +48,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 # source_suffix = ['.rst', '.md']
 source_suffix = ['.rst', '.md']
-source_parsers = {".md": "recommonmark.parser.CommonMarkParser"}
+# source_parsers = {".md": "recommonmark.parser.CommonMarkParser"}
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -167,7 +171,7 @@ html_static_path = ['static']
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-#html_domain_indices = True
+html_domain_indices = True
 
 # If false, no index is generated.
 #html_use_index = True
@@ -251,7 +255,7 @@ latex_documents = [
 #latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+latex_domain_indices = True
 
 
 # -- Options for manual page output ---------------------------------------
@@ -282,7 +286,7 @@ texinfo_documents = [
 #texinfo_appendices = []
 
 # If false, no module index is generated.
-#texinfo_domain_indices = True
+texinfo_domain_indices = True
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
