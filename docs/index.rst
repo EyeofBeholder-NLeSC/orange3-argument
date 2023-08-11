@@ -11,7 +11,7 @@ Text of introduction.
 Contents
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
 Widgets
 -------
@@ -19,10 +19,11 @@ Widgets
 .. toctree::
    :maxdepth: 1
 
-   widgets/OWArgExplorer
    widgets/OWArgJSONReader
-   widgets/OWArgMiner
+   widgets/OWArgChunker
    widgets/OWArgProcessor
+   widgets/OWArgMiner
+   widgets/OWArgExplorer
 
 Indices and tables
 ==================

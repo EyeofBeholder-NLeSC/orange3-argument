@@ -1,48 +1,50 @@
 Argument Miner
 ================
 
-<img src="./icons/OWArgMiner.svg" width="100" height="100">
+![icon](./icons/OWArgMiner.png)
 
 Generate attacking relationship information of arguments from argument corpus.
 
 ## Signals
 
 **Inputs**
-
-- `Data`: Argument corpus data table that must contain the following two columns
-    - `argument`: argument text
-    - `score`: a numerical grade to an argument (e.g. star grade of Amazon products)
+- `Argument Data`: Data table that contains additional information of arguments to the input data table, including columns: argument, score, topics, readability, sentiment, and coherence.
 
 **Outputs**:
 
-- `Edge Data`: Edge information table that contains the following three columns
-    - `source`: index of the starting node of an edge
-    - `target`: index of the ending node of an edge
-    - `weight`: edge weight.
-- `Node Data`: Node information table that extends the input data table with one extra column
-    - `lable`: role label of an argument in attacking network, either "supportive" or "defeated"
+- `Edge Data`: Data table that contains edge information of the argument attacking network, including columns: source, target, weight.
+- `Node Data`: Data table that contains node information of the argument attacking network, including one additional column than the input argument data table that is label.
 
 ## Description
 
-**Argument Miner** reads a table of arugment corpus as input, and output the edge and node tables that forms the attacking network of arguments. What this widget does can be summarized as follows:
+**Argument Miner** has the following functions:
 
-- Group arguments by topics
-- Compute reliability of each argument based on its readability, contribution to the topic it belongs to, etc.
-- Compute attacks between arguments based on the following rules:
-    - Attacks exist only within topic groups.
-    - Attacks exist between arguments with different scores.
-    - More reliable arguments attack less reliable ones.
-    - Weight of an attack is the reliability gap of the two relevant arguments.
-- Compute labels of arguments based on the following rules:
-    - A "supportive" argument is one whose attackers are all under attacked.
-    - Arguments that are not "supportive" are labeled as "defeated".
+- Attacking network mining: Based on the input table, an argument attacking network is learned for a given topic, where nodes are arguments that cover the given topic, and edges represent a kind of disagreeing relation between arguments. Weights of edges are computed as the coherence gap of the corresponding two nodes, while direction is determined as from high to low coherent node.
+- Node labeling: Based on the learned structure of the attacking network, nodes (arguments) are classified and labeled as either **supportive** or **defeated**, which can be simply understood as reliable or non-reliable. There are three roles of labeling the nodes:
+    - If a node is not being attacked by any other nodes, this node is labeled as supportive.
+    - If all attackers of a node are being attacked by some other nodes, this node is labeled as supportive.
+    - If a node is not supportive, it is labeled as defeated.
 
 ## Control
 
-For now, no extra control is provided in this widget, but only a button to trigger the mining process. However, we would like to give more flexibilities to the users to customize the miner as desired. This means more controls are planed and will be added in future releases.
+- `Select topic`: a combo box that allows user to choose a topic to generate the attacking network. 
 
 ## Example
 
-This example shows a demo workflow and the output, generated from a [sample dataset](https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json) that is also provided in the GitHub repository of this widget. 
+Here is an example workflow that shows how the argument miner widget works:
 
-![image](./images/OWArgMiner.png)
+![workflow](./images/wf_miner.png)
+
+where the input **Processed Arguments** and **Topics** tables are as follows:
+
+![df_arguments_processed](./images/df_arguments_processed.png)
+![df_topics](./images/df_topics.png)
+
+Double-clicking the widget opens the subinterface of the widget like this:
+
+![ui](./images/OWArgMiner.png)
+
+By selecting the target topic (24 in this example) and clicking the **mine** button, the result **Nodes** and **Edges** tables are generated as follows:
+
+![df_nodes](./images/df_nodes.png)
+![df_edges](./images/df_edges.png)

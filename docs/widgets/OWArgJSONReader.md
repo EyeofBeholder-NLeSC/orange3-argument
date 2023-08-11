@@ -1,9 +1,9 @@
 JSON File Reader
 ================
 
-<img src="./icons/OWJSONReader.svg" width="100" height="100">
+![icon](./icons/OWJSONReader.png)
 
-Read tabular data in JSON format as Orange table.
+Read a local JSON file and output its data as a table.
 
 ## Signals
 
@@ -17,15 +17,18 @@ Read tabular data in JSON format as Orange table.
 
 ## Description
 
-**JSON File Reader** reads contents of a JSON file from either a local path or an URL, and output the content as a able.
-
-## Control
-
-- `File`: File browser that helps finding the target file.
-- `URL`: Edit box for inputing the URL to the target file.
+**JSON File Reader** provides a user interface for selecting and reading a local JSON file. It processes the JSON content, converts it to a table, and outputs the resulting data as a Table type output, which can be used in an Orange workflow for further analysis and visualization. 
 
 ## Example
 
-This example reads a local JSON file and output its content as a Orange data table. The JSON file can be found [here](https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json). 
+Here is an example workflow of using the JSON file reader widget to read a sample json [file](https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_full.json). 
 
-![image](./images/OWJSONReader.png)
+![workflow](./images/wf_reader.png)
+
+Double-clicking the widget opens a sub-interface where users can use the **...** button to select an input file using the system file browser.
+
+![ui](./images/OWJSONReader.png)
+
+Clicking the **Read** button will result in updating the **Raw Input** widget to show the following table.
+
+![df](./images/df_raw.png)
