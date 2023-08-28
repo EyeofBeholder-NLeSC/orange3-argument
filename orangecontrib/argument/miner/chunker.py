@@ -27,6 +27,13 @@ class ArgumentChunker:
     def __init__(self, docs:List[str]):
         self.docs = docs
         self.df_chunks = None
+        
+        # load the nlp module
+        try:
+            spacy.load("en_core_web_md")
+        except OSError:
+            spacy.cli.download("en_core_web_md")
+        
         self.topic_model = ArgumentTopic()
         
     def chunk(self):
@@ -181,18 +188,12 @@ class ArgumentTopic(BERTopic):
         """
         topic_list = self.get_topics()
         topic_info = copy.deepcopy(self.get_topic_info()) 
-        keywords = []
-        keyword_scores = []
-        
-        for _, topic in topic_list.items():
-            keywords.append(str([kw[0] for kw in topic]))
-            keyword_scores.append(str([kw[1] for kw in topic]))
-        topic_info["keywords"] = keywords
-        topic_info["keyword_scores"] = keyword_scores
         topic_info = topic_info.rename(columns={
             "Topic": "topic", 
             "Count": "count", 
-            "Name": "name"
+            "Name": "name", 
+            "Representation": "keywords", 
+            "Representative_Docs": "representative_doc"
         })
         
         return topic_info

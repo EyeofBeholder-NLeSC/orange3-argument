@@ -6,17 +6,10 @@ pre-filtering the arguments for the following mining steps.
 
 import spacy
 from spacy.language import Language
-from spacy_readability import Readability
 from importlib.util import find_spec
 import numpy as np
 import copy
 import math
-
-@Language.component("readability")
-def readability(doc):
-    read = Readability()
-    doc = read(doc)
-    return doc
 
 
 class ArgumentProcessor:
@@ -33,22 +26,7 @@ class ArgumentProcessor:
             
         self.df_arguments = df_arguments
         self.nlp_pipe = spacy.load(pipe_name)
-        self.nlp_pipe.add_pipe('readability', last=True)
             
-    def argument_readability(self):
-        """Compute argument readability.
-        """
-        if 'readability' in self.df_arguments.columns:
-            return
-       
-        docs = self.df_arguments['argument'].astype(str)
-        docs = self.nlp_pipe.pipe(texts=docs)
-        readabilities = [] 
-        for doc in docs:
-            readability = doc._.flesch_kincaid_reading_ease
-            readabilities.append(readability)
-        self.df_arguments['readability'] = readabilities
-        
     def argument_topics(self, df_chunks):
         """Compute argument topics.
         """
@@ -96,7 +74,6 @@ class ArgumentProcessor:
     def get_argument_table(self, df_chunks):
         """Get the processed argument table.
         """
-        self.argument_readability()
         self.argument_topics(df_chunks)
         self.argument_sentiment(df_chunks)
         self.argument_coherence(df_chunks)
