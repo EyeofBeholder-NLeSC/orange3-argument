@@ -10,6 +10,7 @@ import math
 
 import spacy
 import numpy as np
+import pandas as pd
 
 
 class ArgumentProcessor:
@@ -19,7 +20,7 @@ class ArgumentProcessor:
     - Label arguments by usefulness.
     """
 
-    def __init__(self, df_arguments):
+    def __init__(self, df_arguments: pd.DataFrame):
         pipe_name = "en_core_web_md"
         if find_spec(pipe_name) is None:
             spacy.cli.download(pipe_name)
@@ -27,7 +28,7 @@ class ArgumentProcessor:
         self.df_arguments = df_arguments
         self.nlp_pipe = spacy.load(pipe_name)
 
-    def argument_topics(self, df_chunks):
+    def argument_topics(self, df_chunks: pd.DataFrame):
         """Compute argument topics."""
         if "topics" in self.df_arguments.columns:
             return
@@ -37,7 +38,7 @@ class ArgumentProcessor:
         )["topic"]
         self.df_arguments["topics"] = topics
 
-    def argument_sentiment(self, df_chunks):
+    def argument_sentiment(self, df_chunks: pd.DataFrame):
         """Compute argument sentiment."""
         if "sentiment" in self.df_arguments.columns:
             return
@@ -70,7 +71,7 @@ class ArgumentProcessor:
         ).apply(gaussian)
         self.df_arguments["coherence"] = coherences
 
-    def get_argument_table(self, df_chunks):
+    def get_argument_table(self, df_chunks: pd.DataFrame) -> pd.DataFrame:
         """Get the processed argument table."""
         self.argument_topics(df_chunks)
         self.argument_sentiment(df_chunks)

@@ -19,7 +19,7 @@ class ArgumentMiner:
     def __init__(self, df_arguments):
         self.df_arguments = df_arguments
 
-    def select_by_topic(self, topic: int):
+    def select_by_topic(self, topic: int) -> pd.DataFrame:
         """Get arguments that cover a given topic."""
 
         def check_topic_included(topics):
@@ -38,7 +38,7 @@ class ArgumentMiner:
         df_selection = df_selection.reset_index(drop=True)
         return df_selection
 
-    def get_edge_table(self, df_selection):
+    def get_edge_table(self, df_selection: pd.DataFrame) -> pd.DataFrame:
         """Given a selection of arguments, get the edge table out of it."""
         comb_rows = list(itertools.combinations(df_selection.index, 2))
         combs = [
@@ -76,7 +76,9 @@ class ArgumentMiner:
 
         return df_edges
 
-    def get_node_table(self, df_edges, df_nodes):
+    def get_node_table(
+        self, df_edges: pd.DataFrame, df_nodes: pd.DataFrame
+    ) -> pd.DataFrame:
         """Given a edge table, get the node table out of it."""
         df_target = df_edges.groupby(by="target", as_index=False).agg({"source": list})
 
@@ -103,7 +105,9 @@ class ArgumentMiner:
         df_nodes["label"] = df_nodes.apply(assign_label, axis=1)
         return df_nodes
 
-    def map_edge_tables(self, df_edges, df_nodes):
+    def map_edge_tables(
+        self, df_edges: pd.DataFrame, df_nodes: pd.DataFrame
+    ) -> pd.DataFrame:
         """Map source and target in df_edges to indices of nodes in df_nodes."""
         mapper = df_nodes["argument_id"]
         mapper = pd.Series(mapper.index.values, mapper)

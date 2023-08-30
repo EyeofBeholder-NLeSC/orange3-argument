@@ -1,44 +1,46 @@
-import pandas as pd
+"""Tests of the reader module"""
 import pytest
-from reader import read_json_file, validate
+import pandas as pd
 
-def test_read_json_file_existing_file(input_fpath):
-    # Test reading an existing JSON file
-    result = read_json_file(input_fpath)
-    assert isinstance(result, pd.DataFrame)
-    assert result.shape == (371, 3)  # Check the number of rows in the DataFrame
+from orangecontrib.argument.miner.reader import read_json_file
 
-def test_read_json_file_non_existing_file():
-    # Test reading a non-existing JSON file
-    fpath = "non_existing_file.json"
-    with pytest.raises(AssertionError):
-        read_json_file(fpath)
 
-def test_validate_correct_columns():
-    # Test validating input DataFrame with correct columns
-    data = {
-        "argument": ["A", "B", "C"],
-        "score": [1, 2, 3]
-    }
-    df_arguments = pd.DataFrame(data)
-    result = validate(df_arguments)
-    assert isinstance(result, pd.DataFrame)
-    assert len(result) == 3  # Check the number of rows in the DataFrame
+@pytest.fixture
+def mocker_multi_objs(mocker):
+    """Mock-open a file containing multiple JSON objects"""
+    mocked_data = mocker.mock_open(
+        read_data='{"col1": 1, "col2": 2}\n{"col1": 3, "col2": 4}\n'
+    )
+    mocker.patch("builtins.open", mocked_data)
 
-def test_validate_missing_argument_column():
-    # Test validating input DataFrame with missing argument text column
-    data = {
-        "score": [1, 2, 3]
-    }
-    df_arguments = pd.DataFrame(data)
-    with pytest.raises(AssertionError):
-        validate(df_arguments)
 
-def test_validate_missing_score_column():
-    # Test validating input DataFrame with missing score text column
-    data = {
-        "argument": ["A", "B", "C"]
-    }
-    df_arguments = pd.DataFrame(data)
-    with pytest.raises(AssertionError):
-        validate(df_arguments)
+@pytest.fixture
+def mocker_semi_struct(mocker):
+    """Mock-open a semi-structured JSON file"""
+    mocked_data = mocker.mock_open(
+        read_data='{"col1": 1, "col2": {"subcol1": 2, "subcol2": 3}}'
+    )
+    mocker.patch("builtins.open", mocked_data)
+
+
+class TestReadJSONFile:
+    """Tests of the read_json_file function"""
+
+    def test_none_existing_file(self, tmp_path):
+        """Test if AssertionError araises when input not exists"""
+        with pytest.raises(IsADirectoryError):
+            read_json_file(tmp_path)
+
+    def test_multi_object(self, mocker_multi_objs):
+        """Test if the function can read a JSON file with multiple objects correctly."""
+        data = read_json_file("fakefile")
+        expected_data = pd.DataFrame({"col1": [1, 3], "col2": [2, 4]})
+        assert data.equals(expected_data)
+
+    def test_semi_struct(self, mocker_semi_struct):
+        """Test if the function can read a semi-structure JSON file well"""
+        data = read_json_file("fakefile")
+        expected_data = pd.DataFrame(
+            {"col1": [1], "col2.subcol1": [2], "col2.subcol2": [3]}
+        )
+        assert data.equals(expected_data)

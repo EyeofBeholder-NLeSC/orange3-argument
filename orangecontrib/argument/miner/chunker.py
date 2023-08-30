@@ -4,11 +4,12 @@ This splits arguments into smaller but still meaningful chunks,
 and compute topics and other scores for each chunk.
 """
 
-from typing import List
+from typing import List, Tuple
 import copy
 import itertools
 
 import pandas as pd
+import numpy as np
 from sentence_transformers import SentenceTransformer
 from umap import UMAP
 from hdbscan import HDBSCAN
@@ -19,7 +20,6 @@ from bertopic.representation import PartOfSpeech
 import spacy
 import torch
 import networkx as nx
-import numpy as np
 from textblob import TextBlob
 
 
@@ -114,7 +114,7 @@ class ArgumentChunker:
         ranks = list(itertools.chain(*ranks))
         self.df_chunks["rank"] = ranks
 
-    def get_chunk_table(self):
+    def get_chunk_table(self) -> pd.DataFrame:
         """Get full info table of chunks.
 
         This table will include the following columns: chunk, argument_id,
@@ -126,7 +126,7 @@ class ArgumentChunker:
         self.chunk_polarity_score()
         return copy.deepcopy(self.df_chunks)
 
-    def get_topic_table(self):
+    def get_topic_table(self) -> pd.DataFrame:
         """Get topic info table.
 
         This table will include the following columns: topic, name, count,
@@ -166,7 +166,7 @@ class ArgumentTopic(BERTopic):
             calculate_probabilities=False,
         )
 
-    def fit_transform_reduced(self, docs: List[str]):
+    def fit_transform_reduced(self, docs: List[str]) -> Tuple(List):
         """Fit documents and reduce outliers by default."""
         topics, probs = self.fit_transform(docs)
         try:
@@ -184,7 +184,7 @@ class ArgumentTopic(BERTopic):
 
         return new_topics, probs
 
-    def get_topic_table(self):
+    def get_topic_table(self) -> pd.DataFrame:
         """Return topic information as a table."""
         topic_info = copy.deepcopy(self.get_topic_info())
         topic_info = topic_info.rename(
@@ -199,6 +199,6 @@ class ArgumentTopic(BERTopic):
 
         return topic_info
 
-    def get_doc_embed(self):
+    def get_doc_embed(self) -> np.typing.NDArray:
         """Get document embeddings after dimensionality reduction."""
         return self.umap_model.embedding_
