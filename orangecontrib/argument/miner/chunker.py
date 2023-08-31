@@ -23,6 +23,22 @@ import networkx as nx
 from textblob import TextBlob
 
 
+def load_nlp_pipe(model_name: str):
+    """Download the required nlp pipe if not exist
+
+    Args:
+        model_name (str): name of the nlp pipe, a full list of models can be found from https://spacy.io/usage/models.
+
+    Returns:
+        The spacy nlp model.
+    """
+    try:
+        spacy.load(name=model_name)
+    except OSError:
+        spacy.cli.download(model=model_name)
+    return spacy.load(name=model_name)
+
+
 def get_chunk(docs: List[str]) -> Tuple[List]:
     """Split documents of a given corpus into chunks.
 
@@ -51,7 +67,7 @@ def get_chunk(docs: List[str]) -> Tuple[List]:
                 heads.append(word)
         return heads
 
-    nlp = spacy.load("en_core_web_md")
+    nlp = load_nlp_pipe(model_name="en_core_web_md")
     for i, doc in enumerate(docs):
         if doc is not None:
             seen = set()
@@ -210,12 +226,6 @@ class TopicModel:
                 "ngram_range": [1, 1],
             }
 
-        # download spacy language model if not exist
-        try:
-            spacy.load("en_core_web_md")
-        except OSError:
-            spacy.cli.download(model="en_core_web_md")
-
         self.embed_model = None
         self.rd_model = None
         self.cluster_model = None
@@ -226,6 +236,8 @@ class TopicModel:
 
     def init_models(self):
         """Initialize the topic model and sub-models with the given setup."""
+        load_nlp_pipe(model_name="en_core_web_md")
+
         # initialize sub-models
         self.embed_model = SentenceTransformer(
             model_name_or_path=self.setup["transformer"]
