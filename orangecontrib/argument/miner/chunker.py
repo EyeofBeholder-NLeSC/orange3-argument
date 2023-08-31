@@ -60,7 +60,7 @@ def get_chunk(docs: List[str]) -> Tuple[List]:
         chunks.append(chunk)
 
     def find_heads(sentence):
-        """Find heads of a sentence."""
+        """Identify the sentence heads. Currently, the strategy is quite basic: it involves designating as heads all words whose dependencies are conjunctions. However, there is room for enhancement in the future."""
         heads = []
         for word in sentence.root.children:
             if word.dep_ == "conj":
@@ -70,12 +70,12 @@ def get_chunk(docs: List[str]) -> Tuple[List]:
     nlp = load_nlp_pipe(model_name="en_core_web_md")
     for i, doc in enumerate(docs):
         if doc is not None:
-            seen = set()
             doc = nlp(doc)
             for sentence in doc.sents:
+                seen = set()
                 heads = find_heads(sentence)
                 for head in heads:
-                    head_phrase = [w for w in head.subtree]
+                    head_phrase = list(head.subtree)
                     seen.update(head_phrase)
                     create_chunk(words=head_phrase, arg_id=i)
                 unseen = [w for w in sentence if w not in seen]
@@ -122,7 +122,7 @@ def get_chunk_topic(chunks: List[str]):
 def get_chunk_rank(arg_ids: List[int], embeds: np.ndarray):
     """In each argument, comput rank of chunks within.
 
-    Rank can be understand as importance of chunks. This way, this function compute the relative importance of chunks within arguments they belongs to. This is done by applying Pagerank algorithm, where similarity is computed as person coefficient of chunk embedding vectors.
+    Rank can be understand as importance of chunks. This way, this function compute the relative importance of chunks within arguments they belongs to. This is done by applying Pagerank algorithm, where similarity is computed as the cosine similarity of chunk embedding vectors.
 
     Args:
         arg_ids (List[int]): ids of arguments that chunks belongs to.
@@ -137,7 +137,7 @@ def get_chunk_rank(arg_ids: List[int], embeds: np.ndarray):
         embeds = list(embeds)
         embeds = torch.tensor(embeds)
         embeds /= embeds.norm(dim=-1).unsqueeze(-1)
-        sim_mat = embeds @ embeds.t()
+        sim_mat = torch.matmul(embeds, embeds.t())
         sim_mat = sim_mat.numpy(force=True)
         graph = nx.from_numpy_array(sim_mat)
         ranks = list(nx.pagerank(graph).values())
@@ -147,7 +147,7 @@ def get_chunk_rank(arg_ids: List[int], embeds: np.ndarray):
     df_embeds = pd.DataFrame({"arg_id": arg_ids, "embed": embeds.tolist()})
     df_embeds = df_embeds.groupby(by="arg_id", as_index=False).agg(
         {"embed": rank_in_argument}
-    )
+    )  # group by arg_id to make the ranking within arguments
     ranks = df_embeds["embed"].tolist()
     ranks = list(itertools.chain(*ranks))
     return ranks
@@ -186,13 +186,10 @@ def get_chunk_table(
 class TopicModel:
     """Topic modeling class.
 
-    Functions are implemented based on the BERTopic model.
-
-    Args:
-        custom_setup (dict): customized setup of the model, default to None.
+    Functions are implemented based on the BERTopic model. For now, the topic model is setup with a set of default parameters of the sub-models. However, it should be possible that the user can config it further. This will be a next step.
 
     Attributes:
-        setup (dict): setup of the sub-models. Defaults values::
+        setup (dict): setup of the sub-models. Default values::
             {
                 "language": "english"
                 "transformer: "all-mpnet-base-v1",
@@ -209,23 +206,14 @@ class TopicModel:
         model (:obj:'BERTopic'): the topic model that applied the sub-models predefined.
     """
 
-    def __init__(self, custom_setup: dict = None):
-        """Constructor of TopicModel.
-
-        Args:
-            custom_setup (dict, optional): Customized model setup. Defaults to None.
-        """
-        if custom_setup is not None:
-            self.setup = custom_setup
-        else:
-            self.setup = {
-                "language": "english",
-                "transformer": "all-mpnet-base-v1",
-                "n_components": 5,
-                "min_cluster_size": 10,
-                "ngram_range": [1, 1],
-            }
-
+    def __init__(self):
+        self.setup = {
+            "language": "english",
+            "transformer": "all-mpnet-base-v1",
+            "n_components": 5,
+            "min_cluster_size": 5,
+            "ngram_range": [1, 1],
+        }
         self.embed_model = None
         self.rd_model = None
         self.cluster_model = None
@@ -272,6 +260,8 @@ class TopicModel:
     def fit_transform_reduced(self, docs: List[str]) -> List[int]:
         """Further reduce outliers from the result of the fit_transform function.
 
+        Note that BERTopic is a clustering approach, which means that it doesn not work if there is nothing to be clustered. And keep in mind that the input corpus should contain at least 1000 documents to get meaningful results. Refer to this thread: https://github.com/MaartenGr/BERTopic/issues/59#issuecomment-775718747.
+
         Args:
             docs (List[str]): The input corpus.
 
@@ -280,9 +270,7 @@ class TopicModel:
         """
         topics, _ = self.model.fit_transform(docs)
         try:
-            new_topics = self.model.reduce_outliers(
-                docs, topics, strategy="distributions"
-            )
+            new_topics = self.model.reduce_outliers(docs, topics, strategy="embeddings")
         except ValueError:
             new_topics = topics
 
