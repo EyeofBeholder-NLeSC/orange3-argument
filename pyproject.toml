@@ -1,3 +1,15 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore",
+    "default:::orangecontrib.argument.miner"
+]
+
+[tool.coverage.run]
+branch = true
+source = ["orangecontrib/argument/miner"]
+command_line = "-m pytest"
