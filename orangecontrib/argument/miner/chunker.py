@@ -1,8 +1,4 @@
-"""Argument chunker module
-
-This splits arguments into smaller but still meaningful chunks, 
-and compute topics and other scores for each chunk.
-"""
+"""Argument chunker module"""
 
 from typing import List, Tuple
 import copy

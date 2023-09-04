@@ -14,7 +14,7 @@ on:
 
 jobs:
   ruff:
-    name: lint with ruff
+    name: lint with perspector
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo

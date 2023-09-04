@@ -1,16 +1,19 @@
-name: coverage
+name: sonarcloud analysis
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+    - main
+    - dev
   pull_request:
-    braches:
+    branches:
     - main
     - dev
     - 'dev_*'
 
 jobs:
-  test:
-    name: Run tests and display coverage
+  sonarcloud:
+    name: SonarCloud scan
     runs-on: ubuntu-latest
     permissions: 
       pull-requests: write
@@ -31,12 +34,11 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel
           python3 -m pip install .[dev]
 
-      - name: Build coverage file
-        run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
+      - name: Run tests with coverage
+        run: pytest -v --cov=orangecontrib.argument.miner --cov-report term --cov-report xml:coverage.xml tests/ 
 
-      - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          pytest-coverage-path: ./pytest-coverage.txt
-          junitxml-path: ./pytest.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

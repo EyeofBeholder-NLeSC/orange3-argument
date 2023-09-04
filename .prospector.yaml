@@ -1,0 +1,25 @@
+# prospector configuration
+
+strictness: veryhigh
+test-warnings: true
+doc-warnings: false
+member-warnings: false
+
+ignore-paths:
+  - tests
+  - orangecontrib/argument/graph
+  - orangecontrib/argument/widgets
+
+pyroma:
+  run: true
+
+pycodestyle:
+  disable:
+    - E501  # line too long
+    - W291  # trailing whitespace (for module docstring)
+
+pylint:
+  disable:
+    - line-too-long
+    - too-many-instance-attributes
+    - invalid-name
