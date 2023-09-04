@@ -28,7 +28,7 @@ class TestReadJSONFile:
 
     def test_none_existing_file(self):
         """Test if AssertionError araises when input not exists"""
-        with pytest.raises(IsADirectoryError):
+        with pytest.raises(FileNotFoundError):
             read_json_file("./non_existing_file.json")
 
     def test_multi_object(self, mocker_multi_objs):

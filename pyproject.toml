@@ -12,6 +12,7 @@ filterwarnings = [
 [tool.coverage.run]
 branch = true
 source = ["orangecontrib/argument/miner"]
+relative_files = true
 
 [tool.coverage.report]
 show_missing = true
