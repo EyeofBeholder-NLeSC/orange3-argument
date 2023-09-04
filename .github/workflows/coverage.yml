@@ -2,10 +2,6 @@ name: coverage
 
 on:
   workflow_dispatch:
-  push:
-    branchs:
-    - main
-    - dev
   pull_request:
     braches:
     - main
@@ -35,8 +31,12 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel
           python3 -m pip install .[dev]
 
-      - name: Coverage comment
-        id: coverage_comment
-        uses: py-cov-action/python-coverage-comment-action@v3
+      - name: Build coverage file
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
+
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
         with:
-          GITHUB_TOKEN: ${{ github.token }}
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml

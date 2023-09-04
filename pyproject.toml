@@ -16,14 +16,3 @@ relative_files = true
 
 [tool.coverage.report]
 show_missing = true
-
-[tool.ruff]
-select = ["E", "F"]
-ignore = ["E501"]
-target-version = "py39"
-include = [
-    "orangecontrib/argument/miner"
-]
-
-[tool.ruff.mccabe]
-max-complexity = 10

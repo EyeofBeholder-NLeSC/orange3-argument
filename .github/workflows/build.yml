@@ -10,7 +10,7 @@ on:
     branches:
     - main
     - dev
-    - 'dev_*'
+    # - 'dev_*'
 
 jobs:
   build:
