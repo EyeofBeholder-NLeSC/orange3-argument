@@ -1,0 +1,38 @@
+name: coverage
+
+on:
+  workflow_dispatch:
+  pull_request:
+    braches:
+    - main
+    - dev
+    - 'dev_*'
+
+jobs:
+  test:
+    name: Run tests and display coverage
+    runs-on: ubuntu-latest
+    permissions: 
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+          cache-dependency-path: setup.cfg
+
+      - name: Upgrade and install dependencies
+        run: |
+          python3 -m pip install --upgrade pip setuptools wheel
+          python3 -m pip install .[dev]
+
+      - name: Coverage comment
+        id: coverage_comment
+        uses: py-cov-action/python-coverage-comment-action@v3
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
