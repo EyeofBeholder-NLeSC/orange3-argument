@@ -1,10 +1,22 @@
 """Tests of the chunker module"""
 from difflib import SequenceMatcher
+import json
 
 import pytest
 import numpy as np
 
 from orangecontrib.argument.miner.chunker import get_chunk, get_chunk_rank
+
+
+@pytest.fixture
+def input_docs():
+    """Test data that is a list of strings."""
+    fpath = "./tests/test_datat.json"
+    with open(fpath, "r", encoding="utf-8") as file:
+        data = []
+        for obj in file:
+            data.append(json.loads(obj))
+    return [item["reviewText"] for item in data]
 
 
 class TestGetChunk:
