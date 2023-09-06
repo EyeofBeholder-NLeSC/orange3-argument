@@ -1,8 +1,8 @@
 """Argument chunker module"""
 
 from typing import List, Tuple
-import copy
 import itertools
+import logging
 
 import pandas as pd
 import numpy as np
@@ -14,7 +14,6 @@ from bertopic import BERTopic
 from bertopic.vectorizers import ClassTfidfTransformer
 from bertopic.representation import PartOfSpeech
 import spacy
-import torch
 import networkx as nx
 from textblob import TextBlob
 
@@ -35,7 +34,7 @@ def load_nlp_pipe(model_name: str):
     return spacy.load(name=model_name)
 
 
-def get_chunk(docs: List[str]) -> Tuple[List]:
+def get_chunk(docs: List[str]) -> Tuple[List[int], List[str]]:
     """Split documents of a given corpus into chunks.
 
     A chunk can be considered as a meaningful clause, which can be part of a sentence. For instance, the sentence "I like the color of this car but it's too expensive." will be splitted as two chunks, which are "I like the color of this car" and "but it's too expensive". A dependency parser is implemented for doing this job.
@@ -69,7 +68,7 @@ def get_chunk(docs: List[str]) -> Tuple[List]:
             doc = nlp(doc)
             for sentence in doc.sents:
                 seen = set()
-                heads = find_heads(sentence)
+                heads: list[spacy.tokens.span] = find_heads(sentence)
                 for head in heads:
                     head_phrase = list(head.subtree)
                     seen.update(head_phrase)
@@ -108,9 +107,8 @@ def get_chunk_topic(chunks: List[str]):
         pd.DataFrame: Table of topic information.
     """
     topic_model = TopicModel()
-    topic_model.init_models()
     topics = topic_model.fit_transform_reduced(chunks)
-    embeds = topic_model.get_doc_embed()
+    embeds = topic_model.get_doc_embeds()
     df_topics = topic_model.get_topic_table()
     return topics, embeds, df_topics
 
@@ -118,7 +116,7 @@ def get_chunk_topic(chunks: List[str]):
 def get_chunk_rank(arg_ids: List[int], embeds: np.ndarray):
     """In each argument, comput rank of chunks within.
 
-    Rank can be understand as importance of chunks. This way, this function compute the relative importance of chunks within arguments they belongs to. This is done by applying Pagerank algorithm, where similarity is computed as the cosine similarity of chunk embedding vectors.
+    Rank can be understood as importance of chunks. This function computes the relative importance of chunks within arguments they belong to. This is done by applying the Pagerank algorithm, where similarity is computed as the cosine similarity of chunk embedding vectors.
 
     Args:
         arg_ids (List[int]): ids of arguments that chunks belongs to.
@@ -128,13 +126,11 @@ def get_chunk_rank(arg_ids: List[int], embeds: np.ndarray):
         List[float]: rank of chunks
     """
 
-    def rank_in_argument(embeds):
+    def rank_in_argument(embeds: pd.Series):
         """Compute pagerank of embedding vectors."""
-        embeds = list(embeds)
-        embeds = torch.tensor(embeds)
-        embeds /= embeds.norm(dim=-1).unsqueeze(-1)
-        sim_mat = torch.matmul(embeds, embeds.t())
-        sim_mat = sim_mat.numpy(force=True)
+        embeds = np.array(list(embeds))
+        embeds /= np.expand_dims(np.linalg.norm(embeds, axis=-1), axis=-1)
+        sim_mat = embeds @ embeds.T
         graph = nx.from_numpy_array(sim_mat)
         ranks = list(nx.pagerank(graph).values())
         ranks = np.array(ranks)
@@ -185,71 +181,62 @@ class TopicModel:
     Functions are implemented based on the BERTopic model. For now, the topic model is setup with a set of default parameters of the sub-models. However, it should be possible that the user can config it further. This will be a next step.
 
     Attributes:
-        setup (dict): setup of the sub-models. Default values::
-            {
-                "language": "english"
-                "transformer: "all-mpnet-base-v1",
-                "n_components": 5,
-                "min_cluster_size": 10,
-                "ngram_range": [1, 1]
-            }
-        embed_model (:obj:'SentenceTransformer'): instance of  the sentence transformer as the embedding sub-model.
-        rd_model (:obj:'UMAP'): instance of UMAP algorithm as the dimensionality reduction sub-model.
-        cluster_model (:obj:'HDBSCAN'): instance of HDBSCAN as the clustering sub-model.
-        vector_model (:obj:'CountVectorizer'): instance of CountVectorizer as the vectorization sub-model.
-        ctfidf_model (:obj:'ClassTfidfTransformer'): instance of ClassTfidfTransformer as the ctfidf sub-model.
-        represent_model (:obj:'PartOfSpeech'): instance of PartOfSpeech as the topic representation sub-model.
+        _rd_model (:obj:'UMAP'): instance of UMAP algorithm as the dimensionality reduction sub-model.
         model (:obj:'BERTopic'): the topic model that applied the sub-models predefined.
     """
 
     def __init__(self):
-        self.setup = {
-            "language": "english",
-            "transformer": "all-mpnet-base-v1",
-            "n_components": 5,
-            "min_cluster_size": 5,
-            "ngram_range": [1, 1],
-        }
-        self.embed_model = None
-        self.rd_model = None
-        self.cluster_model = None
-        self.vector_model = None
-        self.ctfidf_model = None
-        self.represent_model = None
+        self._rd_model = None
         self.model = None
 
-    def init_models(self):
-        """Initialize the topic model and sub-models with the given setup."""
-        load_nlp_pipe(model_name="en_core_web_md")
+        # initialize the topic model
+        self.init_model()
+
+    def init_model(
+        self,
+        transformer: str = "all-mpnet-base-v1",
+        n_components: int = 5,
+        min_cluster_size: int = 5,
+        ngram_min: int = 1,
+        ngram_max: int = 1,
+    ):
+        """Initialize the topic model by indicating a number of arguments.
+
+        Args:
+            transformer (str, optional): Name of the sentence embedding model. Defaults to "all-mpnet-base-v1". A list of pretrained models can be found here: https://www.sbert.net/docs/pretrained_models.html.
+            n_components (int, optional): Number of dimensions after reduction. Defaults to 5.
+            min_cluster_size (int, optional): Minimum size of clusters for the clustering algorithm. Defaults to 5.
+            ngram_min (int, optional): Low band of ngram range for topic representation. Defaults to 1.
+            ngram_max (int, optional): High band of ngram range for topic representation. Defaults to 1.
+        """
+        language = "english"
+        nlp_pipe = "en_core_web_md"
+        load_nlp_pipe(model_name=nlp_pipe)
 
         # initialize sub-models
-        self.embed_model = SentenceTransformer(
-            model_name_or_path=self.setup["transformer"]
+        embed_model = SentenceTransformer(model_name_or_path=transformer)
+        self._rd_model = UMAP(n_components=n_components)
+        cluster_model = HDBSCAN(min_cluster_size=min_cluster_size, prediction_data=True)
+        vector_model = CountVectorizer(
+            stop_words=language, ngram_range=[ngram_min, ngram_max]
         )
-        self.rd_model = UMAP(n_components=self.setup["n_components"])
-        self.cluster_model = HDBSCAN(
-            min_cluster_size=self.setup["min_cluster_size"], prediction_data=True
-        )
-        self.vector_model = CountVectorizer(
-            stop_words="english", ngram_range=self.setup["ngram_range"]
-        )
-        self.ctfidf_model = ClassTfidfTransformer(
+        ctfidf_model = ClassTfidfTransformer(
             reduce_frequent_words=True,
         )
-        self.represent_model = PartOfSpeech(
-            model="en_core_web_md",
+        represent_model = PartOfSpeech(
+            model=nlp_pipe,
             pos_patterns=[[{"POS": "NOUN"}], [{"POS": "ADJ"}], [{"POS": "VERB"}]],
         )
 
         # initialize topic model
         self.model = BERTopic(
-            language=self.setup["language"],
-            embedding_model=self.embed_model,
-            umap_model=self.rd_model,
-            hdbscan_model=self.cluster_model,
-            vectorizer_model=self.vector_model,
-            ctfidf_model=self.ctfidf_model,
-            representation_model=self.represent_model,
+            language=language,
+            embedding_model=embed_model,
+            umap_model=self._rd_model,
+            hdbscan_model=cluster_model,
+            vectorizer_model=vector_model,
+            ctfidf_model=ctfidf_model,
+            representation_model=represent_model,
             calculate_probabilities=False,
         )
 
@@ -264,19 +251,19 @@ class TopicModel:
         Returns:
             List[int]: Topics of the input docs.
         """
+        if len(docs) < 1000:
+            logging.warning(
+                "The input corpus should contain at least 1000 documents to get meaningful results. Got %d.",
+                len(docs),
+            )
         topics, _ = self.model.fit_transform(docs)
         try:
             new_topics = self.model.reduce_outliers(docs, topics, strategy="embeddings")
-        except ValueError:
+        except ValueError as e:
+            logging.error("Failed to reduce outliers: %s", str(e))
             new_topics = topics
 
-        self.model.update_topics(
-            docs,
-            topics=new_topics,
-            vectorizer_model=self.vector_model,
-            ctfidf_model=self.ctfidf_model,
-            representation_model=self.represent_model,
-        )
+        self.model.update_topics(docs, topics=new_topics)
         return new_topics
 
     def get_topic_table(self) -> pd.DataFrame:
@@ -285,7 +272,7 @@ class TopicModel:
         Returns:
             pd.DataFrame: The topic table.
         """
-        topic_info = copy.deepcopy(self.model.get_topic_info())
+        topic_info = self.model.get_topic_info()
         topic_info = topic_info.rename(
             columns={
                 "Topic": "topic",
@@ -297,10 +284,10 @@ class TopicModel:
         )
         return topic_info
 
-    def get_doc_embed(self) -> np.ndarray:
+    def get_doc_embeds(self) -> np.ndarray:
         """Get the embeddings of the docs.
 
         Returns:
             np.ndarray: Embeddings of the docs, in size of (n_doc, n_components).
         """
-        return self.rd_model.embedding_
+        return self._rd_model.embedding_

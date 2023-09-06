@@ -70,8 +70,8 @@ class TestGetChunk:
         return match.ratio()
 
     @pytest.mark.parametrize("docs, expected_arg_ids, expected_chunks", test_data)
-    def test_different_cases(self, docs, expected_arg_ids, expected_chunks):
-        """Test of dealing with cases containing coordinating conjunctions."""
+    def test_get_chunks(self, docs, expected_arg_ids, expected_chunks):
+        """Test of dealing with cases containing coordinating conjunctions. The result chunks might look a bit different from the expected chunks, since marks and the conjunctions themselves are not considered. Therefore, a similarity check is given to make sure that the most part fo the result chunks will meet the expectation."""
         arg_ids, chunks = get_chunk(docs=docs)
         assert arg_ids == expected_arg_ids
         for i, _ in enumerate(chunks):

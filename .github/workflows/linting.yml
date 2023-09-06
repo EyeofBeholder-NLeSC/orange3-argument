@@ -30,7 +30,7 @@ jobs:
       - name: Upgrade and install dependencies
         run: |
           python3 -m pip install --upgrade pip setuptools wheel
-          python3 -m pip install -e .[dev,publishing]
+          python3 -m pip install -e .[dev]
 
       - name: Lint code and check style with prospector
         run: prospector

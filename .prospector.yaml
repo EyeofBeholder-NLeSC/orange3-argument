@@ -16,10 +16,9 @@ pyroma:
 pycodestyle:
   disable:
     - E501  # line too long
-    - W291  # trailing whitespace (for module docstring)
 
 pylint:
   disable:
     - line-too-long
-    - too-many-instance-attributes
     - invalid-name
+    - too-many-arguments  # chunker.py::TopicModel::init_model
