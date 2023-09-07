@@ -196,7 +196,7 @@ class TopicModel:
         self,
         transformer: str = "all-mpnet-base-v1",
         n_components: int = 5,
-        min_cluster_size: int = 5,
+        min_cluster_size: int = 10,
         ngram_min: int = 1,
         ngram_max: int = 1,
     ):
