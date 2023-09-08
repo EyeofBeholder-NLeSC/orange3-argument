@@ -1,6 +1,4 @@
 """Test the processor module"""
-from unittest import mock
-
 import pandas as pd
 import pytest
 from pytest import approx
@@ -10,6 +8,7 @@ from orangecontrib.argument.miner.processor import (
     get_argument_topics,
     get_argument_sentiment,
     get_argument_coherence,
+    update_argument_table,
 )
 from .conftest import mock_check_columns
 
@@ -73,3 +72,34 @@ def test_get_argument_coherence_input_size_mismatch():
     with pytest.raises(AssertionError) as ex:
         get_argument_coherence(sentiments=dummy_sentiments, scores=dummy_scores)
     assert str(ex.value) == "Size of scores and sentiments not match!"
+
+
+def test_update_argument_table(mocker):
+    """Unit test update_argument_table"""
+    dummy_topics = [[1, 2], [3, 4]]
+    dummy_sentiments = [0.4, 0.8]
+    dummy_coherences = [0.1, 0.3]
+    dummy_df_arguments = pd.DataFrame()
+    expected_result = pd.DataFrame(
+        {
+            "topics": dummy_topics,
+            "sentiment": dummy_sentiments,
+            "coherence": dummy_coherences,
+        }
+    )
+    mock_deepcopy = mocker.patch("copy.deepcopy", return_value=dummy_df_arguments)
+
+    result = update_argument_table(
+        df_arguments=dummy_df_arguments,
+        topics=dummy_topics,
+        sentiments=dummy_sentiments,
+        coherences=dummy_coherences,
+    )
+
+    assert result.equals(expected_result)
+    mock_deepcopy.assert_called_once_with(dummy_df_arguments)
+
+
+@pytest.mark.skip(reason="To be added.")
+def test_integrate_processor():
+    pass

@@ -69,7 +69,10 @@ def get_argument_sentiment(df_chunks: pd.DataFrame) -> List[float]:
 
 
 def get_argument_coherence(
-    scores: List[int], sentiments: List[float], min_score: int = 1, max_score: int = 5
+    scores: List[int],
+    sentiments: List[float],
+    min_score: int = 1,
+    max_score: int = 5,
 ) -> List[float]:
     """Get argument coherence.
 
@@ -98,9 +101,25 @@ def get_argument_coherence(
     return coherences
 
 
-def get_argument_table(self, df_chunks: pd.DataFrame) -> pd.DataFrame:
-    """Get the processed argument table."""
-    self.argument_topics(df_chunks)
-    self.argument_sentiment(df_chunks)
-    self.argument_coherence()
-    return copy.deepcopy(self.df_arguments)
+def update_argument_table(
+    df_arguments: pd.DataFrame,
+    topics: List[List[int]],
+    sentiments: List[float],
+    coherences: List[float],
+) -> pd.DataFrame:
+    """Return a copy of argument dataframe, with new columns of argument topics, sentiments, and coherences.
+
+    Args:
+        df_arguments (pd.DataFrame): argument dataframe.
+        topics (List[List[int]]): list of argument topics
+        sentiments (List[float]): list of argument sentiment scores
+        coherences (List[float]): list of argument coherence scores
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    df_copy = copy.deepcopy(df_arguments)
+    df_copy["topics"] = topics
+    df_copy["sentiment"] = sentiments
+    df_copy["coherence"] = coherences
+    return df_copy
