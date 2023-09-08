@@ -1,7 +1,5 @@
 """Tests of the chunker module"""
 from difflib import SequenceMatcher
-import csv
-import json
 
 import pytest
 import numpy as np
@@ -14,38 +12,9 @@ from orangecontrib.argument.miner.chunker import (
     get_chunk_rank,
     get_chunk_topic,
     get_chunk_table,
-    TopicModel,
 )
 
-
-@pytest.fixture(scope="function")
-def large_chunk_set():
-    """Chunk set for integration test"""
-    fpath = "./tests/test_data/chunks.csv"
-    with open(fpath, "r", encoding="utf-8") as file:
-        data = []
-        reader = csv.reader(file, delimiter=";")
-        for row in reader:
-            data.append(row[2])  # column of chunk text
-    data.pop(0)  # remove header row
-    return data
-
-
-@pytest.fixture(scope="function")
-def review_set():
-    """Review dataset for integration test of the module."""
-    fpath = "./tests/test_data/reviews.json"
-    with open(fpath, "r", encoding="utf-8") as file:
-        data = []
-        for obj in file:
-            data.append(json.loads(obj))
-    return [r["reviewText"] for r in data if r["reviewText"] is not None]
-
-
-@pytest.fixture(scope="function")
-def topic_model():
-    """TopicModel instance"""
-    return TopicModel()
+from .conftest import large_chunk_set, review_set, topic_model
 
 
 def test_load_nlp_pipe(mocker):
@@ -216,7 +185,7 @@ def test_get_chunk_table():
     expected_cols = ["argument_id", "chunk", "polarity_score", "topic", "rank"]
 
     assert df_result.shape == (4, 5)
-    assert all(col in df_result.columns for col in expected_cols)
+    assert sorted(df_result.columns) == sorted(expected_cols)
 
 
 def test_integrate_chunker(review_set):
@@ -313,7 +282,5 @@ class TestTopicModel:
         assert len(embeds[0]) == 5  # if size of embeddings aligns to n_component
         assert isinstance(df_topics, pd.DataFrame)
         assert df_topics.shape[0] > 2  # at least 2 clusters
-        assert all(
-            col in df_topics.columns
-            for col in ["topic", "count", "name", "keywords", "representative_doc"]
-        )
+        expected_cols = ["topic", "count", "name", "keywords", "representative_doc"]
+        assert sorted(df_topics.columns) == sorted(expected_cols)
