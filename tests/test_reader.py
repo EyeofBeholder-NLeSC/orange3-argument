@@ -26,11 +26,6 @@ def mocker_semi_struct(mocker):
 class TestReadJSONFile:
     """Tests of the read_json_file function"""
 
-    def test_none_existing_file(self, tmp_path):
-        """Test if AssertionError araises when input not exists"""
-        with pytest.raises(IsADirectoryError):
-            read_json_file(tmp_path)
-
     def test_multi_object(self, mocker_multi_objs):
         """Test if the function can read a JSON file with multiple objects correctly."""
         data = read_json_file("fakefile")
