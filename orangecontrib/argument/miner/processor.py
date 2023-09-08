@@ -8,6 +8,20 @@ import numpy as np
 import pandas as pd
 
 
+def check_columns(expected_cols: List[str], df: pd.DataFrame):
+    """Check if a list of given columns exist in a given Pandas dataframe.
+
+    Args:
+        expected_cols (List[str]): list of columns to check
+        df (pd.DataFrame): pandas dataframe to check
+    """
+    assert set(expected_cols).issubset(
+        set(df.columns)
+    ), "Missing required columns in df: {missing_cols}".format(
+        missing_cols=", ".join([i for i in expected_cols if i not in df.columns])
+    )
+
+
 def get_argument_topics(df_chunks: pd.DataFrame) -> List[list[int]]:
     """Get argument topics.
 
@@ -20,11 +34,7 @@ def get_argument_topics(df_chunks: pd.DataFrame) -> List[list[int]]:
         List[list[int]]: list of argument topics, which is also a list containing topic indices of chunks belonging to this argument.
     """
     expected_cols = ["argument_id", "topic"]
-    assert set(expected_cols).issubset(
-        set(df_chunks.columns)
-    ), "Missing required columns in df_chunks: {missing_cols}.".format(
-        missing_cols=", ".join([i for i in expected_cols if i not in df_chunks.columns])
-    )
+    check_columns(expected_cols=expected_cols, df=df_chunks)
 
     topics = df_chunks.groupby(
         by="argument_id",
@@ -36,14 +46,25 @@ def get_argument_topics(df_chunks: pd.DataFrame) -> List[list[int]]:
     return list(topics)
 
 
-def argument_sentiment(df_chunks: pd.DataFrame) -> List[float]:
-    """Compute argument sentiment."""
+def get_argument_sentiment(df_chunks: pd.DataFrame) -> List[float]:
+    """Get argument sentiment score.
+
+    The sentiment score of an argument is calculated as a weighted sum of sentiment scores of chunks belonging to this argument, where weights are ranks of the chunks. The result score is then normalized into range [0, 1].
+
+    Args:
+        df_chunks (pd.DataFrame): Table of chunks, which should contain at least three columns that are `argument_id`, `rank`, and `polarity_score`, where `argument_id` is id of the argument a chunk belongs to, `rank` is the pagerank of a chunk within an argument, and `polarity_score` is the sentiment score of a chunk.
+
+    Returns:
+        List[float]: List of argument sentiment scores, which are floats in range [0, 1].
+    """
+    expected_cols = ["argument_id", "rank", "polarity_score"]
+    check_columns(expected_cols=expected_cols, df=df_chunks)
 
     df_temp = df_chunks.groupby(by="argument_id", as_index=False).agg(
         {"rank": list, "polarity_score": list}
     )
     sentiments = df_temp.apply(lambda x: np.dot(x["rank"], x["polarity_score"]), axis=1)
-    sentiments = sentiments / 2 + 0.5  # normalize to (0, 1)
+    sentiments = sentiments / 2 + 0.5  # normalize to [0, 1]
     return sentiments.tolist()
 
 

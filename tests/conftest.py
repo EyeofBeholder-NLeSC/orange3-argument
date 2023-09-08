@@ -60,3 +60,8 @@ def review_set(df_arguments):
 def topic_model():
     """TopicModel instance"""
     return TopicModel()
+
+
+@pytest.fixture(scope="function")
+def mock_check_columns(mocker):
+    return mocker.patch("orangecontrib.argument.miner.processor.check_columns")
