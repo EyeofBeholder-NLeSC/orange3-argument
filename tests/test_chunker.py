@@ -1,12 +1,14 @@
 """Tests of the chunker module"""
 from difflib import SequenceMatcher
 import csv
-from unittest.mock import Mock
+import json
 
 import pytest
 import numpy as np
+import pandas as pd
 
 from orangecontrib.argument.miner.chunker import (
+    load_nlp_pipe,
     get_chunk,
     get_chunk_polarity_score,
     get_chunk_rank,
@@ -30,15 +32,43 @@ def large_chunk_set():
 
 
 @pytest.fixture(scope="function")
+def review_set():
+    """Review dataset for integration test of the module."""
+    fpath = "./tests/test_data/reviews.json"
+    with open(fpath, "r", encoding="utf-8") as file:
+        data = []
+        for obj in file:
+            data.append(json.loads(obj))
+    return [r["reviewText"] for r in data if r["reviewText"] is not None]
+
+
+@pytest.fixture(scope="function")
 def topic_model():
     """TopicModel instance"""
     return TopicModel()
 
 
-@pytest.mark.skip(reason="To be added.")
-def test_load_nlp_pipe():
+def test_load_nlp_pipe(mocker):
     """Unit test load_nlp_pipe."""
-    pass
+
+    def check_download(name):
+        """When executing effect as a callable, it will need to pass in all the args and kwargs of the mocked function, thus we have a `name` kwarg as a placeholder, otherwise won't work."""
+        if not mock_spacy_cli_download.called:
+            raise (OSError)
+        else:
+            return "dummy_model"
+
+    mock_spacy_load = mocker.patch(
+        "spacy.load",
+        side_effect=check_download,
+    )
+    mock_spacy_cli_download = mocker.patch("spacy.cli.download")
+
+    nlp = load_nlp_pipe(model_name="dummy_name")
+
+    assert nlp == "dummy_model"
+    mock_spacy_load.assert_any_call(name="dummy_name")
+    mock_spacy_cli_download.assert_called_once_with(model="dummy_name")
 
 
 class TestGetChunk:
@@ -189,13 +219,31 @@ def test_get_chunk_table():
     assert all(col in df_result.columns for col in expected_cols)
 
 
-@pytest.mark.skip(reason="To be added.")
-def test_integrate_chunker():
+def test_integrate_chunker(review_set):
     """Integration test functions of the chunker module."""
-    pass
+    arg_ids, chunks = get_chunk(docs=review_set)
+    p_scores = get_chunk_polarity_score(chunks=chunks)
+    topics, embeds, df_topics = get_chunk_topic(chunks=chunks)
+    ranks = get_chunk_rank(arg_ids=arg_ids, embeds=embeds)
+    df_chunks = get_chunk_table(
+        arg_ids=arg_ids,
+        chunks=chunks,
+        p_scores=p_scores,
+        topics=topics,
+        ranks=ranks,
+    )
+
+    assert len(set(arg_ids)) == len(review_set), [
+        i for i in range(len(review_set)) if i not in arg_ids
+    ]
+    assert len(chunks) == len(p_scores) == len(topics) == len(embeds) == len(ranks)
+    assert len(set(topics)) == df_topics.shape[0]
+    assert all(-1.0 <= p <= 1.0 for p in p_scores)
+    assert all(0.0 <= r <= 1.0 for r in ranks)
+    assert isinstance(df_topics, pd.DataFrame)
+    assert isinstance(df_chunks, pd.DataFrame)
 
 
-# TODO: switch to pytest-mock from unittest.mock
 class TestTopicModel:
     """Tests of the TopicModel class."""
 
@@ -204,44 +252,68 @@ class TestTopicModel:
         topic_model.init_model()
         assert topic_model.model is not None
 
-    def test_fit_transform_reduced(self, topic_model):
+    def test_fit_transform_reduced(self, mocker, topic_model):
         """Unit test fit_transform_reduced."""
         size = 10
         chunks = ["This is dummy chunk%d." % i for i in range(size)]
-        expected_topics = [-1] * 10
-        topic_model.model = Mock()
-        topic_model.model.fit_transform.return_value = (expected_topics, None)
-        topic_model.model.reduce_outliers.return_value = expected_topics
+        expected_topics = [-1] * size
+        mock_fit_transform = mocker.patch.object(
+            topic_model.model,
+            "fit_transform",
+            return_value=(expected_topics, None),
+        )
+        mock_reduce_outliers = mocker.patch.object(
+            topic_model.model,
+            "reduce_outliers",
+            side_effect=ValueError,
+        )
+        mock_update_topics = mocker.patch.object(topic_model.model, "update_topics")
 
         result = topic_model.fit_transform_reduced(chunks)
 
         assert result == expected_topics
-        topic_model.model.fit_transform.assert_called_once_with(chunks)
-        topic_model.model.reduce_outliers.assert_called_once_with(
+        mock_fit_transform.assert_called_once_with(chunks)
+        mock_reduce_outliers.assert_called_once_with(
             chunks, expected_topics, strategy="embeddings"
         )
+        mock_update_topics.assert_called_once_with(chunks, topics=expected_topics)
 
-    def test_get_topic_table(self, topic_model):
+    def test_get_topic_table(self, mocker, topic_model):
         """Unit test get_topic_table."""
-        topic_model.model = Mock()
-        topic_model.model.get_topic_info.return_value = Mock(
-            rename=lambda columns: "dummy_string"
+        mock_get_topic_info = mocker.patch.object(
+            topic_model.model,
+            "get_topic_info",
+            return_value=pd.DataFrame(),
+        )
+        mock_rename = mocker.patch(
+            "pandas.DataFrame.rename", return_value=pd.DataFrame()
         )
 
         result = topic_model.get_topic_table()
 
-        assert result == "dummy_string"
-        topic_model.model.get_topic_info.assert_called_once()
+        assert isinstance(result, pd.DataFrame)
+        mock_get_topic_info.assert_called_once()
+        mock_rename.assert_called_once()
 
-    def test_get_doc_embeds(self, topic_model):
+    def test_get_doc_embeds(self, mocker, topic_model):
         """Unit test get_doc_embeds."""
-        topic_model._rd_model = Mock(embedding_="dummy_string")
+        topic_model._rd_model = mocker.Mock(embedding_=np.array([]))
 
         result = topic_model.get_doc_embeds()
 
-        assert result == "dummy_string"
+        assert isinstance(result, np.ndarray)
 
-    @pytest.mark.skip("To be added.")
-    def test_integrate_topic_model(self):
+    def test_integrate_topic_model(self, large_chunk_set, topic_model):
         """Integration test of the Topic Model class."""
-        pass
+        topics = topic_model.fit_transform_reduced(large_chunk_set)
+        embeds = topic_model.get_doc_embeds()
+        df_topics = topic_model.get_topic_table()
+
+        assert len(large_chunk_set) == len(topics) == len(embeds)
+        assert len(embeds[0]) == 5  # if size of embeddings aligns to n_component
+        assert isinstance(df_topics, pd.DataFrame)
+        assert df_topics.shape[0] > 2  # at least 2 clusters
+        assert all(
+            col in df_topics.columns
+            for col in ["topic", "count", "name", "keywords", "representative_doc"]
+        )
