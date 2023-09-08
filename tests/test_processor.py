@@ -3,11 +3,13 @@ from unittest import mock
 
 import pandas as pd
 import pytest
+from pytest import approx
 
 from orangecontrib.argument.miner.processor import (
     check_columns,
     get_argument_topics,
     get_argument_sentiment,
+    get_argument_coherence,
 )
 from .conftest import mock_check_columns
 
@@ -48,3 +50,26 @@ def test_get_argument_sentiment(mock_check_columns):
 
     assert sentiments == [0.25, 0.48]
     mock_check_columns.assert_called_once()
+
+
+def test_get_argument_coherence():
+    """Unit test get_argument_coherence"""
+    dummy_sentiments = [-0.5, 0.8, 1, 0]
+    dummy_scores = [1, 3, 2, 5]
+    coherences = get_argument_coherence(
+        sentiments=dummy_sentiments, scores=dummy_scores
+    )
+
+    assert coherences[0] == approx(0.535, 0.01)
+    assert coherences[1] == approx(0.799, 0.01)
+    assert coherences[2] == approx(0.245, 0.01)
+    assert coherences[3] == approx(0.082, 0.01)
+
+
+def test_get_argument_coherence_input_size_mismatch():
+    """Edge case get_argument_coherence: input size mismatch."""
+    dummy_sentiments = [-0.5, 0.8, 1, 0, 0.2]
+    dummy_scores = [1, 3, 2, 5]
+    with pytest.raises(AssertionError) as ex:
+        get_argument_coherence(sentiments=dummy_sentiments, scores=dummy_scores)
+    assert str(ex.value) == "Size of scores and sentiments not match!"

@@ -68,21 +68,34 @@ def get_argument_sentiment(df_chunks: pd.DataFrame) -> List[float]:
     return sentiments.tolist()
 
 
-def argument_coherence(self):
-    """Compute argument coherence."""
-    if "coherence" in self.df_arguments.columns:
-        return
-    assert "sentiment" in self.df_arguments.columns, "Should compute sentiment first!"
+def get_argument_coherence(
+    scores: List[int], sentiments: List[float], min_score: int = 1, max_score: int = 5
+) -> List[float]:
+    """Get argument coherence.
+
+    Coherence is computed as gap between sentiments and overall scores. Overall scores are first normalized into the same range as argument sentiments, which is [0, 1]. Then their gaps are computed and applied a Gaussian kernal to transfer the value range to [0, 1].
+
+    Args:
+        scores (List[int]): List of argument overall scores.
+        sentiments (List[float]): List of argument sentiment scores.
+        min_score (int, optional): Lower bound of scores. Defaults to 1.
+        max_score (int, optional): Upper bound of scores. Defaults to 5.
+
+    Returns:
+        List[float]: List of argument coherence scores, in range of (0, 1]
+    """
+    assert len(scores) == len(sentiments), "Size of scores and sentiments not match!"
+
+    range_score = max_score - min_score
+    scores = [(s - min_score) / range_score for s in scores]
 
     def gaussian(x):
         """Gaussian activation function."""
         return math.e ** (-(x**2) / 0.4)
 
-    max_score = self.df_arguments["score"].max() - 1
-    coherences = (
-        self.df_arguments["sentiment"] - (self.df_arguments["score"] - 1) / max_score
-    ).apply(gaussian)
-    self.df_arguments["coherence"] = coherences
+    coherences = [sentiments[i] - scores[i] for i in range(len(scores))]
+    coherences = list(map(gaussian, coherences))
+    return coherences
 
 
 def get_argument_table(self, df_chunks: pd.DataFrame) -> pd.DataFrame:
