@@ -1,6 +1,6 @@
 """Argument processor module."""
 
-from typing import List
+from typing import List, Dict
 import copy
 import math
 
@@ -8,64 +8,90 @@ import numpy as np
 import pandas as pd
 
 
-def check_columns(expected_cols: List[str], df: pd.DataFrame):
+def check_columns(expected_cols: List[str], data: pd.DataFrame):
     """Check if a list of given columns exist in a given Pandas dataframe.
 
     Args:
         expected_cols (List[str]): list of columns to check
         df (pd.DataFrame): pandas dataframe to check
     """
-    assert set(expected_cols).issubset(
-        set(df.columns)
-    ), "Missing required columns in df: {missing_cols}".format(
-        missing_cols=", ".join([i for i in expected_cols if i not in df.columns])
-    )
+    missing_cols = [i for i in expected_cols if i not in data.columns]
+    assert (
+        len(missing_cols) == 0
+    ), f"Missing columns in the input dataframe: {missing_cols}."
 
 
-def get_argument_topics(df_chunks: pd.DataFrame) -> List[list[int]]:
+def _match_list_size(*args: List):
+    """With an arbitrary number of lists as input, check if they are in the same size."""
+    lens = [len(arg) for arg in args]
+    assert all(x == lens[0] for x in lens), f"Input size not match: {lens}."
+
+
+def _aggregate_list_by_another(keys: List, values: List) -> Dict:
+    """Aggregate a list according to elements of another list.
+
+    Args:
+        keys (List): The group keys.
+        values (List): The list to be aggregated.
+
+    Returns:
+        Dict: The aggregation result.
+    """
+    result = {}
+    for i, key in enumerate(keys):
+        try:
+            result[key].append(values[i])
+        except KeyError:
+            result[key] = [values[i]]
+    return result
+
+
+def get_argument_topics(arg_ids: List[int], topics: List[int]) -> List[List[int]]:
     """Get argument topics.
 
     The topics of an argument is a combination of the topics of all chunks that belong to this argument. Duplications are not removed, and the reason behind is that duplications can be treated as a sign of topic importance. Also, even though two chunks can belong to the same topic, they could still have different ranks within an argument.
 
     Args:
-        df_chunks (pd.DataFrame): Table of chunks, which should contain at least two columns that are `argument_id` and `topic`, where `argument_id` keeps the id of the argument a chunk belongs to, and `topic` stores the topic index of a chunk.
+        arg_ids (List[int]): the argument ids of chunks.
+        topics (List[int]): the topic indices of chunks.
 
     Returns:
         List[list[int]]: list of argument topics, which is also a list containing topic indices of chunks belonging to this argument.
     """
-    expected_cols = ["argument_id", "topic"]
-    check_columns(expected_cols=expected_cols, df=df_chunks)
-
-    topics = df_chunks.groupby(
-        by="argument_id",
-        as_index=False,
-    ).agg(
-        {"topic": list}
-    )["topic"]
-
-    return list(topics)
+    _match_list_size(arg_ids, topics)
+    result = _aggregate_list_by_another(keys=arg_ids, values=topics)
+    return list(result.values())
 
 
-def get_argument_sentiment(df_chunks: pd.DataFrame) -> List[float]:
+def get_argument_sentiment(
+    arg_ids: List[int],
+    ranks: List[float],
+    p_scores: List[float],
+) -> List[float]:
     """Get argument sentiment score.
 
     The sentiment score of an argument is calculated as a weighted sum of sentiment scores of chunks belonging to this argument, where weights are ranks of the chunks. The result score is then normalized into range [0, 1].
 
     Args:
-        df_chunks (pd.DataFrame): Table of chunks, which should contain at least three columns that are `argument_id`, `rank`, and `polarity_score`, where `argument_id` is id of the argument a chunk belongs to, `rank` is the pagerank of a chunk within an argument, and `polarity_score` is the sentiment score of a chunk.
+        arg_ids (List[int]): the argument ids of chunks.
+        ranks (List[float]): the pagerank of chunks within arguments.
+        p_scores (List[float]): the sentiment polarity scores of chunks.
 
     Returns:
         List[float]: List of argument sentiment scores, which are floats in range [0, 1].
     """
-    expected_cols = ["argument_id", "rank", "polarity_score"]
-    check_columns(expected_cols=expected_cols, df=df_chunks)
+    _match_list_size(arg_ids, ranks, p_scores)
 
-    df_temp = df_chunks.groupby(by="argument_id", as_index=False).agg(
-        {"rank": list, "polarity_score": list}
-    )
-    sentiments = df_temp.apply(lambda x: np.dot(x["rank"], x["polarity_score"]), axis=1)
-    sentiments = sentiments / 2 + 0.5  # normalize to [0, 1]
-    return sentiments.tolist()
+    grouped_ranks = _aggregate_list_by_another(keys=arg_ids, values=ranks)
+    grouped_p_scores = _aggregate_list_by_another(keys=arg_ids, values=p_scores)
+
+    sentiments = []
+    for arg_id, rank in grouped_ranks.items():
+        p_score = grouped_p_scores[arg_id]
+        sentiment = np.dot(rank, p_score)
+        sentiment = sentiment / 2.0 + 0.5  # normalize to [0, 1]
+        sentiments.append(sentiment)
+    return sentiments
 
 
 def get_argument_coherence(
@@ -87,7 +113,7 @@ def get_argument_coherence(
     Returns:
         List[float]: List of argument coherence scores, in range of (0, 1]
     """
-    assert len(scores) == len(sentiments), "Size of scores and sentiments not match!"
+    _match_list_size(sentiments, scores)
 
     range_score = max_score - min_score
     scores = [(s - min_score) / range_score for s in scores]

@@ -63,5 +63,17 @@ def topic_model():
 
 
 @pytest.fixture(scope="function")
-def mock_check_columns(mocker):
-    return mocker.patch("orangecontrib.argument.miner.processor.check_columns")
+def mock_processor__match_list_size(mocker):
+    """Mock private method of module processor: _match_list_size."""
+    return mocker.patch(
+        "orangecontrib.argument.miner.processor._match_list_size",
+    )
+
+
+@pytest.fixture(scope="function")
+def mock_processor__aggregate_list_by_another(mocker):
+    """Mock private method of module processor: _aggregate_list_by_another."""
+    return mocker.patch(
+        "orangecontrib.argument.miner.processor._aggregate_list_by_another",
+        return_value={0: [0.4, 0.6], 1: [0.5, 0.5]},
+    )
