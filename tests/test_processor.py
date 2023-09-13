@@ -1,4 +1,6 @@
 """Test the processor module"""
+from contextlib import nullcontext as does_not_raise
+
 import pandas as pd
 import pytest
 from pytest import approx
@@ -12,37 +14,30 @@ from orangecontrib.argument.miner.processor import (
     _match_list_size,
     _aggregate_list_by_another,
 )
-from .conftest import (
-    mock_processor__aggregate_list_by_another,
-    mock_processor__match_list_size,
-)
 
 
 def test_check_columns():
     """Unit test check_columns."""
     dummy_df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     dummy_expected_cols = ["col1", "col3"]
-    with pytest.raises(AssertionError) as ex:
+    with pytest.raises(ValueError) as ex:
         check_columns(expected_cols=dummy_expected_cols, data=dummy_df)
     assert str(ex.value) == "Missing columns in the input dataframe: ['col3']."
 
 
-def test__match_list_size():
+@pytest.mark.parametrize(
+    "dummy_list1, dummy_list2, exception_context",
+    [
+        ([1], [1], does_not_raise(enter_result=None)),
+        ([1], [1, 2], pytest.raises(ValueError)),
+    ],
+)
+def test__match_list_size(dummy_list1, dummy_list2, exception_context):
     """Unit test _match_list_size"""
-    dummy_list1 = [1, 2, 3]
-    dummy_list2 = [2, 3, 4]
-
-    _match_list_size(dummy_list1, dummy_list2)
-
-
-def test__match_list_size_negative():
-    """Negative test _match_list_size."""
-    dummy_list1 = [1, 2, 3]
-    dummy_list2 = [1, 2, 3, 4]
-
-    with pytest.raises(AssertionError) as ex:
+    with exception_context as ex:
         _match_list_size(dummy_list1, dummy_list2)
-    assert str(ex.value) == "Input size not match: [3, 4]."
+    if ex:
+        assert str(ex.value) == f"Input size not match: {(dummy_list1, dummy_list2)}."
 
 
 def test__aggregate_list_by_another():
@@ -54,33 +49,28 @@ def test__aggregate_list_by_another():
     assert result == {1: ["A", "B"], 2: ["C", "D"]}
 
 
-def test_get_argument_topics(
-    mock_processor__match_list_size,
-    mock_processor__aggregate_list_by_another,
-):
+def test_get_argument_topics():
     """Unit test get_argument_topics."""
-    topics = get_argument_topics(arg_ids=[], topics=[])
+    dummy_ids = [0, 0, 1, 1, 1]
+    dummy_topics = [-1, 0, 0, 1, 2]
+    topics = get_argument_topics(arg_ids=dummy_ids, topics=dummy_topics)
 
-    assert topics == [[0.4, 0.6], [0.5, 0.5]]
-    mock_processor__match_list_size.assert_called_once()
-    mock_processor__aggregate_list_by_another.assert_called_once_with(
-        keys=[], values=[]
+    assert topics == [[-1, 0], [0, 1, 2]]
+
+
+def test_get_argument_sentiment():
+    """Unit test get_argument_sentiment."""
+    dummy_ids = [0, 0, 1, 1, 1]
+    dummy_ranks = [0.3, 0.7, 0.25, 0.2, 0.55]
+    dummy_p_scores = [-0.5, 0.2, 0.3, 0.7, -0.45]
+    sentiments = get_argument_sentiment(
+        arg_ids=dummy_ids, ranks=dummy_ranks, p_scores=dummy_p_scores
     )
 
-
-def test_get_argument_sentiment(
-    mock_processor__match_list_size,
-    mock_processor__aggregate_list_by_another,
-):
-    """Unit test get_argument_sentiment."""
-    sentiments = get_argument_sentiment(arg_ids=[], ranks=[], p_scores=[])
-
-    assert sentiments == [0.76, 0.75]
-    mock_processor__match_list_size.assert_called_once()
-    mock_processor__aggregate_list_by_another.assert_called_with(keys=[], values=[])
+    assert sentiments == approx([0.495, 0.484], 0.01)
 
 
-def test_get_argument_coherence(mock_processor__match_list_size):
+def test_get_argument_coherence():
     """Unit test get_argument_coherence"""
     dummy_sentiments = [-0.5, 0.8, 1, 0]
     dummy_scores = [1, 3, 2, 5]
@@ -88,11 +78,7 @@ def test_get_argument_coherence(mock_processor__match_list_size):
         sentiments=dummy_sentiments, scores=dummy_scores
     )
 
-    assert coherences[0] == approx(0.535, 0.01)
-    assert coherences[1] == approx(0.799, 0.01)
-    assert coherences[2] == approx(0.245, 0.01)
-    assert coherences[3] == approx(0.082, 0.01)
-    mock_processor__match_list_size.assert_called_once()
+    assert coherences == approx([0.535, 0.799, 0.245, 0.082], 0.01)
 
 
 def test_update_argument_table(mocker):

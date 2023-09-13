@@ -3,6 +3,7 @@
 from typing import List, Dict
 import copy
 import math
+from collections import defaultdict
 
 import numpy as np
 import pandas as pd
@@ -14,17 +15,19 @@ def check_columns(expected_cols: List[str], data: pd.DataFrame):
     Args:
         expected_cols (List[str]): list of columns to check
         df (pd.DataFrame): pandas dataframe to check
+
+    Raises:
+        ValueError: if any of the expected columns are missing.
     """
     missing_cols = [i for i in expected_cols if i not in data.columns]
-    assert (
-        len(missing_cols) == 0
-    ), f"Missing columns in the input dataframe: {missing_cols}."
+    if missing_cols:
+        raise ValueError(f"Missing columns in the input dataframe: {missing_cols}.")
 
 
 def _match_list_size(*args: List):
     """With an arbitrary number of lists as input, check if they are in the same size."""
-    lens = [len(arg) for arg in args]
-    assert all(x == lens[0] for x in lens), f"Input size not match: {lens}."
+    if any(len(arg) != len(args[0]) for arg in args):
+        raise ValueError(f"Input size not match: {args}.")
 
 
 def _aggregate_list_by_another(keys: List, values: List) -> Dict:
@@ -37,12 +40,9 @@ def _aggregate_list_by_another(keys: List, values: List) -> Dict:
     Returns:
         Dict: The aggregation result.
     """
-    result = {}
+    result = defaultdict(list)
     for i, key in enumerate(keys):
-        try:
-            result[key].append(values[i])
-        except KeyError:
-            result[key] = [values[i]]
+        result[key].append(values[i])
     return result
 
 
@@ -67,6 +67,8 @@ def get_argument_sentiment(
     arg_ids: List[int],
     ranks: List[float],
     p_scores: List[float],
+    min_sent: int = -1,
+    max_sent: int = 1,
 ) -> List[float]:
     """Get argument sentiment score.
 
@@ -76,6 +78,8 @@ def get_argument_sentiment(
         arg_ids (List[int]): the argument ids of chunks.
         ranks (List[float]): the pagerank of chunks within arguments.
         p_scores (List[float]): the sentiment polarity scores of chunks.
+        min_sent (int): minimun of argument sentiment before normalization. Defaults to -1.
+        max_sent (int): maximum of argument sentiment before normalization. Defaults to 1.
 
     Returns:
         List[float]: List of argument sentiment scores, which are floats in range [0, 1].
@@ -89,7 +93,7 @@ def get_argument_sentiment(
     for arg_id, rank in grouped_ranks.items():
         p_score = grouped_p_scores[arg_id]
         sentiment = np.dot(rank, p_score)
-        sentiment = sentiment / 2.0 + 0.5  # normalize to [0, 1]
+        sentiment = (sentiment - min_sent) / (max_sent - min_sent)
         sentiments.append(sentiment)
     return sentiments
 
@@ -99,16 +103,18 @@ def get_argument_coherence(
     sentiments: List[float],
     min_score: int = 1,
     max_score: int = 5,
+    variance: float = 0.2,
 ) -> List[float]:
     """Get argument coherence.
 
-    Coherence is computed as gap between sentiments and overall scores. Overall scores are first normalized into the same range as argument sentiments, which is [0, 1]. Then their gaps are computed and applied a Gaussian kernal to transfer the value range to [0, 1].
+    Coherence is computed as inversed difference between sentiments and overall scores. Overall scores are first normalized into the same range as argument sentiments, which is [0, 1]. Then their differences are computed and applied a Gaussian kernal to invert and scale the differences to [0, 1].
 
     Args:
         scores (List[int]): List of argument overall scores.
         sentiments (List[float]): List of argument sentiment scores.
         min_score (int, optional): Lower bound of scores. Defaults to 1.
         max_score (int, optional): Upper bound of scores. Defaults to 5.
+        variance (float): variance of the Gaussian kernal.
 
     Returns:
         List[float]: List of argument coherence scores, in range of (0, 1]
@@ -120,7 +126,7 @@ def get_argument_coherence(
 
     def gaussian(x):
         """Gaussian activation function."""
-        return math.e ** (-(x**2) / 0.4)
+        return math.e ** (-(x**2) / (2 * variance))
 
     coherences = [sentiments[i] - scores[i] for i in range(len(scores))]
     coherences = list(map(gaussian, coherences))
