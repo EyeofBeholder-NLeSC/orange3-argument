@@ -1,79 +1,157 @@
-"""Argument processor module.
+"""Argument processor module."""
 
-This compute the usefulness of arguments that will be used for
-pre-filtering the arguments for the following mining steps.
-"""
-
-from importlib.util import find_spec
+from typing import List, Dict
 import copy
 import math
+from collections import defaultdict
 
-import spacy
 import numpy as np
 import pandas as pd
 
 
-class ArgumentProcessor:
-    """Process argument before mining.
+def check_columns(expected_cols: List[str], data: pd.DataFrame):
+    """Check if a list of given columns exist in a given Pandas dataframe.
 
-    - Rename argument and score columns;
-    - Label arguments by usefulness.
+    Args:
+        expected_cols (List[str]): list of columns to check
+        df (pd.DataFrame): pandas dataframe to check
+
+    Raises:
+        ValueError: if any of the expected columns are missing.
     """
+    missing_cols = [i for i in expected_cols if i not in data.columns]
+    if missing_cols:
+        raise ValueError(f"Missing columns in the input dataframe: {missing_cols}.")
 
-    def __init__(self, df_arguments: pd.DataFrame):
-        pipe_name = "en_core_web_md"
-        if find_spec(pipe_name) is None:
-            spacy.cli.download(pipe_name)
 
-        self.df_arguments = df_arguments
-        self.nlp_pipe = spacy.load(pipe_name)
+def _match_list_size(*args: List):
+    """With an arbitrary number of lists as input, check if they are in the same size."""
+    if any(len(arg) != len(args[0]) for arg in args):
+        raise ValueError(f"Input size not match: {args}.")
 
-    def argument_topics(self, df_chunks: pd.DataFrame):
-        """Compute argument topics."""
-        if "topics" in self.df_arguments.columns:
-            return
 
-        topics = df_chunks.groupby(by="argument_id", as_index=False).agg(
-            {"topic": list}
-        )["topic"]
-        self.df_arguments["topics"] = topics
+def _aggregate_list_by_another(keys: List, values: List) -> Dict:
+    """Aggregate a list according to elements of another list.
 
-    def argument_sentiment(self, df_chunks: pd.DataFrame):
-        """Compute argument sentiment."""
-        if "sentiment" in self.df_arguments.columns:
-            return
+    Args:
+        keys (List): The group keys.
+        values (List): The list to be aggregated.
 
-        df_temp = df_chunks.groupby(by="argument_id", as_index=False).agg(
-            {"rank": list, "polarity_score": list}
-        )
-        sentiments = df_temp.apply(
-            lambda x: np.dot(x["rank"], x["polarity_score"]), axis=1
-        )
-        sentiments = sentiments / 2 + 0.5  # normalize to (0, 1)
-        self.df_arguments["sentiment"] = sentiments
+    Returns:
+        Dict: The aggregation result.
+    """
+    result = defaultdict(list)
+    for i, key in enumerate(keys):
+        result[key].append(values[i])
+    return result
 
-    def argument_coherence(self):
-        """Compute argument coherence."""
-        if "coherence" in self.df_arguments.columns:
-            return
-        assert (
-            "sentiment" in self.df_arguments.columns
-        ), "Should compute sentiment first!"
 
-        def gaussian(x):
-            """Gaussian activation function."""
-            return math.e ** (-(x**2) / 0.4)
+def get_argument_topics(arg_ids: List[int], topics: List[int]) -> List[List[int]]:
+    """Get argument topics.
 
-        max_score = self.df_arguments["score"].max() - 1
-        coherences = (
-            self.df_arguments["sentiment"]
-            - (self.df_arguments["score"] - 1) / max_score
-        ).apply(gaussian)
-        self.df_arguments["coherence"] = coherences
+    The topics of an argument is a combination of the topics of all chunks that belong to this argument. Duplications are not removed, and the reason behind is that duplications can be treated as a sign of topic importance. Also, even though two chunks can belong to the same topic, they could still have different ranks within an argument.
 
-    def get_argument_table(self, df_chunks: pd.DataFrame) -> pd.DataFrame:
-        """Get the processed argument table."""
-        self.argument_topics(df_chunks)
-        self.argument_sentiment(df_chunks)
-        self.argument_coherence()
-        return copy.deepcopy(self.df_arguments)
+    Args:
+        arg_ids (List[int]): the argument ids of chunks.
+        topics (List[int]): the topic indices of chunks.
+
+    Returns:
+        List[list[int]]: list of argument topics, which is also a list containing topic indices of chunks belonging to this argument.
+    """
+    _match_list_size(arg_ids, topics)
+    result = _aggregate_list_by_another(keys=arg_ids, values=topics)
+    return list(result.values())
+
+
+def get_argument_sentiment(
+    arg_ids: List[int],
+    ranks: List[float],
+    p_scores: List[float],
+    min_sent: int = -1,
+    max_sent: int = 1,
+) -> List[float]:
+    """Get argument sentiment score.
+
+    The sentiment score of an argument is calculated as a weighted sum of sentiment scores of chunks belonging to this argument, where weights are ranks of the chunks. The result score is then normalized into range [0, 1].
+
+    Args:
+        arg_ids (List[int]): the argument ids of chunks.
+        ranks (List[float]): the pagerank of chunks within arguments.
+        p_scores (List[float]): the sentiment polarity scores of chunks.
+        min_sent (int): minimun of argument sentiment before normalization. Defaults to -1.
+        max_sent (int): maximum of argument sentiment before normalization. Defaults to 1.
+
+    Returns:
+        List[float]: List of argument sentiment scores, which are floats in range [0, 1].
+    """
+    _match_list_size(arg_ids, ranks, p_scores)
+
+    grouped_ranks = _aggregate_list_by_another(keys=arg_ids, values=ranks)
+    grouped_p_scores = _aggregate_list_by_another(keys=arg_ids, values=p_scores)
+
+    sentiments = []
+    for arg_id, rank in grouped_ranks.items():
+        p_score = grouped_p_scores[arg_id]
+        sentiment = np.dot(rank, p_score)
+        sentiment = (sentiment - min_sent) / (max_sent - min_sent)
+        sentiments.append(sentiment)
+    return sentiments
+
+
+def get_argument_coherence(
+    scores: List[int],
+    sentiments: List[float],
+    min_score: int = 1,
+    max_score: int = 5,
+    variance: float = 0.2,
+) -> List[float]:
+    """Get argument coherence.
+
+    Coherence is computed as inversed difference between sentiments and overall scores. Overall scores are first normalized into the same range as argument sentiments, which is [0, 1]. Then their differences are computed and applied a Gaussian kernal to invert and scale the differences to [0, 1].
+
+    Args:
+        scores (List[int]): List of argument overall scores.
+        sentiments (List[float]): List of argument sentiment scores.
+        min_score (int, optional): Lower bound of scores. Defaults to 1.
+        max_score (int, optional): Upper bound of scores. Defaults to 5.
+        variance (float): variance of the Gaussian kernal.
+
+    Returns:
+        List[float]: List of argument coherence scores, in range of (0, 1]
+    """
+    _match_list_size(sentiments, scores)
+
+    range_score = max_score - min_score
+    scores = [(s - min_score) / range_score for s in scores]
+
+    def gaussian(x):
+        """Gaussian activation function."""
+        return math.e ** (-(x**2) / (2 * variance))
+
+    coherences = [sentiments[i] - scores[i] for i in range(len(scores))]
+    coherences = list(map(gaussian, coherences))
+    return coherences
+
+
+def update_argument_table(
+    df_arguments: pd.DataFrame,
+    topics: List[List[int]],
+    sentiments: List[float],
+    coherences: List[float],
+) -> pd.DataFrame:
+    """Return a copy of argument dataframe, with new columns of argument topics, sentiments, and coherences.
+
+    Args:
+        df_arguments (pd.DataFrame): argument dataframe.
+        topics (List[List[int]]): list of argument topics
+        sentiments (List[float]): list of argument sentiment scores
+        coherences (List[float]): list of argument coherence scores
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    df_copy = copy.deepcopy(df_arguments)
+    df_copy["topics"] = topics
+    df_copy["sentiment"] = sentiments
+    df_copy["coherence"] = coherences
+    return df_copy

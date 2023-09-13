@@ -13,7 +13,6 @@ from orangecontrib.argument.miner.chunker import (
     get_chunk_topic,
     get_chunk_table,
 )
-
 from .conftest import large_chunk_set, review_set, topic_model
 
 
