@@ -46,7 +46,7 @@ def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
         data (pd.DataFrame): The argument dataframe that must have the 'score' column.
 
     Returns:
-        List[Tuple[int]]: List of edges, which are tuples of source and target argument ids.
+        List[Tuple[int]]: The edge list, which are tuples of source and target argument ids.
     """
     expected_cols = ["score"]
     check_columns(expected_cols=expected_cols, data=data)
@@ -59,8 +59,25 @@ def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
     return edges
 
 
-def get_edge_weights():
-    pass
+def get_edge_weights(data: pd.DataFrame, edges: List[Tuple[int]]) -> List[float]:
+    """Get edge weights.
+
+    Edge weights are computed as the difference between the coherence of the source and that of the target.
+
+    Args:
+        data (pd.DataFrame): The argument dataframe that must have the 'coherence' column.
+        edges (List[Tuple[int]]): The edge list, which are tuples ofsource and target argument ids.
+
+    Returns:
+        List[float]: The list of edge weights.
+    """
+    expected_cols = ["coherence"]
+    check_columns(expected_cols=expected_cols, data=data)
+
+    weights = []
+    for s, t in edges:
+        weights.append(data.loc[s]["coherence"] - data.loc[t]["coherence"])
+    return weights
 
 
 def get_edge_table():

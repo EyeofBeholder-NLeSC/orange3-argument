@@ -60,3 +60,14 @@ def review_set(df_arguments):
 def topic_model():
     """TopicModel instance"""
     return TopicModel()
+
+
+@pytest.fixture(scope="function")
+def dummy_argument_data():
+    """Dummy argument dataframe for testing the miner module."""
+    return pd.DataFrame(
+        {
+            "score": [1, 2, 2, 3],
+            "coherence": [0.3, 0.5, 0.1, 0.9],
+        }
+    )
