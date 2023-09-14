@@ -6,7 +6,6 @@ import pytest
 from pytest import approx
 
 from orangecontrib.argument.miner.processor import (
-    check_columns,
     get_argument_topics,
     get_argument_sentiment,
     get_argument_coherence,
@@ -14,15 +13,7 @@ from orangecontrib.argument.miner.processor import (
     _match_list_size,
     _aggregate_list_by_another,
 )
-
-
-def test_check_columns():
-    """Unit test check_columns."""
-    dummy_df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
-    dummy_expected_cols = ["col1", "col3"]
-    with pytest.raises(ValueError) as ex:
-        check_columns(expected_cols=dummy_expected_cols, data=dummy_df)
-    assert str(ex.value) == "Missing columns in the input dataframe: ['col3']."
+from orangecontrib.argument.miner.utilities import check_columns
 
 
 @pytest.mark.parametrize(

@@ -1,8 +1,4 @@
-"""
-Argument mining module.
-
-This maps arguments into an attacking network based on topic modeling results.
-"""
+"""Argument mining module"""
 
 import itertools
 import ast
@@ -11,10 +7,7 @@ import pandas as pd
 
 
 class ArgumentMiner:
-    """Argument Miner class.
-
-    This class do the follows:
-    """
+    """Argument Miner class"""
 
     def __init__(self, df_arguments):
         self.df_arguments = df_arguments

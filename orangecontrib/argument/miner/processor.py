@@ -9,21 +9,6 @@ import numpy as np
 import pandas as pd
 
 
-def check_columns(expected_cols: List[str], data: pd.DataFrame):
-    """Check if a list of given columns exist in a given Pandas dataframe.
-
-    Args:
-        expected_cols (List[str]): list of columns to check
-        df (pd.DataFrame): pandas dataframe to check
-
-    Raises:
-        ValueError: if any of the expected columns are missing.
-    """
-    missing_cols = [i for i in expected_cols if i not in data.columns]
-    if missing_cols:
-        raise ValueError(f"Missing columns in the input dataframe: {missing_cols}.")
-
-
 def _match_list_size(*args: List):
     """With an arbitrary number of lists as input, check if they are in the same size."""
     if any(len(arg) != len(args[0]) for arg in args):
