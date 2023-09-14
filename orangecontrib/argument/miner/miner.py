@@ -1,6 +1,4 @@
 """Argument mining module"""
-
-import itertools
 from ast import literal_eval
 from typing import Tuple, List
 from itertools import combinations
@@ -66,7 +64,7 @@ def get_edge_weights(data: pd.DataFrame, edges: List[Tuple[int]]) -> List[float]
 
     Args:
         data (pd.DataFrame): The argument dataframe that must have the 'coherence' column.
-        edges (List[Tuple[int]]): The edge list, which are tuples ofsource and target argument ids.
+        edges (List[Tuple[int]]): The edge list, which are tuples of source and target argument ids.
 
     Returns:
         List[float]: The list of edge weights.
@@ -76,12 +74,29 @@ def get_edge_weights(data: pd.DataFrame, edges: List[Tuple[int]]) -> List[float]
 
     weights = []
     for s, t in edges:
-        weights.append(data.loc[s]["coherence"] - data.loc[t]["coherence"])
+        weight = data.loc[s]["coherence"] - data.loc[t]["coherence"]
+        weights.append(round(weight, 2))
     return weights
 
 
-def get_edge_table():
-    pass
+def get_edge_table(edges: List[Tuple[int]], weights: List[float]) -> pd.DataFrame:
+    """Get the edge dataframe.
+
+    There will be three columns in the output dataframe, which are 'source', 'target', and 'weight'. Together, they describe weighted directed edges from source to target argument. Note that there will be no negative weights in the output dataframe, instead, all values will be replace with their absolution values. For edges with negative weights, we swap their source and target.
+
+    Args:
+        edges (List[Tuple[int]]): The edge list, which are tuples of source and target argument ids.
+        weights (List[float]): The list of edge weights.
+
+    Returns:
+        pd.DataFrame: The result edge dataframe.
+    """
+    for i, w in enumerate(weights):
+        if w < 0:
+            edges[i] = (edges[i][1], edges[i][0])
+    result = pd.DataFrame(edges, columns=["source", "target"])
+    result["weight"] = [abs(w) for w in weights]
+    return result
 
 
 def get_node_labels():
@@ -97,44 +112,6 @@ class ArgumentMiner:
 
     def __init__(self, df_arguments):
         self.df_arguments = df_arguments
-
-    def get_edge_table(self, df_selection: pd.DataFrame) -> pd.DataFrame:
-        """Given a selection of arguments, get the edge table out of it."""
-        comb_rows = list(itertools.combinations(df_selection.index, 2))
-        combs = [
-            df_selection.loc[c, :][["score", "coherence"]].diff().iloc[1]
-            for c in comb_rows
-        ]
-        df_edges = pd.DataFrame(combs)
-        df_edges[["source", "target"]] = comb_rows
-        df_edges = df_edges[
-            df_edges["score"] != 0
-        ]  # only argumets with different scores
-        df_edges = df_edges.drop("score", axis=1)
-        df_edges = df_edges.rename(columns={"coherence": "weight"})
-
-        # weight is computed as coherence_target - coherence_source by diff() above
-        # so positive weight means misorder of source and target.
-        def detect_direction(row):
-            if row["weight"] > 0:
-                temp = row["source"]
-                row["source"] = row["target"]
-                row["target"] = temp
-            return row
-
-        df_edges = df_edges.apply(detect_direction, axis=1)
-        df_edges["weight"] = df_edges["weight"].abs()
-        df_edges = df_edges.reset_index(drop=True)
-
-        # refill source and target with argument id instead of df index
-        df_edges["source"] = df_selection.loc[df_edges["source"]][
-            "argument_id"
-        ].reset_index(drop=True)
-        df_edges["target"] = df_selection.loc[df_edges["target"]][
-            "argument_id"
-        ].reset_index(drop=True)
-
-        return df_edges
 
     def get_node_table(
         self, df_edges: pd.DataFrame, df_nodes: pd.DataFrame

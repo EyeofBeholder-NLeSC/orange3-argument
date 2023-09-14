@@ -7,6 +7,7 @@ from orangecontrib.argument.miner.miner import (
     select_by_topic,
     get_edges,
     get_edge_weights,
+    get_edge_table,
 )
 
 from .conftest import dummy_argument_data
@@ -50,9 +51,26 @@ def test_get_edges(dummy_argument_data):
 
 def test_get_edge_weights(dummy_argument_data):
     """Unit test function get_edge_weights."""
-    edges = [(0, 1), (0, 2), (0, 3), (1, 3), (2, 3)]
+    edges = get_edges(dummy_argument_data)
     expected_result = [-0.2, 0.2, -0.6, -0.4, -0.8]
 
     result = get_edge_weights(data=dummy_argument_data, edges=edges)
 
-    assert result == approx(expected_result, 0.01)  # float subtraction
+    assert result == expected_result
+
+
+def test_get_edge_table(dummy_argument_data):
+    """Unit test function get_edge_table."""
+    edges = get_edges(dummy_argument_data)
+    weights = get_edge_weights(data=dummy_argument_data, edges=edges)
+    expected_result = pd.DataFrame(
+        {
+            "source": [1, 0, 3, 3, 3],
+            "target": [0, 2, 0, 1, 2],
+            "weight": [0.2, 0.2, 0.6, 0.4, 0.8],
+        }
+    )
+
+    result = get_edge_table(edges=edges, weights=weights)
+
+    assert result.compare(expected_result).empty
