@@ -1,9 +1,39 @@
 """Argument mining module"""
 
 import itertools
-import ast
+from ast import literal_eval
+from typing import Tuple
 
 import pandas as pd
+
+from orangecontrib.argument.miner.utilities import check_columns
+
+
+def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
+    """Select data from a dataframe so that the value in its 'topics' column contains the given topic.
+
+    Args:
+        data (pd.DataFrame): The dataframe to select data from.
+        topic (int): The given topic to select.
+
+    Returns:
+        pd.DataFrame: The selection result.
+    """
+    expected_cols = ["topics"]
+    check_columns(expected_cols=expected_cols, data=data)
+
+    def check_topic_included(topics: Tuple[int]) -> bool:
+        try:
+            return topic in topics
+        except TypeError:
+            topics = literal_eval(str(topics))
+            if isinstance(topics, int):
+                return topic == topics
+            elif isinstance(topics, tuple):
+                return topic in topics
+
+    selection_indices = data["topics"].apply(check_topic_included)
+    return data[selection_indices]
 
 
 class ArgumentMiner:
@@ -11,25 +41,6 @@ class ArgumentMiner:
 
     def __init__(self, df_arguments):
         self.df_arguments = df_arguments
-
-    def select_by_topic(self, topic: int) -> pd.DataFrame:
-        """Get arguments that cover a given topic."""
-
-        def check_topic_included(topics):
-            # value of "topics" can be string type
-            # parse string of list into list if that is the case
-            if isinstance(topics, str) and topics != "nan":
-                topics = ast.literal_eval(topics)
-            try:
-                return topic in topics
-            except TypeError:
-                return False
-
-        index = self.df_arguments["topics"].apply(check_topic_included)
-        df_selection = self.df_arguments[index]
-        df_selection["argument_id"] = df_selection.index
-        df_selection = df_selection.reset_index(drop=True)
-        return df_selection
 
     def get_edge_table(self, df_selection: pd.DataFrame) -> pd.DataFrame:
         """Given a selection of arguments, get the edge table out of it."""

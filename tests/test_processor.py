@@ -46,7 +46,7 @@ def test_get_argument_topics():
     dummy_topics = [-1, 0, 0, 1, 2]
     topics = get_argument_topics(arg_ids=dummy_ids, topics=dummy_topics)
 
-    assert topics == [[-1, 0], [0, 1, 2]]
+    assert topics == [(-1, 0), (0, 1, 2)]
 
 
 def test_get_argument_sentiment():

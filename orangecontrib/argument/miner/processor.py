@@ -1,6 +1,6 @@
 """Argument processor module."""
 
-from typing import List, Dict
+from typing import List, Dict, Tuple
 import copy
 import math
 from collections import defaultdict
@@ -31,7 +31,7 @@ def _aggregate_list_by_another(keys: List, values: List) -> Dict:
     return result
 
 
-def get_argument_topics(arg_ids: List[int], topics: List[int]) -> List[List[int]]:
+def get_argument_topics(arg_ids: List[int], topics: List[int]) -> List[Tuple[int]]:
     """Get argument topics.
 
     The topics of an argument is a combination of the topics of all chunks that belong to this argument. Duplications are not removed, and the reason behind is that duplications can be treated as a sign of topic importance. Also, even though two chunks can belong to the same topic, they could still have different ranks within an argument.
@@ -45,7 +45,8 @@ def get_argument_topics(arg_ids: List[int], topics: List[int]) -> List[List[int]
     """
     _match_list_size(arg_ids, topics)
     result = _aggregate_list_by_another(keys=arg_ids, values=topics)
-    return list(result.values())
+    result = result.values()
+    return [tuple(r) for r in result]
 
 
 def get_argument_sentiment(
