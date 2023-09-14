@@ -2,7 +2,8 @@
 
 import itertools
 from ast import literal_eval
-from typing import Tuple
+from typing import Tuple, List
+from itertools import combinations
 
 import pandas as pd
 
@@ -10,14 +11,14 @@ from orangecontrib.argument.miner.utilities import check_columns
 
 
 def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
-    """Select data from a dataframe so that the value in its 'topics' column contains the given topic.
+    """Select arguments mentioning the given topic.
 
     Args:
-        data (pd.DataFrame): The dataframe to select data from.
+        data (pd.DataFrame): The argument dataframe that must contain the 'topic' column.
         topic (int): The given topic to select.
 
     Returns:
-        pd.DataFrame: The selection result.
+        pd.DataFrame: Part of the original argument dataframe that only contains arguments mentioning the given topic.
     """
     expected_cols = ["topics"]
     check_columns(expected_cols=expected_cols, data=data)
@@ -34,6 +35,44 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
 
     selection_indices = data["topics"].apply(check_topic_included)
     return data[selection_indices]
+
+
+def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
+    """Get edges from argument dataframe.
+
+    Edges (attackness) only exist if the two arguments have different overall scores.
+
+    Args:
+        data (pd.DataFrame): The argument dataframe that must have the 'score' column.
+
+    Returns:
+        List[Tuple[int]]: List of edges, which are tuples of source and target argument ids.
+    """
+    expected_cols = ["score"]
+    check_columns(expected_cols=expected_cols, data=data)
+
+    id_combs = list(combinations(data.index, 2))
+    edges = []
+    for id_combo in id_combs:
+        if data.loc[id_combo[0]]["score"] != data.loc[id_combo[1]]["score"]:
+            edges.append(id_combo)
+    return edges
+
+
+def get_edge_weights():
+    pass
+
+
+def get_edge_table():
+    pass
+
+
+def get_node_labels():
+    pass
+
+
+def get_node_table():
+    pass
 
 
 class ArgumentMiner:
