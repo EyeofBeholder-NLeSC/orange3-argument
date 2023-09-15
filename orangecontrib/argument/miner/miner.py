@@ -21,6 +21,10 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
     expected_cols = ["topics"]
     check_columns(expected_cols=expected_cols, data=data)
 
+    # in the result dataframe, the index will be different from the argument_id
+    # so we keep that information in a separate column.
+    data["argument_id"] = data.index
+
     def check_topic_included(topics: Tuple[int]) -> bool:
         try:
             return topic in topics
@@ -31,20 +35,20 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
             elif isinstance(topics, tuple):
                 return topic in topics
 
-    selection_indices = data["topics"].apply(check_topic_included)
-    return data[selection_indices]
+    selection_condition = data["topics"].apply(check_topic_included)
+    return data[selection_condition].reset_index(drop=True)
 
 
 def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
     """Get edges from argument dataframe.
 
-    Edges (attackness) only exist if the two arguments have different overall scores.
+    Edges (attackness) only exist if the two arguments have different overall scores. Edges are tuple of source and target, which are index of the corresponding argument in the input dataframe (not 'argument_id').
 
     Args:
         data (pd.DataFrame): The argument dataframe that must have the 'score' column.
 
     Returns:
-        List[Tuple[int]]: The edge list, which are tuples of source and target argument ids.
+        List[Tuple[int]]: The edge list.
     """
     expected_cols = ["score"]
     check_columns(expected_cols=expected_cols, data=data)
@@ -64,7 +68,7 @@ def get_edge_weights(data: pd.DataFrame, edges: List[Tuple[int]]) -> List[float]
 
     Args:
         data (pd.DataFrame): The argument dataframe that must have the 'coherence' column.
-        edges (List[Tuple[int]]): The edge list, which are tuples of source and target argument ids.
+        edges (List[Tuple[int]]): The edge list.
 
     Returns:
         List[float]: The list of edge weights.
@@ -99,56 +103,52 @@ def get_edge_table(edges: List[Tuple[int]], weights: List[float]) -> pd.DataFram
     return result
 
 
-def get_node_labels():
-    pass
+def get_node_labels(
+    indices: List[int], sources: List[int], targets: List[int]
+) -> List[str]:
+    """Get labels of arguments given the attacking network.
+
+    Arguments are separated into two classes, 'supportive' and 'defeated', which generally means reliable and unreliable. The rule of detecting the labels is as follows: if an argument is attacked by another argument who is not attacked by any argument, then this argument is labeled as 'defeated'; otherwise, it's labeled as 'supportive'. That means, if an argument appears in `targets`, where its corresponding source doesn't, this argument will be labeled as 'defeated', and otherwise 'supportive'.
+
+    Args:
+        indices (List[int]): The node index list
+        sources (List[int]): The source list of the attacking network.
+        targets (List[int]): The target list of the attacking network.
+
+    Returns:
+        List[str]: The label list.
+    """
+    labels = {i: "supportive" for i in indices}
+
+    for i, target in enumerate(targets):
+        source = sources[i]
+        if source not in targets:
+            labels[target] = "defeated"
+
+    return list(labels.values())
 
 
-def get_node_table():
-    pass
+def get_node_table(
+    arg_ids: List[int], arguments: List[str], scores: List[int], labels: List[str]
+) -> pd.DataFrame:
+    """Get the node dataframe.
 
+    The node dataframe will contain 4 columns, that are 'argument_id', 'argument', 'score', and 'label'.
 
-class ArgumentMiner:
-    """Argument Miner class"""
+    Args:
+        arg_ids (List[int]): The argument id list.
+        arguments (List[str]): The argument text list.
+        scores (List[int]): The list of argument overall score.
+        labels (List[str]): The argument label list.
 
-    def __init__(self, df_arguments):
-        self.df_arguments = df_arguments
-
-    def get_node_table(
-        self, df_edges: pd.DataFrame, df_nodes: pd.DataFrame
-    ) -> pd.DataFrame:
-        """Given a edge table, get the node table out of it."""
-        df_target = df_edges.groupby(by="target", as_index=False).agg({"source": list})
-
-        # label arguments as attacking targets
-        def label_target(row):
-            sources = row["source"]
-            try:
-                true_count = df_target["target"].isin(sources).value_counts()[True]
-            except KeyError:
-                true_count = 0
-            return "supportive" if true_count == len(sources) else "defeated"
-
-        df_target["label"] = df_target.apply(label_target, axis=1)
-        df_target = df_target.set_index("target")
-
-        # assign labels to arguments
-        def assign_label(row):
-            arg_id = row["argument_id"]
-            try:
-                return df_target.loc[arg_id]["label"]
-            except KeyError:
-                return "supportive"
-
-        df_nodes["label"] = df_nodes.apply(assign_label, axis=1)
-        return df_nodes
-
-    def map_edge_tables(
-        self, df_edges: pd.DataFrame, df_nodes: pd.DataFrame
-    ) -> pd.DataFrame:
-        """Map source and target in df_edges to indices of nodes in df_nodes."""
-        mapper = df_nodes["argument_id"]
-        mapper = pd.Series(mapper.index.values, mapper)
-        df_edges["source"] = df_edges["source"].apply(lambda x: mapper[x])
-        df_edges["target"] = df_edges["target"].apply(lambda x: mapper[x])
-
-        return df_edges
+    Returns:
+        pd.DataFrame: The result node dataframe.
+    """
+    return pd.DataFrame(
+        {
+            "argument_id": arg_ids,
+            "argument": arguments,
+            "score": scores,
+            "label": labels,
+        }
+    )
