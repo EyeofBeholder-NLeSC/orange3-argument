@@ -28,12 +28,13 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
     def check_topic_included(topics: Tuple[int]) -> bool:
         try:
             return topic in topics
-        except TypeError:
+        except TypeError as ex:
             topics = literal_eval(str(topics))
             if isinstance(topics, int):
                 return topic == topics
-            elif isinstance(topics, tuple):
+            if isinstance(topics, tuple):
                 return topic in topics
+            raise ValueError(f"Topics not tuple: {topics}") from ex
 
     selection_condition = data["topics"].apply(check_topic_included)
     return data[selection_condition].reset_index(drop=True)
