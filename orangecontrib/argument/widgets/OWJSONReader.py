@@ -1,5 +1,4 @@
 """JSON Reader widget."""
-
 import os
 
 from Orange.data import Table

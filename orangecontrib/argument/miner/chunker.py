@@ -273,15 +273,16 @@ class TopicModel:
             pd.DataFrame: The topic table.
         """
         topic_info = self.model.get_topic_info()
+        topic_info = topic_info.drop(["Representative_Docs"], axis=1)
         topic_info = topic_info.rename(
             columns={
                 "Topic": "topic",
                 "Count": "count",
                 "Name": "name",
                 "Representation": "keywords",
-                "Representative_Docs": "representative_doc",
             }
         )
+        topic_info["keywords"] = topic_info["keywords"].apply(tuple)
         return topic_info
 
     def get_doc_embeds(self) -> np.ndarray:
