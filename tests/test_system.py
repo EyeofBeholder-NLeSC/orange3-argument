@@ -14,6 +14,8 @@ def test_system():
     df_arguments = df_arguments.rename(
         columns={"reviewText": "argument", "overall": "score"}
     )
+    assert df_arguments["argument"].dtype == "object"
+    assert df_arguments["score"].dtype == "int64"
 
     # chunker
     arguments = df_arguments["argument"]
@@ -21,8 +23,18 @@ def test_system():
     chunk_arg_ids, chunks = chunker.get_chunk(docs=arguments)
     chunk_p_scores = chunker.get_chunk_polarity_score(chunks=chunks)
     chunk_topics, chunk_embeds, df_topics = chunker.get_chunk_topic(chunks=chunks)
-
     chunk_ranks = chunker.get_chunk_rank(arg_ids=chunk_arg_ids, embeds=chunk_embeds)
+    assert all(-1 <= s <= 1 for s in chunk_p_scores)
+    assert all(0 <= r <= 1 for r in chunk_ranks)
+    assert (
+        len(chunks)
+        == len(chunk_arg_ids)
+        == len(chunk_p_scores)
+        == len(chunk_topics)
+        == len(chunk_ranks)
+        == chunk_embeds.shape[0]
+    )
+
     df_chunks = chunker.get_chunk_table(
         arg_ids=chunk_arg_ids,
         chunks=chunks,
@@ -41,6 +53,15 @@ def test_system():
     arg_coherences = processor.get_argument_coherence(
         scores=arg_scores, sentiments=arg_sentiments
     )
+    assert all(0 <= s <= 1 for s in arg_sentiments)
+    assert all(0 < c <= 1 for c in arg_coherences)
+    assert (
+        len(arg_topics)
+        == len(arg_sentiments)
+        == len(arg_coherences)
+        == df_arguments.shape[0]
+    )
+
     df_arguments_processed = processor.update_argument_table(
         df_arguments=df_arguments,
         topics=arg_topics,
@@ -53,6 +74,9 @@ def test_system():
     arg_selection = miner.select_by_topic(data=df_arguments_processed, topic=last_topic)
     edges = miner.get_edges(data=arg_selection)
     weights = miner.get_edge_weights(data=arg_selection, edges=edges)
+    assert all(i in arg_selection.index for edge in edges for i in edge)
+    assert all(-1 <= w <= 1 for w in weights)
+
     df_edges = miner.get_edge_table(edges=edges, weights=weights)
 
     labels = miner.get_node_labels(
@@ -60,6 +84,9 @@ def test_system():
         sources=df_edges["source"].tolist(),
         targets=df_edges["target"].tolist(),
     )
+    assert all(l in ["supportive", "defeated"] for l in labels)
+    assert len(labels) == arg_selection.shape[0]
+
     df_nodes = miner.get_node_table(
         arg_ids=arg_selection["argument_id"].tolist(),
         arguments=arg_selection["argument"].tolist(),
