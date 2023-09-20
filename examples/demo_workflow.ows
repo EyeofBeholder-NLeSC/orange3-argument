@@ -1,17 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme version="2.0" title="" description="">
 	<nodes>
-		<node id="0" name="JSON Reader" qualified_name="orangecontrib.argument.widgets.OWJSONReader.OWJSONReader" project_name="orange3-argument" version="" title="JSON Reader" position="(250.0, 312.0)" />
-		<node id="1" name="Edit Domain" qualified_name="Orange.widgets.data.oweditdomain.OWEditDomain" project_name="Orange3" version="" title="Edit Domain" position="(386.0, 315.0)" />
-		<node id="2" name="Argument Chunker" qualified_name="orangecontrib.argument.widgets.OWArgChunker.OWArgChunker" project_name="orange3-argument" version="" title="Argument Chunker" position="(524.0, 314.0)" />
-		<node id="3" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="chunks" position="(677.0, 440.0)" />
-		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="topics" position="(653.0, 598.0)" />
+		<node id="0" name="JSON Reader" qualified_name="orangecontrib.argument.widgets.OWJSONReader.OWJSONReader" project_name="orange3-argument" version="" title="JSON Reader" position="(88.0, 253.0)" />
+		<node id="1" name="Edit Domain" qualified_name="Orange.widgets.data.oweditdomain.OWEditDomain" project_name="Orange3" version="" title="Edit Domain" position="(219.0, 252.0)" />
+		<node id="2" name="Argument Chunker" qualified_name="orangecontrib.argument.widgets.OWArgChunker.OWArgChunker" project_name="orange3-argument" version="" title="Argument Chunker" position="(427.0, 340.0)" />
+		<node id="3" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="chunks" position="(578.0, 432.0)" />
+		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="topics" position="(577.0, 543.0)" />
+		<node id="5" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments" position="(333.0, 146.0)" />
+		<node id="6" name="Argument Processor" qualified_name="orangecontrib.argument.widgets.OWArgProcessor.OWArgProcessor" project_name="orange3-argument" version="" title="Argument Processor" position="(690.0, 263.0)" />
+		<node id="7" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments_processed" position="(843.0, 143.0)" />
 	</nodes>
 	<links>
 		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="output_data" sink_channel_id="data" />
 		<link id="1" source_node_id="1" sink_node_id="2" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="input_data" />
 		<link id="2" source_node_id="2" sink_node_id="3" source_channel="Chunk Data" sink_channel="Data" enabled="true" source_channel_id="chunk_data" sink_channel_id="data" />
 		<link id="3" source_node_id="2" sink_node_id="4" source_channel="Topic Data" sink_channel="Data" enabled="true" source_channel_id="topic_data" sink_channel_id="data" />
+		<link id="4" source_node_id="1" sink_node_id="5" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="data" />
+		<link id="5" source_node_id="6" sink_node_id="7" source_channel="Argument Data" sink_channel="Data" enabled="true" source_channel_id="argument_data" sink_channel_id="data" />
+		<link id="6" source_node_id="2" sink_node_id="6" source_channel="Chunk Data" sink_channel="Chunk Data" enabled="true" source_channel_id="chunk_data" sink_channel_id="chunk_data" />
+		<link id="7" source_node_id="1" sink_node_id="6" source_channel="Data" sink_channel="Argument Data" enabled="true" source_channel_id="data" sink_channel_id="argument_data" />
 	</links>
 	<annotations />
 	<thumbnail />
@@ -27,6 +34,9 @@ AAAAAAeAAAACiQAAAM4AAAUcAAADaZSMC19fdmVyc2lvbl9flEsDdS4=
 		<properties node_id="2" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x89\x00\x00\x01\x84\x00\x00\x03w\x00\x00\x01\xf5\x00\x00\x02\x89\x00\x00\x01\xa0\x00\x00\x03w\x00\x00\x01\xf5\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x89\x00\x00\x01\xa0\x00\x00\x03w\x00\x00\x01\xf5', '__version__': 1}</properties>
 		<properties node_id="3" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00R\x00\x00\x01\x1a\x00\x00\x06P\x00\x00\x03)\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
 		<properties node_id="4" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00R\x00\x00\x01\x1a\x00\x00\x06P\x00\x00\x03)\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="5" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00Q\x00\x00\x01\x1a\x00\x00\x06O\x00\x00\x03)\x00\x00\x00Q\x00\x00\x016\x00\x00\x06O\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00Q\x00\x00\x016\x00\x00\x06O\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="6" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x9d\x00\x00\x02\xae\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c', '__version__': 1}</properties>
+		<properties node_id="7" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xe4\x00\x00\x01s\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
 	</node_properties>
 	<session_state>
 		<window_groups />
