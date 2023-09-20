@@ -8,7 +8,8 @@ from Orange.widgets.widget import Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame
 from AnyQt.QtWidgets import QFileDialog
 from AnyQt.QtCore import Qt
-from orangecontrib.argument.miner.reader import read_json_file
+
+from ..miner.reader import read_json_file
 
 
 class OWJSONReader(OWWidget):

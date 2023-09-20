@@ -4,14 +4,14 @@ from Orange.widgets import gui
 from Orange.widgets.widget import Input, Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 
-from orangecontrib.argument.miner.chunker import (
+from ..miner.chunker import (
     get_chunk,
     get_chunk_polarity_score,
     get_chunk_rank,
     get_chunk_topic,
     get_chunk_table,
 )
-from orangecontrib.argument.miner.utilities import check_columns
+from ..miner.utilities import check_columns
 
 
 class OWArgChunker(OWWidget):

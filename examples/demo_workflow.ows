@@ -1,14 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme version="2.0" title="" description="">
 	<nodes>
-		<node id="0" name="JSON Reader" qualified_name="orangecontrib.argument.widgets.OWJSONReader.OWJSONReader" project_name="orange3-argument" version="" title="JSON Reader" position="(88.0, 253.0)" />
-		<node id="1" name="Edit Domain" qualified_name="Orange.widgets.data.oweditdomain.OWEditDomain" project_name="Orange3" version="" title="Edit Domain" position="(219.0, 252.0)" />
-		<node id="2" name="Argument Chunker" qualified_name="orangecontrib.argument.widgets.OWArgChunker.OWArgChunker" project_name="orange3-argument" version="" title="Argument Chunker" position="(427.0, 340.0)" />
-		<node id="3" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="chunks" position="(578.0, 432.0)" />
-		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="topics" position="(577.0, 543.0)" />
-		<node id="5" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments" position="(333.0, 146.0)" />
-		<node id="6" name="Argument Processor" qualified_name="orangecontrib.argument.widgets.OWArgProcessor.OWArgProcessor" project_name="orange3-argument" version="" title="Argument Processor" position="(690.0, 263.0)" />
-		<node id="7" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments_processed" position="(843.0, 143.0)" />
+		<node id="0" name="JSON Reader" qualified_name="orangecontrib.argument.widgets.OWJSONReader.OWJSONReader" project_name="orange3-argument" version="" title="JSON Reader" position="(86.0, 129.0)" />
+		<node id="1" name="Edit Domain" qualified_name="Orange.widgets.data.oweditdomain.OWEditDomain" project_name="Orange3" version="" title="Edit Domain" position="(210.0, 128.0)" />
+		<node id="2" name="Argument Chunker" qualified_name="orangecontrib.argument.widgets.OWArgChunker.OWArgChunker" project_name="orange3-argument" version="" title="Argument Chunker" position="(413.0, 210.0)" />
+		<node id="3" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="chunks" position="(562.0, 271.0)" />
+		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="topics" position="(502.0, 356.0)" />
+		<node id="5" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments" position="(332.0, 49.0)" />
+		<node id="6" name="Argument Processor" qualified_name="orangecontrib.argument.widgets.OWArgProcessor.OWArgProcessor" project_name="orange3-argument" version="" title="Argument Processor" position="(641.0, 138.0)" />
+		<node id="7" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="arguments_processed" position="(777.0, 58.0)" />
+		<node id="8" name="Argument Miner" qualified_name="orangecontrib.argument.widgets.OWArgMiner.OWArgMiner" project_name="orange3-argument" version="" title="Argument Miner" position="(818.0, 197.0)" />
+		<node id="9" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="nodes" position="(884.0, 354.0)" />
+		<node id="10" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="edges" position="(952.0, 280.0)" />
+		<node id="11" name="Argument Explorer" qualified_name="orangecontrib.argument.widgets.OWArgExplorer.OWArgExplorer" project_name="orange3-argument" version="" title="Argument Explorer" position="(1032.0, 188.0)" />
+		<node id="12" name="JSON Reader" qualified_name="orangecontrib.argument.widgets.OWJSONReader.OWJSONReader" project_name="orange3-argument" version="" title="JSON Reader (1)" position="(1182.0, 188.0)" />
+		<node id="13" name="Argument Processor" qualified_name="orangecontrib.argument.widgets.OWArgProcessor.OWArgProcessor" project_name="orange3-argument" version="" title="Argument Processor (1)" position="(1332.0, 188.0)" />
 	</nodes>
 	<links>
 		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="output_data" sink_channel_id="data" />
@@ -19,6 +25,12 @@
 		<link id="5" source_node_id="6" sink_node_id="7" source_channel="Argument Data" sink_channel="Data" enabled="true" source_channel_id="argument_data" sink_channel_id="data" />
 		<link id="6" source_node_id="2" sink_node_id="6" source_channel="Chunk Data" sink_channel="Chunk Data" enabled="true" source_channel_id="chunk_data" sink_channel_id="chunk_data" />
 		<link id="7" source_node_id="1" sink_node_id="6" source_channel="Data" sink_channel="Argument Data" enabled="true" source_channel_id="data" sink_channel_id="argument_data" />
+		<link id="8" source_node_id="6" sink_node_id="8" source_channel="Argument Data" sink_channel="Argument Data" enabled="true" source_channel_id="argument_data" sink_channel_id="argument_data" />
+		<link id="9" source_node_id="2" sink_node_id="8" source_channel="Topic Data" sink_channel="Topic Data" enabled="true" source_channel_id="topic_data" sink_channel_id="topic_data" />
+		<link id="10" source_node_id="8" sink_node_id="9" source_channel="Node Data" sink_channel="Data" enabled="true" source_channel_id="node_data" sink_channel_id="data" />
+		<link id="11" source_node_id="8" sink_node_id="10" source_channel="Edge Data" sink_channel="Data" enabled="true" source_channel_id="edge_data" sink_channel_id="data" />
+		<link id="12" source_node_id="8" sink_node_id="11" source_channel="Edge Data" sink_channel="Edge Data" enabled="true" source_channel_id="edge_data" sink_channel_id="edge_data" />
+		<link id="13" source_node_id="8" sink_node_id="11" source_channel="Node Data" sink_channel="Node Data" enabled="true" source_channel_id="node_data" sink_channel_id="node_data" />
 	</links>
 	<annotations />
 	<thumbnail />
@@ -33,10 +45,31 @@ AAAAAAeAAAACiQAAAM4AAAUcAAADaZSMC19fdmVyc2lvbl9flEsDdS4=
 </properties>
 		<properties node_id="2" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x89\x00\x00\x01\x84\x00\x00\x03w\x00\x00\x01\xf5\x00\x00\x02\x89\x00\x00\x01\xa0\x00\x00\x03w\x00\x00\x01\xf5\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x89\x00\x00\x01\xa0\x00\x00\x03w\x00\x00\x01\xf5', '__version__': 1}</properties>
 		<properties node_id="3" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00R\x00\x00\x01\x1a\x00\x00\x06P\x00\x00\x03)\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
-		<properties node_id="4" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00R\x00\x00\x01\x1a\x00\x00\x06P\x00\x00\x03)\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00R\x00\x00\x016\x00\x00\x06P\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="4" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\x9c\x00\x00\x02\x8b\x00\x00\x03\xd5\x00\x00\x04\x1a\x00\x00\x00\x9c\x00\x00\x02\xa7\x00\x00\x03\xd5\x00\x00\x04\x1a\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\x9c\x00\x00\x02\xa7\x00\x00\x03\xd5\x00\x00\x04\x1a', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
 		<properties node_id="5" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00Q\x00\x00\x01\x1a\x00\x00\x06O\x00\x00\x03)\x00\x00\x00Q\x00\x00\x016\x00\x00\x06O\x00\x00\x03)\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00Q\x00\x00\x016\x00\x00\x06O\x00\x00\x03)', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
 		<properties node_id="6" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x9d\x00\x00\x02\xae\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c', '__version__': 1}</properties>
-		<properties node_id="7" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xe4\x00\x00\x01s\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="7" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': False, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\xe1\x00\x00\x02`\x00\x00\x06,\x00\x00\x04\x03\x00\x00\x03\xe1\x00\x00\x02|\x00\x00\x06,\x00\x00\x04\x03\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x03\xe1\x00\x00\x02|\x00\x00\x06,\x00\x00\x04\x03', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="8" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x9d\x00\x00\x02V\x00\x00\x03N\x00\x00\x03\x1c\x00\x00\x02\x9d\x00\x00\x02r\x00\x00\x03N\x00\x00\x03\x1c\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x9d\x00\x00\x02r\x00\x00\x03N\x00\x00\x03\x1c', 'selected_topic': 22, '__version__': 1}</properties>
+		<properties node_id="9" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xe4\x00\x00\x01s\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="10" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xe4\x00\x00\x01s\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\xe4\x00\x00\x01\x8f\x00\x00\x06\xe2\x00\x00\x03\x82', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="11" format="pickle">gASVGQMAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSJjAxncmFw
+aF9sYXlvdXSUjAZzcHJpbmeUjA1ub2RlX3NwYXJzaXR5lEdAJAAAAAAAAIwTc2F2ZWRXaWRnZXRH
+ZW9tZXRyeZRDQgHZ0MsAAwAAAAABxAAAAeYAAAPKAAAECAAAAcQAAAICAAADygAABAgAAAAAAAAA
+AAeAAAABxAAAAgIAAAPKAAAECJSMCXNlbGVjdGlvbpRdlEsFjBVudW1weS5jb3JlLm11bHRpYXJy
+YXmUjAZzY2FsYXKUk5SMBW51bXB5lIwFZHR5cGWUk5SMAnUxlImIh5RSlChLA4wBfJROTk5K////
+/0r/////SwB0lGJDAQGUhpRSlIaUYYwPdmlzdWFsX3NldHRpbmdzlH2UjAVncmFwaJR9lCiMC2Fs
+cGhhX3ZhbHVllEuAjA1jbGFzc19kZW5zaXR5lImMCmVkZ2Vfd2lkdGiUSwKMC2ppdHRlcl9zaXpl
+lEsAjBNsYWJlbF9vbmx5X3NlbGVjdGVklImMFGxhYmVsX3NlbGVjdGVkX2VkZ2VzlIiMC3BvaW50
+X3dpZHRolEsKjBRyZWxhdGl2ZV9lZGdlX3dpZHRoc5SIjBFzaG93X2VkZ2Vfd2VpZ2h0c5SJjAlz
+aG93X2dyaWSUiYwLc2hvd19sZWdlbmSUiHWMC19fdmVyc2lvbl9flEsBjBBjb250ZXh0X3NldHRp
+bmdzlF2UjBVvcmFuZ2V3aWRnZXQuc2V0dGluZ3OUjAdDb250ZXh0lJOUKYGUfZQojAZ2YWx1ZXOU
+fZQojAphdHRyX2NvbG9ylE5K/v///4aUjAphdHRyX2xhYmVslE5K/v///4aUjAphdHRyX3NoYXBl
+lE5K/v///4aUjAlhdHRyX3NpemWUTkr+////hpRoG32UaChLAXWMCmF0dHJpYnV0ZXOUfZQojAth
+cmd1bWVudF9pZJRLAowFc2NvcmWUSwKMBWxhYmVslEsBdYwFbWV0YXOUfZSMCGFyZ3VtZW50lEsD
+c3ViYXUu
+</properties>
+		<properties node_id="12" format="literal">{'controlAreaVisible': True, 'fpath': '/Volumes/Databank/Workspace/orange3-argument/examples/example_dataset.json', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x04)\x00\x00\x01o\x00\x00\x05\xa2\x00\x00\x02#\x00\x00\x04)\x00\x00\x01\x8b\x00\x00\x05\xa2\x00\x00\x02#\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x04)\x00\x00\x01\x8b\x00\x00\x05\xa2\x00\x00\x02#', '__version__': 1}</properties>
+		<properties node_id="13" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02\x9d\x00\x00\x02\xae\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02\x9d\x00\x00\x02\xca\x00\x00\x03]\x00\x00\x03\x1c', '__version__': 1}</properties>
 	</node_properties>
 	<session_state>
 		<window_groups />

@@ -1,5 +1,4 @@
 """Argument Explorer Widget"""
-
 import numpy as np
 import networkx as nx
 from AnyQt.QtCore import Qt
@@ -10,7 +9,8 @@ from Orange.widgets.visualize.utils.widget import OWDataProjectionWidget
 from Orange.widgets.settings import SettingProvider, Setting
 from Orange.widgets.utils.plot import OWPlotGUI
 from Orange.data.pandas_compat import table_to_frame
-from orangecontrib.argument.graph.graphview import GraphView
+
+from ..graph.graphview import GraphView
 
 GRAPH_LAYOUT = ("spring", "multipartite", "kamada kawai", "spectral")
 
