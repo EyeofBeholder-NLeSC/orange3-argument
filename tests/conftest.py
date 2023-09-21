@@ -44,6 +44,21 @@ def df_arguments():
 
 
 @pytest.fixture(scope="function")
+def df_arguments_processed():
+    """Dataframe of processed arguments.
+
+    The dataframe contains 5 columns that are:
+    - argument (str): the argument text
+    - score (int): the overal score aligned with argument
+    - topics (Tuple[int]): the topics mentioned by the argument
+    - sentiment (float): the argument sentiment score
+    - coherence (float): the argument coherence score
+    """
+    fpath = TEST_DATA_FOLDER / "arguments_processed.csv"
+    return pd.read_csv(fpath, delimiter=";", index_col=0)
+
+
+@pytest.fixture(scope="function")
 def large_chunk_set(df_chunks):
     """List of around 1200 chunk texts."""
     return df_chunks["chunk"].dropna().tolist()
@@ -60,3 +75,28 @@ def review_set(df_arguments):
 def topic_model():
     """TopicModel instance"""
     return TopicModel()
+
+
+@pytest.fixture(scope="function")
+def dummy_argument_selection():
+    """Dummy argument dataframe."""
+    return pd.DataFrame(
+        {
+            "argument": ["arg1", "arg2", "arg3", "arg4", "arg5"],
+            "argument_id": [4, 7, 13, 29, 33],
+            "score": [1, 2, 2, 3, 3],
+            "coherence": [0.3, 0.5, 0.1, 0.05, 0.9],
+        }
+    )
+
+
+@pytest.fixture(scope="function")
+def dummy_edge_data():
+    """Dummy edge dataframe."""
+    return pd.DataFrame(
+        {
+            "source": [1, 0, 0, 4, 1, 4, 2, 4],
+            "target": [0, 2, 3, 0, 3, 1, 3, 2],
+            "weight": [0.2, 0.2, 0.25, 0.6, 0.45, 0.4, 0.05, 0.8],
+        }
+    )
