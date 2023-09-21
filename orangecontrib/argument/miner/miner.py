@@ -12,7 +12,7 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
     """Select arguments mentioning the given topic.
 
     Args:
-        data (pd.DataFrame): The argument dataframe that must contain the 'topic' column.
+        data (pd.DataFrame): The argument dataframe that must contain the 'topics' column.
         topic (int): The given topic to select.
 
     Returns:
@@ -21,23 +21,21 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
     expected_cols = ["topics"]
     check_columns(expected_cols=expected_cols, data=data)
 
-    # in the result dataframe, the index will be different from the argument_id
-    # so we keep that information in a separate column.
-    data["argument_id"] = data.index
+    select_condition = []
+    for i, row in data.iterrows():
+        topics = literal_eval(str(row["topics"]))
+        if isinstance(topics, int):  # in case of tuple of one item
+            select_condition.append(topic == topics)
+        elif isinstance(topics, tuple):
+            select_condition.append(topic in topics)
+        else:
+            raise ValueError(
+                f"Topics of the {i}th argument should be a tuple, but {topics} is given."
+            )
 
-    def check_topic_included(topics: Tuple[int]) -> bool:
-        try:
-            return topic in topics
-        except TypeError as ex:
-            topics = literal_eval(str(topics))
-            if isinstance(topics, int):
-                return topic == topics
-            if isinstance(topics, tuple):
-                return topic in topics
-            raise ValueError(f"Topics not tuple: {topics}") from ex
-
-    selection_condition = data["topics"].apply(check_topic_included)
-    return data[selection_condition].reset_index(drop=True)
+    selection = data[select_condition]
+    selection["argument_id"] = selection.index
+    return selection.reset_index(drop=True)
 
 
 def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
