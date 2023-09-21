@@ -15,6 +15,9 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
         data (pd.DataFrame): The argument dataframe that must contain the 'topics' column.
         topic (int): The given topic to select.
 
+    Raises:
+        ValueError: if the 'topics' value of an argument is stored as something else other than a tuple (e.g. a list).
+
     Returns:
         pd.DataFrame: Part of the original argument dataframe that only contains arguments mentioning the given topic.
     """
@@ -41,7 +44,7 @@ def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:
 def get_edges(data: pd.DataFrame) -> List[Tuple[int]]:
     """Get edges from argument dataframe.
 
-    Edges (attackness) only exist if the two arguments have different overall scores. Edges are tuple of source and target, which are index of the corresponding argument in the input dataframe (not 'argument_id').
+    Edges (attacks) only exist if the two arguments have different overall scores. Edges are tuple of source and target, which are indices of the corresponding argument in the input dataframe.
 
     Args:
         data (pd.DataFrame): The argument dataframe that must have the 'score' column.
@@ -85,15 +88,23 @@ def get_edge_weights(data: pd.DataFrame, edges: List[Tuple[int]]) -> List[float]
 def get_edge_table(edges: List[Tuple[int]], weights: List[float]) -> pd.DataFrame:
     """Get the edge dataframe.
 
-    There will be three columns in the output dataframe, which are 'source', 'target', and 'weight'. Together, they describe weighted directed edges from source to target argument. Note that there will be no negative weights in the output dataframe, instead, all values will be replace with their absolution values. For edges with negative weights, we swap their source and target.
+    There will be three columns in the output dataframe, which are 'source', 'target', and 'weight'. Together, they describe weighted directed edges from source to target argument. Note that there will be no negative weights in the output dataframe, instead, all values will be replace with their absolute values. For edges with negative weights, we swap their source and target.
 
     Args:
         edges (List[Tuple[int]]): The edge list, which are tuples of source and target argument ids.
         weights (List[float]): The list of edge weights.
 
+    Raises:
+        ValueError: if size of the input lists doesn't match.
+
     Returns:
         pd.DataFrame: The result edge dataframe.
     """
+    if len(edges) != len(weights):
+        raise ValueError(
+            f"Length of edges and weigts are not equal: {(len(edges), len(weights))}."
+        )
+
     for i, w in enumerate(weights):
         if w < 0:
             edges[i] = (edges[i][1], edges[i][0])

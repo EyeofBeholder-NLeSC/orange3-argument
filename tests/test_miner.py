@@ -68,7 +68,6 @@ def test_get_edge_table(dummy_argument_selection, dummy_edge_data):
     weights = get_edge_weights(data=dummy_argument_selection, edges=edges)
 
     result = get_edge_table(edges=edges, weights=weights)
-    print(result)
 
     assert result.compare(dummy_edge_data).empty
 
