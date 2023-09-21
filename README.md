@@ -1,8 +1,16 @@
 # Orange3 Argument Mining Add-on
 
+[![github build badge](https://github.com/EyeofBeholder-NLeSC/orange3-argument/actions/workflows/build.yml/badge.svg?branch=dev)](https://github.com/EyeofBeholder-NLeSC/orange3-argument/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=EyeofBeholder-NLeSC_orange3-argument&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=EyeofBeholder-NLeSC_orange3-argument)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EyeofBeholder-NLeSC_orange3-argument&metric=coverage)](https://sonarcloud.io/summary/new_code?id=EyeofBeholder-NLeSC_orange3-argument)
 [![read the docs badge](https://readthedocs.org/projects/pip/badge/)](https://orange3-argument.readthedocs.io/en/latest/)
+[![code style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
+[![supported python versions](https://img.shields.io/badge/Python-3.8_%7C_3.9_%7C_3.10_%7C_3.11-blue)](./setup.cfg)
 
-This is the Orange3 argument mining add-on for [the Eye of the Beholder project](https://research-software-directory.org/projects/the-eye-of-the-beholder). 
+![image](./screenshot.png)
+
+This is a Python package that implement a selection of argument mining techniques for argument classification and attacking relationship visualization. Modules are wrapped up with GUIs implemented on [Orange3](https://orangedatamining.com/), a powerful open-source platform to perform data analysis and visualization.  
 
 
 ## Installation
@@ -29,10 +37,11 @@ python -m Orange.canvas
 
 This will also allow you to see what's going on in the background from terminal.
 
-A demo workflow together with a sample dataset are provided alongside this codebase:
-- demo workflow: https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/example/workflows/demo_workflow.ows
-- sample dataset: https://raw.githubusercontent.com/EyeofBeholder-NLeSC/orange3-argument/main/example/data/data_processed_1prod_sample.json
+A demo workflow together with a sample dataset are provided alongside this codebase.
 
 After loading the workflow, you should be able to see the Orange interface like this:
 
-![image](https://user-images.githubusercontent.com/92043159/218071751-2da27971-625f-409a-9d0b-1fc7452af9ba.png)
+
+## Credits
+
+This package was created with the [Orange3 Example Add-on](https://github.com/biolab/orange3-example-addon).
