@@ -1,3 +1,6 @@
+"""JSON Reader widget."""
+import os
+
 from Orange.data import Table
 from Orange.widgets import gui
 from Orange.widgets.settings import Setting
@@ -5,8 +8,8 @@ from Orange.widgets.widget import Output, OWWidget
 from Orange.data.pandas_compat import table_from_frame
 from AnyQt.QtWidgets import QFileDialog
 from AnyQt.QtCore import Qt
-from orangecontrib.argument.miner.reader import read_json_file
-import os
+
+from ..miner.reader import read_json_file
 
 
 class OWJSONReader(OWWidget):
@@ -54,5 +57,6 @@ class OWJSONReader(OWWidget):
     def read(self):
         """Call back: read file from json and output dataframe"""
         data = read_json_file(self.fpath)
+        data = data.dropna().reset_index(drop=True)
         table = table_from_frame(data)
         self.Outputs.output_data.send(table)
