@@ -5,7 +5,7 @@ import json
 import pytest
 import pandas as pd
 
-from orangecontrib.argument.miner.chunker import TopicModel
+from orangearg.argument.miner.chunker import TopicModel
 
 CWD = Path("__file__").absolute().parent
 TEST_DATA_FOLDER = CWD / "tests" / "test_data"

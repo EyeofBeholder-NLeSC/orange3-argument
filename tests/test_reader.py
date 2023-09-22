@@ -2,7 +2,7 @@
 import pytest
 import pandas as pd
 
-from orangecontrib.argument.miner.reader import read_json_file
+from orangearg.argument.miner.reader import read_json_file
 
 
 @pytest.fixture

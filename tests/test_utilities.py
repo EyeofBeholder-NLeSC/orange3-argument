@@ -2,7 +2,7 @@
 import pytest
 import pandas as pd
 
-from orangecontrib.argument.miner.utilities import check_columns
+from orangearg.argument.miner.utilities import check_columns
 
 
 def test_check_columns():

@@ -5,7 +5,7 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from orangecontrib.argument.miner.chunker import (
+from orangearg.argument.miner.chunker import (
     load_nlp_pipe,
     get_chunk,
     get_chunk_polarity_score,
@@ -149,7 +149,7 @@ def test_get_chunk_rank():
 def test_get_chunk_topic(mocker):
     """Unit test get_chunk_topic."""
     dummy_chunks = ["chunk1", "chunk2", "chunk3"]
-    loc_str = "orangecontrib.argument.miner.chunker.TopicModel."
+    loc_str = "orangearg.argument.miner.chunker.TopicModel."
 
     mock_fit_transform_reduced = mocker.patch(
         loc_str + "fit_transform_reduced", return_value="dummy_topics"

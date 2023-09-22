@@ -1,34 +1,20 @@
-Orange3 Argument Add-on
-==========================
+Orange3 Argument Add-on Documentation
+=====================================
 
-Orange3 Argument is an add-on developed for `the Eye of the Beholder project <https://research-software-directory.org/projects/the-eye-of-the-beholder>`_. At the mean time, it can also be used as a normal Python package. 
+This work is an open-source Python package that implements a pipeline of processing, classifying, and visualizing an argument corpus and the attacking relationship inside the corpus. 
 
+It also implements the corresponding GUIs on a scientific workflow platform named `Orange3 <https://orangedatamining.com/>`_, so that users with little knowledge of Python programming can also benefit from it.
 
-Introduction
---------------------
-Text of introduction.
 
 Contents
+--------
 
 .. toctree::
    :maxdepth: 1
 
-Widgets
--------
-
-.. toctree::
-   :maxdepth: 1
-
-   widgets/OWArgJSONReader
-   widgets/OWArgChunker
-   widgets/OWArgProcessor
-   widgets/OWArgMiner
-   widgets/OWArgExplorer
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   introduction
+   installation
+   getting_started
+   example
+   widget_guis
+   

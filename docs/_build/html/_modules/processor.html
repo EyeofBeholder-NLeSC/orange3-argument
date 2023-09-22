@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>processor &mdash; Orange3-Argument 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Orange3-Argument
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../widget_guis.html">Widget GUIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Orange3-Argument</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">processor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for processor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Argument processor module.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="k">def</span> <span class="nf">_match_list_size</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;With an arbitrary number of lists as input, check if they are in the same size.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input size not match: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_aggregate_list_by_another</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregate a list according to elements of another list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        keys (List): The group keys.</span>
+<span class="sd">        values (List): The list to be aggregated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict: The aggregation result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="get_argument_topics">
+<a class="viewcode-back" href="../autoapi/processor/index.html#processor.get_argument_topics">[docs]</a>
+<span class="k">def</span> <span class="nf">get_argument_topics</span><span class="p">(</span><span class="n">arg_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">topics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get argument topics.</span>
+
+<span class="sd">    The topics of an argument is a combination of the topics of all chunks that belong to this argument. Duplications are not removed, and the reason behind is that duplications can be treated as a sign of topic importance. Also, even though two chunks can belong to the same topic, they could still have different ranks within an argument.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        arg_ids (List[int]): the argument ids of chunks.</span>
+<span class="sd">        topics (List[int]): the topic indices of chunks.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[list[int]]: list of argument topics, which is also a list containing topic indices of chunks belonging to this argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_match_list_size</span><span class="p">(</span><span class="n">arg_ids</span><span class="p">,</span> <span class="n">topics</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">_aggregate_list_by_another</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">arg_ids</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">topics</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="get_argument_sentiment">
+<a class="viewcode-back" href="../autoapi/processor/index.html#processor.get_argument_sentiment">[docs]</a>
+<span class="k">def</span> <span class="nf">get_argument_sentiment</span><span class="p">(</span>
+    <span class="n">arg_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">ranks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">p_scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">min_sent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">max_sent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get argument sentiment score.</span>
+
+<span class="sd">    The sentiment score of an argument is calculated as a weighted sum of sentiment scores of chunks belonging to this argument, where weights are ranks of the chunks. The result score is then normalized into range [0, 1].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        arg_ids (List[int]): the argument ids of chunks.</span>
+<span class="sd">        ranks (List[float]): the pagerank of chunks within arguments.</span>
+<span class="sd">        p_scores (List[float]): the sentiment polarity scores of chunks.</span>
+<span class="sd">        min_sent (int): minimun of argument sentiment before normalization. Defaults to -1.</span>
+<span class="sd">        max_sent (int): maximum of argument sentiment before normalization. Defaults to 1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[float]: List of argument sentiment scores, which are floats in range [0, 1].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_match_list_size</span><span class="p">(</span><span class="n">arg_ids</span><span class="p">,</span> <span class="n">ranks</span><span class="p">,</span> <span class="n">p_scores</span><span class="p">)</span>
+
+    <span class="n">grouped_ranks</span> <span class="o">=</span> <span class="n">_aggregate_list_by_another</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">arg_ids</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ranks</span><span class="p">)</span>
+    <span class="n">grouped_p_scores</span> <span class="o">=</span> <span class="n">_aggregate_list_by_another</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">arg_ids</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">p_scores</span><span class="p">)</span>
+
+    <span class="n">sentiments</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">arg_id</span><span class="p">,</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">grouped_ranks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">p_score</span> <span class="o">=</span> <span class="n">grouped_p_scores</span><span class="p">[</span><span class="n">arg_id</span><span class="p">]</span>
+        <span class="n">sentiment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">p_score</span><span class="p">)</span>
+        <span class="n">sentiment</span> <span class="o">=</span> <span class="p">(</span><span class="n">sentiment</span> <span class="o">-</span> <span class="n">min_sent</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_sent</span> <span class="o">-</span> <span class="n">min_sent</span><span class="p">)</span>
+        <span class="n">sentiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sentiment</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sentiments</span></div>
+
+
+
+<div class="viewcode-block" id="get_argument_coherence">
+<a class="viewcode-back" href="../autoapi/processor/index.html#processor.get_argument_coherence">[docs]</a>
+<span class="k">def</span> <span class="nf">get_argument_coherence</span><span class="p">(</span>
+    <span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">sentiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">min_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">max_score</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">variance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get argument coherence.</span>
+
+<span class="sd">    Coherence is computed as inversed difference between sentiments and overall scores. Overall scores are first normalized into the same range as argument sentiments, which is [0, 1]. Then their differences are computed and applied a Gaussian kernal to invert and scale the differences to [0, 1].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        scores (List[int]): List of argument overall scores.</span>
+<span class="sd">        sentiments (List[float]): List of argument sentiment scores.</span>
+<span class="sd">        min_score (int, optional): Lower bound of scores. Defaults to 1.</span>
+<span class="sd">        max_score (int, optional): Upper bound of scores. Defaults to 5.</span>
+<span class="sd">        variance (float): variance of the Gaussian kernal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[float]: List of argument coherence scores, in range of (0, 1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_match_list_size</span><span class="p">(</span><span class="n">sentiments</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
+
+    <span class="n">range_score</span> <span class="o">=</span> <span class="n">max_score</span> <span class="o">-</span> <span class="n">min_score</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span> <span class="o">-</span> <span class="n">min_score</span><span class="p">)</span> <span class="o">/</span> <span class="n">range_score</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gaussian activation function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">variance</span><span class="p">))</span>
+
+    <span class="n">coherences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentiments</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">))]</span>
+    <span class="n">coherences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">gaussian</span><span class="p">,</span> <span class="n">coherences</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">coherences</span></div>
+
+
+
+<div class="viewcode-block" id="update_argument_table">
+<a class="viewcode-back" href="../autoapi/processor/index.html#processor.update_argument_table">[docs]</a>
+<span class="k">def</span> <span class="nf">update_argument_table</span><span class="p">(</span>
+    <span class="n">df_arguments</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">topics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+    <span class="n">sentiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">coherences</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a copy of argument dataframe, with new columns of argument topics, sentiments, and coherences.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df_arguments (pd.DataFrame): argument dataframe.</span>
+<span class="sd">        topics (List[List[int]]): list of argument topics</span>
+<span class="sd">        sentiments (List[float]): list of argument sentiment scores</span>
+<span class="sd">        coherences (List[float]): list of argument coherence scores</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">df_arguments</span><span class="p">)</span>
+    <span class="n">df_copy</span><span class="p">[</span><span class="s2">&quot;topics&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">topics</span>
+    <span class="n">df_copy</span><span class="p">[</span><span class="s2">&quot;sentiment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sentiments</span>
+    <span class="n">df_copy</span><span class="p">[</span><span class="s2">&quot;coherence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coherences</span>
+    <span class="k">return</span> <span class="n">df_copy</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The Netherlands eScience Center and the Human Centered Data Analysis Group in Centrum Wiskunde &amp; Informatica, Netherlands..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

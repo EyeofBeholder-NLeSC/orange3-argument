@@ -1,5 +1,5 @@
 """System testing of the whole package."""
-from orangecontrib.argument.miner import reader, chunker, processor, miner
+from orangearg.argument.miner import reader, chunker, processor, miner
 
 from .conftest import TEST_DATA_FOLDER
 

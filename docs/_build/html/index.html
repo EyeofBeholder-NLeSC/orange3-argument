@@ -4,22 +4,24 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orange3 Argument Add-on &mdash; Orange3-Argument 0.1 documentation</title>
+  <title>Orange3 Argument Add-on Documentation &mdash; Orange3-Argument 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="JSON File Reader" href="widgets/OWArgJSONReader.html" /> 
+    <link rel="next" title="Introduction" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,11 +47,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgJSONReader.html">JSON File Reader</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgChunker.html">Argument Chunker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgProcessor.html">Argument Processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgMiner.html">Argument Miner</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgExplorer.html">Argument Explorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="widget_guis.html">Widget GUIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -66,7 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Orange3 Argument Add-on</li>
+      <li class="breadcrumb-item active">Orange3 Argument Add-on Documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -76,49 +79,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="orange3-argument-add-on">
-<h1>Orange3 Argument Add-on<a class="headerlink" href="#orange3-argument-add-on" title="Permalink to this heading"></a></h1>
-<p>Orange3 Argument is an add-on developed for <a class="reference external" href="https://research-software-directory.org/projects/the-eye-of-the-beholder">the Eye of the Beholder project</a>. At the mean time, it can also be used as a normal Python package.</p>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
-<p>Text of introduction.</p>
-<p>Contents</p>
-<div class="toctree-wrapper compound">
-</div>
-</section>
-<section id="widgets">
-<h2>Widgets<a class="headerlink" href="#widgets" title="Permalink to this heading"></a></h2>
+  <section id="orange3-argument-add-on-documentation">
+<h1>Orange3 Argument Add-on Documentation<a class="headerlink" href="#orange3-argument-add-on-documentation" title="Link to this heading"></a></h1>
+<p>This work is an open-source Python package that implements a pipeline of processing, classifying, and visualizing an argument corpus and the attacking relationship inside the corpus.</p>
+<p>It also implements the corresponding GUIs on a scientific workflow platform named <a class="reference external" href="https://orangedatamining.com/">Orange3</a>, so that users with little knowledge of Python programming can also benefit from it.</p>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgJSONReader.html">JSON File Reader</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgChunker.html">Argument Chunker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgProcessor.html">Argument Processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgMiner.html">Argument Miner</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widgets/OWArgExplorer.html">Argument Explorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="widget_guis.html">Widget GUIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 </ul>
 </div>
 </section>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="widgets/OWArgJSONReader.html" class="btn btn-neutral float-right" title="JSON File Reader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2015, Biolab.</p>
+    <p>&#169; Copyright The Netherlands eScience Center and the Human Centered Data Analysis Group in Centrum Wiskunde &amp; Informatica, Netherlands..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -2,7 +2,7 @@
 import pytest
 import pandas as pd
 
-from orangecontrib.argument.miner.miner import (
+from orangearg.argument.miner.miner import (
     select_by_topic,
     get_edges,
     get_edge_weights,
