@@ -251,15 +251,24 @@ class TestTopicModel:
         mock_get_topic_info = mocker.patch.object(
             topic_model.model,
             "get_topic_info",
-            return_value=pd.DataFrame(),
+            return_value=pd.DataFrame(
+                {
+                    "Representative_Docs": ["doc1"],
+                    "Representation": [["keyword1", "keyword2"]],
+                }
+            ),
         )
         mock_rename = mocker.patch(
-            "pandas.DataFrame.rename", return_value=pd.DataFrame()
+            "pandas.DataFrame.rename",
+            return_value=pd.DataFrame({"keywords": [["keyword1", "keyword2"]]}),
         )
 
         result = topic_model.get_topic_table()
 
         assert isinstance(result, pd.DataFrame)
+        assert result.compare(
+            pd.DataFrame({"keywords": [("keyword1", "keyword2")]})
+        ).empty
         mock_get_topic_info.assert_called_once()
         mock_rename.assert_called_once()
 
@@ -281,5 +290,5 @@ class TestTopicModel:
         assert len(embeds[0]) == 5  # if size of embeddings aligns to n_component
         assert isinstance(df_topics, pd.DataFrame)
         assert df_topics.shape[0] > 2  # at least 2 clusters
-        expected_cols = ["topic", "count", "name", "keywords", "representative_doc"]
+        expected_cols = ["topic", "count", "name", "keywords"]
         assert sorted(df_topics.columns) == sorted(expected_cols)
