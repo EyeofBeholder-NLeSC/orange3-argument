@@ -1,0 +1,24 @@
+# prospector configuration
+
+strictness: veryhigh
+test-warnings: true
+doc-warnings: false
+member-warnings: false
+
+ignore-paths:
+  - tests
+  - orangecontrib/argument/graph
+  - orangecontrib/argument/widgets
+
+pyroma:
+  run: true
+
+pycodestyle:
+  disable:
+    - E501  # line too long
+
+pylint:
+  disable:
+    - line-too-long
+    - invalid-name
+    - too-many-arguments  # chunker.py::TopicModel::init_model

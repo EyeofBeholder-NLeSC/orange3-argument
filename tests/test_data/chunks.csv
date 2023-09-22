@@ -1,0 +1,1243 @@
+;argument_id;chunk;topic;rank;polarity_score
+0;0;I always get a half size up in my tennis shoes .;3;0.5000000063328667;-0.16666666666666666
+1;0;For some reason these feel to big in the heel area and wide .;12;0.4999999936671332;-0.05
+2;1;walked 3 hours with no problem;13;0.2469819499441671;0.0
+3;1;Put them on and !;23;0.25908035475019586;0.0
+4;1;Love them !;2;0.2378201909116631;0.625
+5;1;So light feeling;8;0.25611750439397396;0.4
+6;2;excelente;-1;1.0;0.0
+7;3;The shoes fit well in the arch area .;20;0.2549888036262705;0.4
+8;3;They are a little wider in the toe area of the shoe , you feel like you have a lot of room .;12;0.2512230129343358;-0.1875
+9;3;This does not make the shoe uncomfortable , just had to get used to it .;17;0.25461188507070154;-0.5
+10;3;Love the shoe .;6;0.23917629836869203;0.5
+11;4;Tried them on in a store before buying online so I knew they 'd fit good .;-1;0.19779428463861382;0.55
+12;4;Overall I was looking for a durable cross training shoe that would hold up to my rigorous training and these have been great so far .;0;0.19697739899091404;0.225
+13;4;They are really light and comfortable .;4;0.20544194568663948;0.4
+14;4;Most importantly for me they have grips on the bottoms so my feet do n't slide out from under me while doing planks , push - ups , etc .;0;0.20275625634647318;0.45
+15;4;Highly satisfied with this purchase .;5;0.19703011433735942;0.5
+16;5;I recommend that !;21;1.0;0.0
+17;6;this is the 2nd pair he 's worn .;19;0.4999999873424527;0.0
+18;6;My son likes these , and;14;0.5000000126575472;0.0
+19;7;Comfortable;17;1.0;0.4
+20;8;Fit fine ... did not like color in person;1;1.0;0.4083333333333333
+21;9;The shoe is too large .;18;0.3369082587291714;0.21428571428571427
+22;9;When you do lunges it hurts the heel .;10;0.33010421494479947;0.0
+23;9;The shoe size from a local store is the size I ordered from Amazon however the size or fitting seems to be large;3;0.3329875263260291;0.2380952380952381
+24;10;the color is fun;11;0.5000000126250571;0.3
+25;10;Really great for walking I 'm very glad I got these and;3;0.4999999873749429;0.7250000000000001
+26;11;Love these shoes .;6;0.326461262675216;0.5
+27;11;My feet feel so much better .;4;0.33067114155350724;0.5
+28;11;Lots of padding and light enough to run in .;4;0.3428675957712765;0.2
+29;12;ok but too big;-1;1.0;0.25
+30;13;Love these shoes ..;6;0.49999999999999994;0.5
+31;13;they are so comfortable .;4;0.49999999999999994;0.4
+32;14;In really like these .;2;0.1644936978238863;0.2
+33;14;they fit perfectly .;1;0.16768819560382683;0.7
+34;14;I wear between a 9 - 9.5 womens , I got the 9.5 and;3;0.16017685049201016;0.0
+35;14;have good support;20;0.17026883908525492;0.7
+36;14;They are light weight but .;8;0.16714392038169354;0.4
+37;14;I will buy another pair .;16;0.17022849661332806;0.0
+38;15;"Love these shoes ! 
+";22;0.19454662195152808;0.625
+39;15;comfortable;17;0.19992385134142804;0.4
+40;15;So stylish and .;4;0.200829495384223;0.5
+41;15;are in high fashion right now;4;0.2045754316138554;0.22285714285714286
+42;15;Just got back from a trip to NYC , Black and white Nikes and yoga pants !;16;0.20012459970896532;-0.05555555555555555
+43;16;This shoe is JUST OK .;-1;0.33411707227767207;0.5
+44;16;Its not as comfortable as I was expecting , compared to my last pair of NIKE shoes .;-1;0.333534826953897;0.2
+45;16;I hope they hold up .;-1;0.3323481007684309;0.0
+46;17;Best tennis shoes I 've had all my life .;-1;0.3365720937130425;1.0
+47;17;Very comfortable out the box .;7;0.3283577815912758;0.52
+48;17;I would buy 10 pairs of these shoes if had the money .;16;0.33507012469568154;0.0
+49;18;The color pattern and fit is what I liked the most what I liked the least is that they are not easy to clean and stains do not come out very easy or at all;-1;1.0;0.3141666666666667
+50;19;love these shoes .;6;0.24189829039000274;0.5
+51;19;Workout in them 3 - 4 times a week at the gym .;13;0.25457493547571597;0.0
+52;19;I do treadmill , stairmaster , cardio classes and weight lifting .;13;0.25047393934538176;0.0
+53;19;lightweight and versatile shoe .;0;0.2530528347888993;0.0
+54;20;Great shoe .;6;0.0751041406692041;0.8
+55;20;have always been pleased with the comfort , performance , and quality;5;0.07631775689781044;0.5
+56;20;I 've had Nike 's before and .;16;0.07820460347094556;0.0
+57;20;Though I will say this was the first time I ordered a pair online without trying them on first , so I was nervous .;19;0.0758659104645974;0.25
+58;20;But this turned out to be a great choice .;5;0.07645329253164522;0.8
+59;20;lightweight but sturdy , and comfortable during all my workouts;4;0.07861929984937117;0.4
+60;20;Breathable , .;7;0.0780123108982104;0.0
+61;20;I 've had no discomfort after 2 weeks of use .;-1;0.07663462275931865;0.0
+62;20;The built - in arch support is great and;20;0.07896079595521871;0.8
+63;20;As far as the sole thickness and cushioning goes , I would consider these a ' medium ' build ( not thin , not overly thick ) so if you 're into heavy running outdoors then take that into consideration .;-1;0.07678188661484207;-0.04
+64;20;I think for light runs on a treadmill they would be sufficient .;9;0.07614824078149972;0.4
+65;20;Everyone is different in their preference for cushioning , but;-1;0.07835731998849009;0.0
+66;20;Love these , highly recommend !;21;0.07453981911884641;0.35
+67;21;The material is real then hope they do n't fall apart .;-1;0.5000000063327179;0.2
+68;21;to expensive for what you get .;-1;0.49999999366728215;-0.5
+69;22;Nice;15;1.0;0.6
+70;23;Gracias;-1;1.0;0.0
+71;24;Love these shoes ! !;22;0.2411616134329416;0.78125
+72;24;They are true to size and very comfortable ! !;1;0.24691716255382173;0.58125
+73;24;This is my second pair - I wore out the first pair ! !;19;0.25771135517212673;0.1953125
+74;24;Good arch support - I have a high arch ! !;20;0.25420986884111013;0.475
+75;25;None;-1;1.0;0.0
+76;26;comfortable;17;0.49999998733998097;0.4
+77;26;Great arch support and .;20;0.500000012660019;0.8
+78;27;It looks a bit nicer on the picture .;11;0.2493484072751573;0.0
+79;27;Its very light in such a way that when I held the box I wondered if there was just paper filling inside .;8;0.25204255446683094;0.26
+80;27;They are comfortable for the most .;4;0.2550084603619194;0.45
+81;27;Good looking training shoes overall .;0;0.2436005778960925;0.35
+82;28;second pair .;19;0.2511188699020054;0.0
+83;28;great;15;0.24365660482927118;0.8
+84;28;Comfortable and for people with bunion issues or previous surgeries .  ;4;0.2546778468626121;0.11666666666666668
+85;28;Sole wears great;19;0.2505466784061115;0.4
+86;29;My daughter loves these shoes .;14;0.5;0.0
+87;29;Fit true to size .;1;0.5;0.375
+88;30;Purchased for my daughter for gym class .  ;14;0.25326504932823696;0.0
+89;30;She loves them .  ;14;0.23897640860622818;0.0
+90;30;very comfortable;7;0.2524371781548741;0.52
+91;30;Very cute and .;11;0.25532136391066085;0.65
+92;31;zero support inside the shoe;-1;0.2515661975768181;0.0
+93;31;Great look but .;6;0.24648955005327253;0.8
+94;31;Had to buy expensive inserts to be wearable .;-1;0.2499352809209972;-0.5
+95;31;Expected more from a nike shoe .;1;0.25200897144891216;0.2
+96;32;Straight out of the box , these shoes are great !;6;0.12366131946791104;0.6
+97;32;fits comfortably on my feet like a glove;1;0.12383471839936681;0.4
+98;32;Very lightweight and !;8;0.12497077167740653;0.25
+99;32;I hated those things;2;0.126196817989692;-0.9
+100;32;I love most especially that the sole is not bulky like my previous running shoes  ;0;0.11980563596730055;0.16666666666666669
+101;32;lol !;15;0.12678520116177722;1.0
+102;32;they are great for the price !;2;0.1278367390202039;1.0
+103;32;I would give them a shot and;21;0.12690879631634194;0.0
+104;33;Great shoes .;6;0.165057592671319;0.8
+105;33;Fit perfectly .;1;0.16402298124666315;0.7
+106;33;Comfortable right from the start .;17;0.17104973694221684;0.34285714285714286
+107;33;perfect for a 12 hour work shift;-1;0.16098462781004913;1.0
+108;33;Light weight and .;8;0.17172070943760637;0.4
+109;33;Good price also .;5;0.16716435189214518;0.7
+110;34;I love them !;2;0.32952944688536084;0.625
+111;34;are very comfortable;4;0.33363568085131634;0.52
+112;34;They fit perfect and ! !;1;0.3368348722633226;0.7
+113;35;Love these lightweight shoes !;22;0.327294041277515;0.625
+114;35;Absolute favorite .;2;0.35094294065074005;0.35
+115;35;Always order half a size bigger with nike shoes than with every other shoe in my closet .;3;0.32176301807174484;-0.09722222222222221
+116;36;My knees were bothering me during HIIT workouts so i   purchased these shoes after researching many styles .  ;0;0.2002382445137925;0.5
+117;36;are lightweight;8;0.20725170529343143;0.0
+118;36;Fit true to size and .  ;1;0.19565947938763845;0.375
+119;36;My knees feel better so so hard so good .  ;-1;0.2008752395128844;0.30277777777777776
+120;36;They are cute in too ! !;2;0.19597533129225317;0.78125
+121;37;Love the color !;11;1.0;0.625
+122;38;Comfortable athletic shoe ,   good for the gym ( ellipical , tredmill , etc . );0;0.336180778361442;0.55
+123;38;shoe is really lightweight and comfy .;0;0.34131055573231356;0.2
+124;38;Fit is good , and;1;0.3225086659062441;0.55
+125;39;came within the time frame i was given;5;0.334460702546666;0.0
+126;39;The shoes fit perfectly and .  ;1;0.337494031686787;0.7
+127;39;Very comfortable , which is needed since my job requires a lot if standing abd walking throughout the day .;7;0.3280452657665467;0.52
+128;40;They looked very cheap;-1;1.0;0.52
+129;41;The fit is as expected;1;1.0;0.15000000000000002
+130;42;Very comfortable shoes .;0;0.4999999873758056;0.52
+131;42;This is my second pair of this style of shoe because I loved them that much .;19;0.5000000126241945;0.3
+132;43;consistent each time I order and good looking;6;0.5;0.475
+133;43;Comfortable ,;17;0.5;0.4
+134;44;it fit as expected the photos and description are accurate if you 're looking for a shoe that has more cushion or support;1;0.19807518322474252;0.30000000000000004
+135;44;try a different style but;11;0.20707734112346504;0.0
+136;44;as far as wanting a lightweight and breathable shoe this is it .;0;0.19534636880782733;0.1
+137;44;I love the shoe and;6;0.1978105549996727;0.5
+138;44;I am very satisfied with this purchase;5;0.2016905518442923;0.65
+139;45;These are so cute and comfortable and very light .;4;0.1984828570200795;0.47333333333333333
+140;45;the fit is perfect .;1;0.20346098599310808;0.7
+141;45;I just received them today and;6;0.19678793104173037;0.0
+142;45;they are true to size !;1;0.2042278037616933;0.4375
+143;45;I normally wear an 8 1/2 and;3;0.1970404221833887;0.15
+144;46;I always order a 1/2 size up in workout shoes .;3;1.0;0.0
+145;47;I wore these shoe one time , from the airport in Omaha , NE to the airport in Phoenix , AZ .;6;0.19484455803510967;0.0
+146;47;wo n't stop;-1;0.20031410092427193;0.0
+147;47;When I arrived in Phoenix , the left shoe / sole started squeaking and .;18;0.20404141793212613;0.0
+148;47;I want to return for a refund .;24;0.20051082112511878;0.0
+149;47;Need instructions for returning as no paperwork was in my package when it arrived .;24;0.20028910198337352;0.0
+150;48;are super uncomfortable and the soles squeak;17;0.3364634123203185;-0.08333333333333334
+151;48;They run big and .;25;0.3280484880506176;0.0
+152;48;They do n't breathe at all .;-1;0.3354880996290637;0.0
+153;49;Exactly what I expected !;1;0.3324221409123306;0.0625
+154;49;chic;11;0.3370583095381775;0.0
+155;49;Comfortable and;7;0.3305195495494917;0.4
+156;50;They were a gift   to my daughter she loved them;14;1.0;0.7
+157;51;Love these comfy shoes .;6;0.4999999811582119;0.5
+158;51;they fit like a glove .;1;0.5000000188417881;0.4
+159;52;Very confortable .;-1;1.0;0.2
+160;53;i love these shoes .;6;1.0;0.5
+161;54;Lightweight , decent arch support and comfortably to wear all day doing regular activity and sprinting .;4;1.0;0.18888888888888888
+162;55;daughter loves them;14;1.0;0.0
+163;56;they are perfect .;1;0.25223486060086775;1.0
+164;56;I ordered a 1/2 size smaller than my usual size , and;3;0.2458262629888957;-0.125
+165;56;These shoes are hard to find .;12;0.24700798629449855;-0.2916666666666667
+166;56;Great customer service as well .;5;0.254930890115738;0.8
+167;57;"Very good overall . 
+";5;0.08610985210654754;0.45499999999999996
+168;57;"the only reason I tried these instead of the latest number 4 of those is because the tread looked too slippery to me . 
+";0;0.0927891110185472;0.25
+169;57;Now I ve been a huge Sketchers Go Walk fan for some time and;-1;0.09233539728997625;0.4000000000000001
+170;57;the grip of the soles has been very solid so far .;5;0.09262072767307124;0.05
+171;57;These shoes are very sturdy and;0;0.09236812318186736;0.2
+172;57;"I use them for basic workout cardio and cross training , as well as work as a massage therapist ( I go through shoes fast enough that I ve recently consolidated ) . 
+";0;0.09166015694022776;0.04
+173;57;"If you 're a Go Walk fan , these do not offer the same level of cushion - comfort as those , HOWEVER , they offer the kind of long - term comfort to make them a durable option . 
+";-1;0.09274512197912697;0.18333333333333332
+174;57;The material of the shoes seem very durable and the breathable .;0;0.09251416684549747;0.2
+175;57;"My feet do not feel hot in them . 
+";10;0.09070316811732887;0.25
+176;57;"Now these shoes are ideal for a basic workout or cross training , I would not get them to do 25,000 steps in Walt Disney World . 
+";0;0.09140435918953449;0.3
+177;57;Solid choice , overall .;5;0.08474981565827498;0.0
+178;58;Wife loves them !;14;1.0;0.0
+179;59;fit as expected;1;0.3389135459258956;0.15000000000000002
+180;59;These shoes are extremely comfortable , and .  ;0;0.3246518274807498;0.4
+181;59;Will purchase again .;5;0.33643462659335444;0.0
+182;60;Artculo equivocado en color;-1;1.0;0.0
+183;61;ordered a half size too big;3;0.052608658895874766;-0.08333333333333333
+184;61;Glad I read the reviews and .;-1;0.05512150980846499;0.5
+185;61;These are light weight .;8;0.056384894448179276;0.4
+186;61;had a great work out;9;0.05527573521108524;0.8
+187;61;I worked out in them last night and .;21;0.05576260342260457;0.0
+188;61;They are very comfortable .;4;0.05675756695817523;0.52
+189;61;I would recommend these to anyone .;21;0.055716646299439176;0.0
+190;61;these are now my new favorite shoes to work out in .;0;0.05573962111176743;0.3181818181818182
+191;61;I am a Beach Body Coach and;13;0.05287677396707348;0.0
+192;61;I feel like I am walking in slippers when I wear these shoes .;0;0.05551601071649706;0.0
+193;61;They are so comfortable .;4;0.05671061665964275;0.4
+194;61;I LOVE them so much .;2;0.05478758245661944;0.35
+195;61;for Christmas got an Amazon gift card and used it to buy myself these sneakers;14;0.05721278076542109;0.0
+196;61;they are so awesome .;2;0.05469494791478732;1.0
+197;61;I never buy myself anything nice and and;16;0.057529413492185086;0.6
+198;61;have been telling all my friends about them;2;0.05536067436068645;0.0
+199;61;I really do love them and .;2;0.05513584644443448;0.5
+200;61;GET THESE SHOES !;22;0.056808117067062125;0.0
+201;62;On the left shoe , there were two stained yellow spots .;18;1.0;0.0
+202;63;finally wore them out after several years;16;0.11095029859887526;0.0
+203;63;I love these , I had the previous iteration ( or maybe two earlier ? ) and .;19;0.10744196751012172;0.11111111111111112
+204;63;They are definitely a light - weight training shoe so I would n't get them if you are going to be doing a lot of running .;0;0.11147629943899046;0.4
+205;63;But this also makes them extremely comfortable , I had n't realized how hot running shoes made my feet until I switched to these .;0;0.11147849651303832;0.325
+206;63;"my feet stay cool all day , also noticeably light but well - made and long lasting . 
+
+";4;0.11131880646803147;0.175
+207;63;Good support and;20;0.11069180806870085;0.7
+208;63;do n't really recommend it because the material is mesh - like and will let a lot of dirt in;7;0.11231375085214174;0.2
+209;63;I have worn them hiking in a pinch but .;-1;0.11228200546096614;0.0
+210;63;But if you mainly take cardio classes and/or do weight training or just need something to wear around town look no further .;9;0.11204656708913405;0.08333333333333333
+211;64;Super light - weight , decent arch support ( mine is higher than average ) .  ;20;0.1458282827569998;0.19999999999999998
+212;64;I was pleasantly surprised by the sole / tread on these for my circuit training classes , as I could n't really tell by online pics .  ;0;0.14248879375916867;0.10000000000000002
+213;64;"Also pleasantly surprised that these ran ever so slightly bigger than Nike running shoes I use to wear 15+years ago - I always wore one to 1.5 sizes larger in their "" Hurache's""/running shoes , so I was really worried my size 6 would be too small - there is actually more toe room in these shoes than any other size 6 shoe I own ( athletic , heel , boot ) .  ";0;0.14300924546018967;0.128125
+214;64;But it is the correct amount of room from big toe to edge of shoe for me ( an inch or less , I do n't want my big toe being jammed into edge of shoe when lunging , jumping , etc . ) .  ;12;0.1420466543156826;-0.06666666666666667
+215;64;no damage to box , paper lining etc - I was happy that a clorox wipe easily cleaned the shoe and did not discolor any further .  ;-1;0.14631688422237876;0.41111111111111115
+216;64;Shoes arrived with an odd yellowish color on side of one shoe , but;18;0.14576350990790607;-0.16666666666666666
+217;64;I am very happy and highly recommend , although I have only worked out it once !;21;0.13454662957767433;0.38666666666666666
+218;65;I Love it .;2;0.3286535857890718;0.5
+219;65;the color is great .;11;0.3384910909507516;0.8
+220;65;It is very light and;8;0.3328553232601763;0.52
+221;66;My wife loves these shoes .;14;0.24452749259305706;0.0
+222;66;recently we have both purchased Nike .;16;0.2535187164979744;0.0
+223;66;We have both been wearing sketchers and new balance for several years and;-1;0.2516443486702685;0.06818181818181818
+224;66;There is a reason why Nike is still number 1 after all these years , you just ca nt beat their comfort .;16;0.2503094422386997;0.0
+225;67;Absolutly love these shoes ! !;22;0.5;0.78125
+226;67;Beautiful color , comfy , and lightweight;4;0.5;0.85
+227;68;I * * loved * * these shoes when I got them .;22;0.2438515212408019;0.7
+228;68;I 've noticed that the foam inside tends to compress during a workout , though .;9;0.25261507923234106;0.0
+229;68;I 'll lace them tightly enough that they 're nearly cutting off my circulation .;10;0.25016842640655446;-0.3
+230;68;20 minutes later , I 'm sliding out of them while doing sled pushes .;-1;0.2533649731203024;0.0
+231;69;She loves them;14;1.0;0.0
+232;70;These are a bit longer than they should be .;25;0.07172508454126812;0.0
+233;70;could have easily ordered a 8.5;3;0.068082760714204;0.43333333333333335
+234;70;I usually wear a 9 but .;3;0.06790141910022679;-0.25
+235;70;"The width is accurate . 
+
+";1;0.07141345313437442;0.4000000000000001
+236;70;the light gray is over the very bright pink;11;0.07185638043568914;0.4033333333333333
+237;70;The pink is even pinker than shown and;11;0.07218520821667401;-0.1
+238;70;so it is n't as gray as shown in the picture .;11;0.07226163028340657;0.0
+239;70;It makes the shoe a bit overwhelming .;18;0.07270229632299995;0.5
+240;70;Also two grommets on each shoe is dark .;18;0.07282540293436568;-0.15
+241;70;I 'm not referring to the dark grommets closer to the toe as shown in the photo , I 'm talking about two grommets up at the top of of the laces ( opposite side of side shown in photo ) .;18;0.07280950289415165;0.11666666666666665
+242;70;I thought it was faulty at first until I noticed they were on the same side of each shoe .;18;0.07268171889614027;0.125
+243;70;not pictured;11;0.07232348726886359;0.0
+244;70;"Kind of odd and . 
+
+";11;0.07186200770427979;0.21666666666666667
+245;70;Overall , they are very comfortable shoes which is why I am keeping them ... even if you can see me coming from a mile away .;-1;0.06936964755335599;0.26
+246;71;great;15;1.0;0.8
+247;72;c;-1;1.0;0.0
+248;73;Love them !;2;1.0;0.625
+249;74;Very nice shoe , just a bit to snug / small for my foot .;12;0.334488536172073;0.265
+250;74;The Flex wire really makes it the shoe fit tight to your foot .;7;0.33054040932127576;0.1404761904761905
+251;74;"I need more "" wiggle "" room in my footwear , otherwise I would have kept them .";12;0.334971054506651;0.5
+252;75;my mid section of my foot starts to hurt using these shoes for a long day or a tough workout at the gym .;10;0.2458753737702105;-0.14629629629629629
+253;75;Not sure why , but;-1;0.24717952935606877;-0.25
+254;75;that never happened to me .;-1;0.2549976738520837;0.0
+255;75;I 've owned other nike shoes of this line but;16;0.251947423021637;-0.125
+256;76;My New Gym shoes !;-1;0.5000000125958759;0.17045454545454544
+257;76;Love them;2;0.4999999874041241;0.5
+258;77;Perfect !;15;1.0;1.0
+259;78;they fit fine .;1;0.16688838701856765;0.4083333333333333
+260;78;I usually wear a size 8 and;3;0.1646606647859937;-0.25
+261;78;These are way too narrow .;25;0.1685159363792489;-0.2
+262;78;they did nt .;20;0.1656023968057233;0.0
+263;78;Thought they might stretch out but;25;0.1688195236835015;0.0
+264;78;Had to give away .;5;0.1655130913269648;0.0
+265;79;Great shoe !;6;0.10058530556192327;1.0
+266;79;I 'm still breaking them in .;16;0.11070697806504873;0.0
+267;79;Outside arch is kind of high , but;20;0.11227196439919301;0.25333333333333335
+268;79;So I 'm sure that will work it 's way out .;25;0.11522660379842853;0.5
+269;79;it was a tad too big .;-1;0.1141611695788502;0.0
+270;79;I originally ordered a 9 , my regular size , and;3;0.11114626596914301;0.1875
+271;79;ordered an 8.5;3;0.11043568710430413;0.0
+272;79;it fits perfect !;1;0.11194325050809559;1.0
+273;79;Returned and and;24;0.11352277501501354;0.0
+274;80;I had to return the first pair and buy a 1/2 size smaller .  ;24;0.5000000126654862;0.125
+275;80;First time I 've had to buy smaller for Nike .;3;0.4999999873345139;0.125
+276;81;Fit comfortable;1;1.0;0.4
+277;82;My favorite running shoes !  ;2;0.24749477163098008;0.625
+278;82;The wall of the shoe is very thin , which makes them very comfortable to wear if your feet swell as you run .  ;0;0.25033203643117874;0.0
+279;82;they are perfect for trail running !;13;0.25120251194167786;1.0
+280;82;I would not recommend for use on concrete or a treadmill , as there is n't very much impact absorption , but;9;0.2509706799961633;0.20500000000000002
+281;83;Nice fit;1;1.0;0.5
+282;84;really wanted to like them , since I loved the color and the light weight feel;22;0.12275977240794038;0.4333333333333333
+283;84;I bought these for gym training - weight class and dance class ( body jam , Zumba ) - and .;9;0.1253882278943529;0.0
+284;84;went numb and cramped because the toe bed is very narrow;10;0.12728816865808987;-0.43
+285;84;But when I worked out high impact , my toes tingled , .;10;0.12669620466335735;0.16
+286;84;Also , there was n't enough cushion for me .;-1;0.12673098808696437;0.0
+287;84;When doing lunges , the ball of my feet hurt .;10;0.12682519309696544;0.0
+288;84;Ca n't return them because I wore them several times .;24;0.11944927329691307;0.0
+289;84;These might be fine for someone with a narrow foot .;12;0.12486217189541657;0.10833333333333334
+290;85;They fit perfect , extremely comfortable;1;1.0;0.6
+291;86;l love the colors !;11;0.5;0.625
+292;86;No arch support but;20;0.5;0.0
+293;87;Shoe was somewhat large;18;1.0;0.21428571428571427
+294;88;love them !;2;1.0;0.625
+295;89;This is a great shoe for in gym workouts .;0;0.24881628926604207;0.8
+296;89;had a blister on my pinky ,;10;0.2496395464837683;0.0
+297;89;other than that these are very comfortable shoes !;17;0.24997753227528466;0.2625
+298;89;I did take a 10 mile hike and but;13;0.251566631974905;0.0
+299;90;light;8;0.5000000063326006;0.4
+300;90;Comfortable and;7;0.49999999366739944;0.4
+301;91;Purchased these for my wife as she has a similar pair that is wearing out .  ;14;0.5;0.0
+302;91;She has feet are difficult to fit and these fit perfectly without pressure on sensitive portions of her feet .;12;0.5;0.28
+303;92;I have pretty high arches and my calves always hurt at the gym with other shoes .;10;0.14708757372743275;0.09500000000000001
+304;92;take gym classes , and lightly jog / run on the treadmill;13;0.14339557861212;0.4
+305;92;I have been on the hunt for a good cross trainer that I can use to lift , .;0;0.1440732077616311;0.35
+306;92;These have been wonderful !;2;0.13720251916907966;1.0
+307;92;they fit like a glove .;1;0.14022474921865224;0.4
+308;92;I do n't ever have any pain in my calves or my feet when wearing these and;10;0.14743941903939906;0.0
+309;92;Highly recommend !;21;0.1405769524716852;0.2
+310;93;Great shoes;6;1.0;0.8
+311;94;These were exactly what I expected .;1;1.0;0.075
+312;95;Love love love;2;1.0;0.5
+313;96;these are bigger than usual .;25;0.25448655278588034;-0.125
+314;96;I always wear a womans 9 in Nikes but;3;0.24619966012439912;0.0
+315;96;The right one almost slips off my foot a bit .  ;17;0.2562618267494259;0.2857142857142857
+316;96;They are really light and not as sturdy as what I was looking for but over all not bad .;4;0.2430519603402947;0.375
+317;97;These shoes are awesome ! !;22;1.0;1.0
+318;98;been happy so far;5;0.2469118767939079;0.45
+319;98;this time my left shoe fit perfectly while the right shoe was too loose on my heal and;18;0.25480583573177495;0.32175824175824175
+320;98;when I tighten it more it was hurting side of my foot .;-1;0.248670373929054;0.5
+321;98;l always buy Nike shoes and , but;16;0.2496119135452632;0.0
+322;99;they have turned into my daily ones I go to !;2;0.18963443553224307;0.0
+323;99;Bought these as my back up shoes but;14;0.20482113644988229;0.0
+324;99;my feet do n't hurt after long hours on my feet .;10;0.19922169118005578;-0.05
+325;99;So comfortable and;7;0.2055166895889124;0.4
+326;99;I own a cleaning business so I need my feet not to hurt in the middle of the day .;10;0.2008060472489064;0.3
+327;100;Absolutely love these shoes and color ! !;22;0.19704630395159164;0.78125
+328;100;They are perfect for running !;9;0.20527133742663817;1.0
+329;100;I run roughly 4 miles 3x per week .;13;0.19711311205938456;-0.1
+330;100;This is my second or 3rd pair of this exact style .;19;0.20712534321080062;0.08333333333333333
+331;100;Fit is perfect !;1;0.19344390335158493;0.7
+332;101;Super comfy !;7;1.0;0.41666666666666663
+333;102;fits perfectly;1;0.49999998734519674;1.0
+334;102;Ordered half a size larger than my usual shoe size and .;3;0.5000000126548032;-0.13888888888888887
+335;103;Fit well .;1;1.0;0.4
+336;104;The fit was perfect !;1;0.5;0.7
+337;104;I Highly recommend this shoe .;21;0.5;0.16
+338;105;Obsessed with these shoes !;22;0.194074947204777;-0.625
+339;105;I was looking for good all around sneakers ( running , walking , tennis , etc . );0;0.19879585790459028;0.7
+340;105;and these more than fit the bill .;1;0.1995527058056986;0.45
+341;105;it does n't !;17;0.20112969132108538;0.0
+342;105;"I was looking specifically for black nikes ( I love the fit ) with white soles ( good for court sports ) ; I was a little reluctant to purchase because I was n't sure whether the black on the soles would contact the ground , but";16;0.20644679776384867;0.19739583333333333
+343;106;Cute shoe , fit as expected , and very comfortable .;1;1.0;0.33
+344;107;On time , nice sneakers .;6;0.5;0.6
+345;107;Fit as expected .;1;0.5;0.15000000000000002
+346;108;Perfect fit , as always .;1;1.0;0.7
+347;109;Great shoe , very comfortable;0;1.0;0.66
+348;110;Love these sneakers !;22;0.5;0.625
+349;110;Perfect fit and super light;1;0.5;0.5333333333333333
+350;111;These shoes fit like a glove !;1;0.19181456953185108;0.5
+351;111;very supportive;20;0.20611618250696864;0.65
+352;111;Light but !;8;0.2014501755164145;0.5
+353;111;feel very light on my feet;10;0.1993496271728283;0.52
+354;111;I have worn them several times and .;23;0.2012694452719374;0.0
+355;112;Fit true to size;1;1.0;0.375
+356;113;Love the fit;1;1.0;0.45
+357;114;after 9 hours on my feet anyone 's feet would hurt abit;10;0.49999999368554077;0.0
+358;114;Nike always makes a good shoe .. abit rough breaking them in but;16;0.5000000063144592;0.3
+359;115;Oops !;15;0.5;0.0
+360;115;I returned these because I ordered wrong size !;24;0.5;-0.625
+361;116;Extremely comfortable sneaker !;0;1.0;0.5
+362;117;Good looking shoe;6;1.0;0.7
+363;118;have received many compliments on the shoes;6;0.19811239557408644;0.5
+364;118;I have had this style before in a different color and .  ;11;0.19820251543420514;0.0
+365;118;They are great walking shoes !  ;6;0.2039869176477764;1.0
+366;118;these shoes are one of the best I have found to accommodate them for fit .;0;0.20492380647579317;0.7
+367;118;I wear orthotics and;-1;0.19477436486813887;0.0
+368;119;I loved these shoes ... that is until after about an hour of wear , the green inserts on the sole of the right show began falling off .;-1;0.3317961443257409;0.1964285714285714
+369;119;The wear was in my home , on smooth floors .;-1;0.33250923921760583;0.4
+370;119;I can only assume they were defective .;-1;0.33569461645665305;0.0
+371;120;Great !;15;0.1998544154704819;1.0
+372;120;cute;2;0.202778568529024;0.5
+373;120;Super comfy and !;7;0.19624310299776376;0.41666666666666663
+374;120;fit perfect;1;0.19991903913505266;0.7
+375;120;No issues and !;4;0.20120487386767757;0.0
+376;121;Good shoes;6;1.0;0.7
+377;122;I returned them ... found a Ryka pair I liked better;24;1.0;0.55
+378;123;BEST sneakers I 've ever purchased ! ! ! !;15;1.0;1.0
+379;124;Excellent ... ! ! !;15;1.0;1.0
+380;125;the best sneakers by far !;2;0.24859567100961513;0.5625
+381;125;"I went solely on the reviews by others ... 
+";-1;0.24728187030471738;0.0
+382;125;I had never owned a pair of Nike sneakers , and;16;0.2533287431248379;0.0
+383;125;And I absolutely loved them ! !;2;0.2507937155608295;1.0
+384;126;Love these shoes .;6;0.24633452868899725;0.5
+385;126;I 've been buying Nikes for years now .;16;0.25192026448635085;0.0
+386;126;I bought this pair for work and everyday wear and another pair for working out and active wear .;9;0.24965103472802266;-0.16666666666666669
+387;126;They also last a long time in my opinion , especially if you take care of them .;-1;0.2520941720966293;-0.016666666666666666
+388;127;Right one is slightly tight ..;17;0.5;0.05357142857142856
+389;127;hope it will stretch out .. ! !;25;0.5;0.0
+390;128;the material is weird .;-1;0.33241296365306583;-0.5
+391;128;They 're ugly : the toe is rounded and;-1;0.33452889025254223;-0.7
+392;128;the Nike Womens Flex Trainer 6 is way better looking and costs about the same .;-1;0.33305814609439177;0.25
+393;129;awesome;15;0.5;1.0
+394;129;So lightweight and !;8;0.5;0.0
+395;130;Luv them ! !;2;1.0;0.0
+396;131;Love the color and fit .;1;0.3279123947202384;0.45
+397;131;they are very light and comfortable .;4;0.34266780071455766;0.46
+398;131;I use them to work on at the gym on the treadmill and;9;0.32941980456520376;0.0
+399;132;not too sure how I like the fit on my foot;12;0.19618162242453702;0.45
+400;132;Bought these shoes with HIIT in mind , but .;0;0.2004853304600321;0.0
+401;132;First time to wear them , not great for running .;6;0.2018778018105457;-0.07500000000000001
+402;132;Maybe after they 're broken in a little they 'll get better .;-1;0.19980680501630496;-0.029166666666666674
+403;132;If you just need a comfortable pair of shoes for walking , they 're fine .;0;0.20164844028858012;0.4083333333333333
+404;133;My daughter loves them .;14;0.5000000062450214;0.0
+405;133;Great fit !;1;0.4999999937549786;0.65
+406;134;This is a very attractive shoe .;4;0.32512776643360664;1.0
+407;134;It is true to size and fits as expected .;1;0.3355676599138391;0.12499999999999999
+408;134;Very satisfied with the seller - delivered on time .;5;0.3393045736525541;0.65
+409;135;Fits good , very lightweight .;1;1.0;0.44999999999999996
+410;136;Comfortable shoe for both workout sessions and walking .  ;0;0.24478588975419152;0.4
+411;136;too light;8;0.25194399388948113;0.4
+412;136;Neither too bulky nor .  ;8;0.2539236411853609;0.0
+413;136;This is my second pair because they fit and have no neon or pink colors , just nice basic B&W.;19;0.24934647517096664;0.18
+414;137;Nice;15;1.0;0.6
+415;138;These are the best shoes I have ever use for my workouts ! ! !;0;0.24026398410440084;1.0
+416;138;buy them in bulk;-1;0.25013824791667905;0.0
+417;138;I love them and ! ! !;2;0.25317297417826856;0.9765625
+418;138;LOL;15;0.25642479380065164;0.8
+419;139;I love these shoes .  ;6;0.1970334364561643;0.5
+420;139;they look really nice on .  ;6;0.19719890293829156;0.6
+421;139;They fit as expected and;1;0.2028809587808816;0.15000000000000002
+422;139;These shoes have a narrow base which I really like .  ;12;0.20095526675087527;-0.26666666666666666
+423;139;I do n't like the ones that make your foot look wide .;12;0.20193143507378722;-0.1
+424;140;Love this product .  ;5;0.5;0.5
+425;140;Great fit .;1;0.5;0.6000000000000001
+426;141;Very low cut heel so if you training and pushing sleds - I ran right out of shoes !;0;0.4999999873371697;0.17857142857142855
+427;141;Although the traction on toe and heel are great;-1;0.5000000126628303;0.8
+428;142;Just what I needed for Group Fight class .;9;0.33830984006810827;0.0
+429;142;Quick movements and footwork are so easy in these sneakers .;-1;0.3434068359358739;0.3833333333333333
+430;142;Love them .;2;0.3182833239960176;0.5
+431;143;Love !;2;0.49999999367365666;0.625
+432;143;Great price too .;5;0.5000000063263433;0.8
+433;144;It 's been a long time since I 've worked a cross training shoe .;0;0.12401804505115216;-0.025
+434;144;minimally passed compared to running shoes;-1;0.12589406619169477;-0.1
+435;144;This shoe is very light and .;0;0.1264633352926608;0.52
+436;144;"That 's not meant to be a knock , just a fact . 
+
+";-1;0.12062915150676777;0.0
+437;144;I ordered the shoes half a size up because as a former runner , I 'm used to my feet needing room to spread and swell .;3;0.12179895947737177;-0.08333333333333333
+438;144;I wish I had n't because they feel a little roomy .;3;0.12790934960780076;-0.1875
+439;144;"I have orthotics , so I think I can remedy the issue once I swap those in . 
+
+";10;0.12597679313416393;0.0
+440;144;Otherwise , very good shoes;6;0.1273102997383882;0.9099999999999999
+441;145;Good indoor training shoes for running on treadmill , doing lunges and regular exercises at the gym .;0;0.1450728060698083;0.35
+442;145;These are very flexible , light weight and comfortable .;4;0.14629422792204452;0.3333333333333333
+443;145;so I slipped a little when I worked on cable machines , resistance band , etc . on un - carpeted floor;10;0.14353057128757016;-0.1875
+444;145;Grip is okay - sticky rubber is used only at the edges of heel and toe areas .  ;-1;0.1462283197679633;0.25
+445;145;I would not recommend them because mine ( cushion ) lasted only for six months and this is the reason I gave three stars .;-1;0.14770365551610756;0.0
+446;145;I would emphasize that if you do lifting as a part of your everyday routine workout;13;0.14354168610535475;-0.2
+447;145;Other than that , I liked them !;2;0.1276287333311514;0.3125
+448;146;Perf .;-1;1.0;0.0
+449;147;Best shoes ever ! ! !;15;1.0;1.0
+450;148;Fit good;1;1.0;0.55
+451;149;they are perfect and very cute .;2;0.25449640468275164;0.825
+452;149;I use these for my Cardio Dance class and;9;0.23533201045490756;0.0
+453;149;I would definitely recommend .;21;0.25482919546249977;0.0
+454;149;They also cam earlier than expected ! !;5;0.2553423893998408;-0.078125
+455;150;I love these shoes so much that   I reordered another pair online .;19;0.1972160514357353;0.35
+456;150;It 's hard to find shoes that fit my really wide feet !;12;0.19743102605390958;-0.005555555555555554
+457;150;feel like another layer of skin , not bulky or tight at all;7;0.20142787582561447;-0.17857142857142858
+458;150;The heel back is my favorite part on them , they 're thin and .  ;2;0.20292046484908016;0.033333333333333326
+459;150;I walked all over Europe in these !;-1;0.20100458183566033;0.0
+460;151;Love these sneakers .;6;0.32713407159502395;0.5
+461;151;comfortable;17;0.33821488969157626;0.4
+462;151;Light weight and even without socks .;8;0.3346510387133995;0.4
+463;152;Nice product;5;1.0;0.6
+464;153;I feel like this pair of shoes was made for my feet .;12;0.24783705082525032;0.0
+465;153;comfort;17;0.25346451814220305;0.0
+466;153;Great fit and !;1;0.25148749893369815;0.65
+467;153;Very pleased with this purchase .;5;0.2472109320988486;0.65
+468;154;Quick tranasaction ! ! !  ;5;0.33986351589143626;0.6510416666666665
+469;154;Loved the shoes ! ! !  ;22;0.3182551483727182;1.0
+470;154;Would purchase from them again ! ! !;5;0.3418813357358455;0.0
+471;155;"I got the impression it 's cushiony and comfy by reading the reviews on this product , when i tried it on it was a much firmer than my other work shoes , i 'm standing all day and need enough support and comfort , this is n't the right product for that . 
+";0;0.12324951091703101;0.09017857142857143
+472;155;"i would assume it would work fine for training . 
+
+";9;0.11822835083961636;0.4166666666666667
+473;155;So i had to return it , but;24;0.1250815906417921;0.0
+474;155;It looks decent and clean .;20;0.12793210365835828;0.26666666666666666
+475;155;and seems sturdy .  ;8;0.12664245402547122;0.0
+476;155;"just not the right thing for me . 
+";17;0.12647313637432428;0.2857142857142857
+477;155;.. credit for that;5;0.12743474766722596;0.0
+478;155;I was refunded instantly upon returning so .;24;0.12495810587618082;0.0
+479;156;So comfortable , I do n't even feel like I have a sneaker on .;0;0.49999998750784264;0.4
+480;156;Based on the other reviews I got a half a size up and glad I did .;3;0.5000000124921573;0.06944444444444446
+481;157;they are very comfortable feel like you have nothing on .;4;1.0;0.52
+482;158;My favorite nike shoe;2;1.0;0.5
+483;159;extremely lightweight;8;0.3339818549673997;-0.125
+484;159;Super comfortable and .;7;0.3375315571280488;0.3666666666666667
+485;159;Great for crossfit !;9;0.3284865879045514;1.0
+486;160;Beautiful I love them comfy;4;1.0;0.675
+487;161;the bottom is coming off .;18;0.33414032044969266;0.0
+488;161;I 've not even had them a month and;23;0.3320476017500032;0.0
+489;161;I 'm not happy !;5;0.333812077800304;-0.5
+490;162;Love them !;2;0.33082460613324766;0.625
+491;162;Fit exactly as expected in length and width !;1;0.32887411824831275;0.1375
+492;162;I would definitely buy these again .;21;0.34030127561843937;0.0
+493;163;My second pair , love the fit , light weight and great support .;19;1.0;0.42000000000000004
+494;164;these were too narrow but very nice looking .;25;0.5;0.29000000000000004
+495;164;I have wide feet and;12;0.5;-0.1
+496;165;Ugh ... way to large - is this for a man ?;25;1.0;0.21428571428571427
+497;166;The shoe fit has expected .;1;0.5;0.15000000000000002
+498;166;It is comfortable .;7;0.5;0.4
+499;167;look great;1;0.3367934285905684;0.8
+500;167;, are quite comfortable and are I was looking just what for !;4;0.328726363189537;0.5
+501;167;They fit great ,;1;0.3344802082198944;0.6000000000000001
+502;168;Super comfy , true Size , I use them for boot Camp ,   cross fit;0;0.3252488746314975;0.27083333333333337
+503;168;, absolutely recommended it .;21;0.33704944067374226;0.2
+504;168;and they are great;2;0.33770168469476;0.8
+505;169;Love them absolutely comfortable .;4;0.1466716249190265;0.45
+506;169;they work great .;9;0.1462681445557308;0.8
+507;169;I 'm very picky with sneakers and this ones for the price are great I use them for cross fit , boot camp &;0;0.1426137321412134;0.35
+508;169;The sole is very flexible , true size .;17;0.1442732740092783;0.18333333333333335
+509;169;they fit perfectly .;1;0.14090596853992163;0.7
+510;169;I have a wide feet and;12;0.14140397495797807;-0.1
+511;169;Very nice looking Great sneakers .;6;0.13786328087685115;0.79
+512;170;Wife happy with fit .;1;1.0;0.6000000000000001
+513;171;They run big .;25;0.4999999873342964;0.0
+514;171;Order a full size smaller .;3;0.5000000126657036;0.175
+515;172;very comfortable;7;0.20115709670638415;0.52
+516;172;Super light and .;8;0.198767135690375;0.3666666666666667
+517;172;they lack a bit in arch support , so the soles of my feet are a sore .;10;0.2024889319727933;0.0
+518;172;I 'm a runner and;13;0.197808204011553;0.0
+519;172;I 'm going to add an insert to try fix the problem .;-1;0.19977863161889448;0.0
+520;173;I have received many compliments on how pretty these white and pink shoes are .;6;0.25146584288311125;0.1625
+521;173;Just because they are white , they do need a washing regularly but;-1;0.2511484210218142;0.0
+522;173;Extremely good Nike quality .;1;0.25342353375036797;0.7
+523;173;Highly recommended .;21;0.24396220234470656;0.16
+524;174;Arrived in time .;5;0.25241773125405975;0.0
+525;174;Fit as exoected .;1;0.24666897395471535;0.4
+526;174;I wore them 2 days in a row for more than five hours per day .;23;0.24702912603005664;0.5
+527;174;They take some breaking in but;16;0.25388416876116837;0.0
+528;175;they are nice a roomy and allow my feet to breath .;4;0.3412550974010224;0.6
+529;175;I 've been using these to exercise and;9;0.32901020735306136;0.0
+530;175;Also love the colors .;11;0.32973469524591603;0.5
+531;176;Comfortable from the start and very light .;4;1.0;0.46
+532;177;As expected .;1;1.0;-0.1
+533;178;Lightweight , comfortable , supportive .;4;0.5;0.45
+534;178;Very happy I bought these shoes for working out .;0;0.5;1.0
+535;179;have them in a light blue too;6;0.339082604030495;0.2
+536;179;I love these and .;2;0.33171061848841116;0.5
+537;179;Very light weight , airy , and comfortable .;4;0.32920677748109356;0.46
+538;180;good quality;1;1.0;0.7
+539;181;Very comfortable sneakers;0;0.5;0.52
+540;181;and I also like the way it fits .;1;0.5;0.0
+541;182;Purchased to wear for weightlifting and Zumba .;-1;0.20341738966080494;0.0
+542;182;they were great !;2;0.19032860339057756;1.0
+543;182;Zumba trial was last night , and;-1;0.19843103685297248;0.0
+544;182;Super comfortable , good ventilation !;7;0.20474726219443204;0.5361111111111111
+545;182;Not too much padding , very minimalist , which is just what I wanted;8;0.2030757079012129;0.2
+546;183;lightweight;8;0.5000000126648317;0.0
+547;183;Comfortable and .;7;0.49999998733516826;0.4
+548;184;they both have certainly out done the $ 100 K - swiss that I 'm looking to return .;8;0.3343524255521724;0.21428571428571427
+549;184;I love these shoes my second pair of 40 plus $ shoes and;19;0.3312589076689587;0.25
+550;184;The shoes are extremely comfortable , all my clients love them , just wish they came in more colors .;-1;0.33438866677886864;0.4666666666666666
+551;185;, the shoelaces are a little bit too long .;25;0.33632665664579653;-0.11875
+552;185;They fit as expected and perfect for training;1;0.3321540590721587;0.43333333333333335
+553;185;Other than that these shoes are as I expected them !;1;0.3315192842820447;-0.125
+554;186;Extremely well fitting and light weight;1;1.0;0.25833333333333336
+555;187;Perfect;15;1.0;1.0
+556;188;Love them;2;1.0;0.5
+557;189;have worn them for a long time;6;0.25193916603363403;-0.05
+558;189;I love these shoes and .;6;0.2521366986953184;0.5
+559;189;are very cute;2;0.2495335323336669;0.65
+560;189;That are comfy , thinner on the top & sole and !;-1;0.24639060293738044;0.25
+561;190;turned out as expected;2;0.33294103668751607;-0.1
+562;190;Fast shipping and .;5;0.3337937181411636;0.2
+563;190;Could n't be happier .;5;0.3332652451713202;0.0
+564;191;they are great for comfort and they are light weight .;4;0.5;0.6000000000000001
+565;191;I have been wearing for a solid week during my work outs &;-1;0.5;0.0
+566;192;Love these shoes for circuit training .;0;1.0;0.5
+567;193;Super comfortable .;7;0.33640253013570237;0.3666666666666667
+568;193;this is the perfect shoe .;1;0.3355651384172712;1.0
+569;193;I joined Cross Fit and;13;0.3280323314470263;0.2
+570;194;just do it :);15;1.0;0.5
+571;195;Love these , comfortable , light weight , great fit .;8;1.0;0.5
+572;196;I love this show .;2;1.0;0.5
+573;197;The shoes are true to size .;1;0.3246245370398374;0.35
+574;197;I am used to wearing running shoes so these have been an adjustment .;-1;0.3405357339407716;0.0
+575;197;Overall , the shoe is nice and provides well for my HIIT and Grit classes I take .;0;0.33483972901939085;0.3
+576;198;Love them !  ;2;0.19393108208235926;0.625
+577;198;I ordered an 8.5 because I usually wear that size but these are a bit big .;3;0.20173816877200718;-0.125
+578;198;I wish I ordered an 8 .;3;0.19994506843186774;0.0
+579;198;I enjoy wearing them .;-1;0.20260916337200463;0.4
+580;198;They are really comfortable and;4;0.2017765173417612;0.4
+581;199;Very comfortable .;7;1.0;0.52
+582;200;Very nice shoes .  ;6;0.5000000063164027;0.78
+583;200;Comfortable .;17;0.4999999936835973;0.4
+584;201;Very comfortable .;7;0.5;0.52
+585;201;I love wearing them .;23;0.5;0.5
+586;202;Great fit so comfortable love them ! ! ! ! !;1;1.0;0.65
+587;203;A nice lightweight shoe .;0;0.5000000126630133;0.6
+588;203;Not a lot of cushion so I would n't run long distances in them .;25;0.49999998733698675;-0.05
+589;204;I really love these shoes .  ;6;0.3301002326741791;0.5
+590;204;They are attractive and very comfortable .  ;4;0.33583475931906287;0.66
+591;204;They work well for my daily workout and fit well .;23;0.3340650080067577;0.2
+592;205;Comfortable shoe .  ;0;0.146810040375254;0.4
+593;205;First time I 've ever bought nikes that feel so large .  ;3;0.1720456834026769;0.23214285714285715
+594;205;It feels about 1/2 size too big .  ;3;0.17173021165937608;0.0
+595;205;I bought 7.5 .  ;3;0.1694581335244038;0.0
+596;205;on occasion an 8;3;0.1695960621454695;0.0
+597;205;I normally wear exactly that size and .;3;0.1703598688928196;0.2
+598;206;Ordered 9(m );3;0.3342462724944134;0.0
+599;206;received 9 Wide for the second time .;3;0.3342931535168256;-0.05
+600;206;Returned them for the second time .;24;0.3314605739887609;0.0
+601;207;Nice shoes;6;1.0;0.6
+602;208;This is my second pair of these shoes .  ;19;0.2053705511545098;0.0
+603;208;they provide support for walking .  ;-1;0.19748366851254207;0.0
+604;208;I love the fit and;1;0.2023940660290742;0.45
+605;208;I like the way the shoes fit around my ankle , as many shoes are uncomfortable because they come up too high in the back .  ;12;0.2013857444023117;0.11200000000000002
+606;208;Try them !;2;0.1933659699015622;0.0
+607;209;There is about a 1/2 inch of extra space from the tip of my big toe to the front of the shoe .;12;0.11068923473706835;0.0
+608;209;That 's okay , though .;-1;0.10826410162214781;0.5
+609;209;so it does n't feel too big , even if it does make your foot look a bit long;12;0.11060572541553199;-0.025
+610;209;"I usually wear socks , . 
+
+";3;0.11139122875622892;-0.25
+611;209;the sole has plenty of grip , even on a slippery floor .;-1;0.11312823903154606;0.0
+612;209;The colors are vibrant , and;11;0.10954381441845967;0.16666666666666666
+613;209;"they are comfortable . 
+
+";4;0.1128766174841476;0.4
+614;209;I wore them for most of the day and;23;0.11049946282554052;0.5
+615;209;Overall , I 'm very pleased with this shoe .;0;0.11300157570932906;0.325
+616;210;Got them for my girlfriend .;14;0.3458345143799764;0.0
+617;210;She loves them .;14;0.33987717204592416;0.0
+618;210;Says it 's like wearing slippers because they are incredibly light .;0;0.31428831357409953;0.4
+619;211;Serves intended purpose;-1;1.0;0.0
+620;212;They are super comfortable .;4;0.49999998741191276;0.3666666666666667
+621;212;Loving them .;2;0.5000000125880872;0.6
+622;213;I have gotten so many compliments on the blue color and look of this shoe .  ;6;0.24834447582246486;0.25
+623;213;It is super comfortable .  ;7;0.25835656129291157;0.3666666666666667
+624;213;The grip is wonderful for my indoor gym cross training classes .  ;9;0.2532879354668508;0.5
+625;213;I always order a half size larger in Nike brand shoes and thy fit perfectly as I did with this shoe .;3;0.2400110274177729;0.30833333333333335
+626;214;not much cushioning in the footbed;-1;0.3399212159805017;-0.1
+627;214;Fit is fine , but .;1;0.3263207612020173;0.4083333333333333
+628;214;The first time wearing them on a long walk I developed a blister on the bottom of my foot .;10;0.33375802281748074;0.10000000000000002
+629;215;Perfect for the gym , could use a little more support in the toe area but very comfortable and light .;12;0.5000000125934712;0.4465
+630;215;Fit true to size .;1;0.4999999874065289;0.375
+631;216;provided no support;20;0.3339581539201241;0.0
+632;216;Meh , felt very comfortable but .;7;0.3338097553906651;0.52
+633;216;Seem like a good option for walking around in the summer but not for aerobics or lateral movements;9;0.3322320906892106;0.7
+634;217;Love these !;2;0.32495222581560335;0.625
+635;217;comfortable;17;0.3347152339888792;0.4
+636;217;Super light and !;8;0.3403325401955172;0.41666666666666663
+637;218;Loved the products and services ! !;5;1.0;1.0
+638;219;It 's hard to find a lightweight athletic shoe with a wide toe box .;12;0.1650657149007551;-0.19583333333333336
+639;219;This shoe has that .;18;0.16834639674435461;0.0
+640;219;I am happy with the support for walking and everyday wear .;9;0.16708110167674725;0.30000000000000004
+641;219;I would n't run in them .;25;0.16729630953385582;0.0
+642;219;Now I just have to stock up on as many pair as I can afford before Nike discontinues them :) .;16;0.16543663463177885;0.5
+643;219;Do n't you hate when that happens ?;-1;0.16677384251250815;-0.8
+644;220;The shoes are amazing , very comfortable and fit as expected highly recommended .;0;0.5000000125906919;0.31599999999999995
+645;220;:);15;0.49999998740930807;0.5
+646;221;Super comfy ! !;7;1.0;0.5208333333333333
+647;222;I needed a wide size , that option was not available .;-1;0.2013242121761487;-0.15000000000000002
+648;222;So I went up a half size bigger hoping that would work .;3;0.20052589242446064;-0.08333333333333333
+649;222;I am   able to wear them .;23;0.20296867799904866;0.5
+650;222;It 's not quite comfortable but;17;0.2004221523236767;0.4
+651;222;I like the shoes .;6;0.19475906507666527;0.0
+652;223;Look great;1;1.0;0.8
+653;224;I love these shoes .;6;0.20019392599655417;0.5
+654;224;when it comes to Nikes , I do n't need all the cool colors;16;0.2039183681710318;0.35
+655;224;so these look amazing and feel amazing , like they were made for my feet;1;0.1979409897696085;0.6000000000000001
+656;224;I am rather basic , .;8;0.2010214259400962;0.0
+657;224;I definitely suggest purchasing them .;21;0.19692529012270937;0.0
+658;225;comfy;7;0.20201429192926643;0.0
+659;225;Cute and .;11;0.20139189325180457;0.5
+660;225;Sleek design .;11;0.20233014414245049;0.0
+661;225;My only complaint is the fly wire loosens up and my shoe sometimes slips off my heels during heavy sled runs .;-1;0.1965752099419367;0.075
+662;225;I have two pairs of this style .;19;0.1976884607345417;0.0
+663;226;I love them !;2;1.0;0.625
+664;227;normally Nike fits small so we go up a half size .;3;0.3320238361120669;-0.08888888888888889
+665;227;These actually fit to my wife 's appropriate size .;1;0.3331840672565396;0.45
+666;227;So be ware when you order .;-1;0.33479209663139337;0.0
+667;228;love these shoes .;6;0.49999999999999994;0.5
+668;228;use them to workout inside and to work;9;0.49999999999999994;0.0
+669;229;I own multiple shoes in this brand .;-1;0.32932369417838503;0.3
+670;229;I was shocked at how small these shoes were , not true at all to size , and;1;0.3329199947433381;-0.375
+671;229;The quality could have been better , in my opinion -- very little support from the upper .;-1;0.3377563110782765;0.08541666666666665
+672;230;Great shoes - was looking for something to replace my barefeet so I can wear orthotics while kickboxing .;0;0.14017202029448553;0.8
+673;230;hug my feet comfortably and have a thinner upper so I can still feel the bag when I kick;12;0.1437729976249489;0.2
+674;230;they have good lateral stability .;-1;0.1476294618714736;0.7
+675;230;These are light weight , AND;8;0.14651049070908972;0.4
+676;230;My feet are on the narrow side so it 's hard to find shoes that are snug enough .;12;0.142818103936302;-0.1638888888888889
+677;230;These are perfect .;2;0.1408018030000429;1.0
+678;230;Oh , and they are really cute too .;2;0.13829512256365717;0.5
+679;231;They fit perfectly .;1;0.33723060190035814;0.7
+680;231;These shoes are great for walking - so very comfortable .;0;0.3269611120400902;0.66
+681;231;Love them .;2;0.3358082860595515;0.5
+682;232;comfy;7;0.2568651259983283;0.0
+683;232;Good fit and .  ;1;0.2541388915108128;0.55
+684;232;Not so cushiony so definetly better for training and not for running or aerobics .;9;0.24475856056985232;0.5
+685;232;Bought size 8 which is my usual size .;3;0.24423742192100656;-0.25
+686;233;comfortable;17;0.49999998733477846;0.4
+687;233;Light weight and;8;0.5000000126652215;0.4
+688;234;I was wearing running shoes for cardio dance classes at the gym because I thought they would be sufficient .;0;0.16756745990446653;0.0
+689;234;found out cross trainers would be more appropriate which is how I ended up buying this pair;0;0.16607595675807266;0.3333333333333333
+690;234;After getting 2 blood blisters I did some research and .;10;0.16765283625666919;0.0
+691;234;They are slightly longer in look then I   would like but I think that is typical of cross trainers .;25;0.1606363605991805;-0.1111111111111111
+692;234;Also , the lacing is done in a way that allows you to tie too tightly if you 're not careful ( my toes were tingling during one particular work out when I had done this ) .;-1;0.17013430033669807;0.0126984126984127
+693;234;Other then that I am very happy with the shoes .;21;0.16793308614491295;0.4375
+694;235;they were actually very roomy .  ;19;0.17050194548789288;0.2
+695;235;Nikes usually run small and I 'm a 7.5 , so I ordered these in an 8 and;3;0.15865505730817459;-0.25
+696;235;they are definitely bright orange / coral and not bright crimson like the description said .  ;11;0.1722961616857068;0.17500000000000002
+697;235;I love them but;2;0.1647510211232851;0.5
+698;235;instead I use them for running .;9;0.16170370083702815;0.0
+699;235;I thought they 'd be more red in hue to wear with my Ohio State clothes , but;-1;0.17209211355791232;0.25
+700;236;Color was not at all what i expected .  ;11;0.33406250940954757;-0.1
+701;236;It was more orange then red .  ;11;0.3347505354629342;0.25
+702;236;Not sure that I am going to keep them .;-1;0.33118695512751795;-0.25
+703;237;Perfect fit !;1;0.16725536946744227;0.75
+704;237;on sale;5;0.16999957138194488;0.0
+705;237;Brand new in new box completely perfect condition and ! ! !;-1;0.16583690145307842;0.42424242424242425
+706;237;Awesome !;15;0.16833320380613878;1.0
+707;237;Highly reccomend !;21;0.1671842550939621;0.2
+708;237;Super cute shoes .;6;0.1613906987974332;0.41666666666666663
+709;238;Squeaky;7;1.0;0.0
+710;239;If you wear Nike on the regular , then you should pretty much know your size .;3;0.09679901248008302;0.15
+711;239;it fit just as expected .;1;0.09894917167894576;0.15000000000000002
+712;239;I wear only 7 's in Nike , and;3;0.09412505264427262;0.0
+713;239;love them all;2;0.09712734017529255;0.5
+714;239;I have many of the trail runner generations , and .;13;0.10281436379170233;0.5
+715;239;they 're my go to sneakers for the gym use , or casual wear .;0;0.10021736030101064;-0.5000000000000001
+716;239;I have a pair I used mostly for casual wear that have lasted about 5 years .;-1;0.10317646460356943;-5.551115123125783e-17
+717;239;Another pair that I used for cross fit / outdoor runs that lasted a little over a year ( very vigorous daily use ) .;-1;0.10205136457742445;0.0825
+718;239;All in all , these shoes are great for me .;0;0.10258316918425815;0.8
+719;239;They 're lightweight , and comfortable .;4;0.10215670056344099;0.4
+720;240;cushion;-1;0.3330641963004859;0.0
+721;240;Great arch support and both for the heel and ball of the foot .;20;0.3352312052961727;0.8
+722;240;Great aerobic shoe !;9;0.33170459840334116;1.0
+723;241;Good quality , perfect fit .  ;1;0.5;0.7000000000000001
+724;241;It 's a Nike !;16;0.5;0.0
+725;242;purchased 8.5 for a more comfortable feel , considering shrinkage as a result of perspiration;3;0.4999999873340127;0.45
+726;242;Size 8 , but .;3;0.5000000126659874;0.0
+727;243;these are too long- at least an inch and 1/2 .;25;0.5;-0.175
+728;243;I 've always gotten this size in Nike shoes with similar description , but;3;0.5;0.0
+729;244;Very lightweight .;8;0.334188324719234;0.2
+730;244;Normal Nike quality .;16;0.330427928358018;0.15
+731;244;Pink is very bright , colors look great together .;11;0.33538374692274786;0.5366666666666667
+732;245;Love them ! !;2;1.0;0.78125
+733;246;Arrived on time .;5;0.20306444070988827;0.0
+734;246;if I wear thick socks they are fine;10;0.19810268687450014;0.05833333333333332
+735;246;I probably should have gone with a 7.5 instead of an 8 because they do seem a little big , but .;3;0.19787853220625837;-0.09375
+736;246;Also , they can sometimes make a very annoying squeaky noise when I run on certain surfaces so I 'm trying to get them worn in .;-1;0.19820966188122802;-0.39285714285714285
+737;246;Over - all , I am satisfied with my purchase !;5;0.2027446783281251;0.625
+738;247;After less than a week the sole ripped off on the outside of the shoe;20;1.0;-0.05555555555555555
+739;248;The lines do n't really show up unless there is a bright light on them .;-1;0.20212728766787114;0.4333333333333334
+740;248;that they are perfect;1;0.19897642842950003;1.0
+741;248;But other than .;-1;0.20357280712974385;-0.125
+742;248;are comfortable the first time you put them on;4;0.19817706265403262;0.325
+743;248;They are very true to size and .;1;0.19714641411885245;0.45499999999999996
+744;249;I love these !  ;2;0.2564130432636992;0.625
+745;249;I ordered an 8.5 which is my normal shoe size and they fit great .  ;3;0.24097408039366852;0.45
+746;249;they performed well , and they are sooooo pretty !  ;2;0.25584895987206135;0.3125
+747;249;I used them for my strength training class and Comfortable , low profile and stylish !;-1;0.24676391647057103;0.3416666666666666
+748;250;comfortable;17;0.5;0.4
+749;250;Cute and;11;0.5;0.5
+750;251;Very comfortable .;7;1.0;0.52
+751;252;Sizing was perfect as ordered .;1;0.5;1.0
+752;252;Quality appears good , still new , not too much more to report .;-1;0.5;0.4454545454545455
+753;253;Size really depends on the brand .  ;3;0.20424467660000226;0.2
+754;253;they fit me perfectly .  ;1;0.19961234269249645;0.7
+755;253;I wear a 6.5 in Nike and;3;0.1992784549457409;0.0
+756;253;do not restrict movement;-1;0.19889024236252398;0.0
+757;253;These shoes are comfortable , they wrap around my feet like a bandage but .;0;0.1979742833992363;0.4
+758;254;I was really excited when I opened the box to see the color is exactly like the image shows !;11;0.2511680728206963;0.34375
+759;254;used the same size to order these;3;0.24934620105952224;0.0
+760;254;I have the Nike flex tr 5 and .;16;0.2443001412731517;0.0
+761;254;They are a little bigger than expected but still comfortable .;25;0.25518558484662957;0.02812500000000001
+762;255;Returning these .;24;0.16322525781840988;0.0
+763;255;the pictures on here make the shoe appear all black with a touch of pink in the check .;18;0.16970329896255673;-0.13333333333333333
+764;255;however , the whole shoe has pink coming through .;18;0.1692930367554657;0.05
+765;255;I was looking for an all black shoe .;16;0.16868920003797405;-0.16666666666666666
+766;255;love them;2;0.16317600682179675;0.5
+767;255;I ordered the Nike Women 's Flex Supreme TR3 instead and ! ! !;16;0.16591319960379672;0.0
+768;256;wow these are the most comfortable , light weight shoes .;0;0.5000000124704627;0.35
+769;256;I love them ! !;2;0.4999999875295373;0.78125
+770;257;love the lightweight and the fit;1;1.0;0.45
+771;258;fits perfect , my daughter loves them;1;1.0;1.0
+772;259;Finally , after trying about 10 pairs of Nike 's , these were a perfect fit .  ;16;0.5000000063294678;0.4666666666666666
+773;259;They are light and very comfortable , I really just forget about my feet when I 'm wearing them .;4;0.4999999936705321;0.37333333333333335
+774;260;my daughter LOVES them;14;0.5;0.0
+775;260;Came quick and;5;0.5;0.3333333333333333
+776;261;Great Gift - she loved it !  ;14;0.49999996850526734;0.8375
+777;261;It 's a nice shoe !;15;0.5000000314947326;0.75
+778;262;she loves them .  ;14;0.33792126522579935;0.0
+779;262;Bought these for my daughter and;14;0.33982154089172295;0.0
+780;262;She tried them on at a retail store a couple months prior , so I knew her exact size .;14;0.32225719388247726;0.125
+781;263;fast shipping;5;0.49999998733473816;0.2
+782;263;Great product and !;5;0.5000000126652617;1.0
+783;264;bought it online;19;0.2513331803253539;0.0
+784;264;Tried one in the store and;3;0.2513863096029106;0.0
+785;264;but it was a different   kind of shoe .;18;0.24730693096273007;0.3
+786;264;Too big , different fit !;25;0.24997357910900547;0.16666666666666666
+787;265;of all my aches and pains , my feet was not one of them .;10;0.24350778680166515;0.0
+788;265;I had the older generation of this shoe that survived 2 or 3 mud runs and;-1;0.25224841779168383;0.16666666666666666
+789;265;This is because of this shoe .;18;0.25127205225669935;0.0
+790;265;Nike really dropped the mic with this .;16;0.25297174314995174;0.2
+791;266;This pair fits perfect ..... the first pair was wrong size in the right box ..... definitely order again ! ! ! ! !;3;1.0;0.20714285714285713
+792;267;I returned these as they were not true to size .;24;0.49999999999999994;-0.175
+793;267;They ran large .;25;0.49999999999999994;0.21428571428571427
+794;268;wrong shoes;24;1.0;-0.5
+795;269;There very nice;15;1.0;0.78
+796;270;I actually have 3 pairs of these trainers .  ;19;0.245399571010795;0.0
+797;270;They are very comfortable , there is a neoprene sleeve that goes around your ankle that makes them the most comfortable for me compared to normal athletic shoes .  ;-1;0.2511706944469567;0.39249999999999996
+798;270;this is perfect , but you may want to round up on the size or try on in the store first if your feet are on the wider side .;12;0.25131381882664106;0.35000000000000003
+799;270;They run a little narrow - for me;25;0.25211591571560726;-0.19375
+800;271;Just too big otherwise I liked them !;25;1.0;0.375
+801;272;Comfortable shoe .  ;0;0.5;0.4
+802;272;I would buy again;5;0.5;0.0
+803;273;comfortable;17;0.4999999873347741;0.4
+804;273;Light weight and .;8;0.500000012665226;0.4
+805;274;Fit my size perfectly and very comfortable !;1;1.0;0.6833333333333332
+806;275;Love these shoes !;22;0.19694343016418323;0.625
+807;275;these are perfect .;2;0.20412414522211803;1.0
+808;275;Needed new running shoes and;0;0.19438545646896854;0.13636363636363635
+809;275;fit great;1;0.20063896517552937;0.6000000000000001
+810;275;Light weight and !;8;0.2039080029692008;0.5
+811;276;Purchased these for our teenage daughter .;14;0.3430179985770565;0.0
+812;276;She loves them .;14;0.33737587887069626;0.0
+813;276;For both casual wear and sports .;-1;0.3196061225522471;-0.5000000000000001
+814;277;found them really comfortable with no aching feet at the end of the day;0;0.20083688908807784;0.4
+815;277;Love these shoes , I have worn them all day and .;6;0.19965910765436995;0.5
+816;277;true to size;1;0.1932698711300085;0.35
+817;277;Fantastic colour and .;11;0.2032753581363622;0.4
+818;277;I also bought   Nike Women 's Flex Supreme Tr 3 Pnk Pw / Mtllc Slvr / Cl Gry / White Training Shoe and these shoes are slightly more comfortable than those even though they look very similar .;16;0.2029587739911816;0.225
+819;278;Super light weight comfortable !;8;0.2508304247012515;0.41111111111111115
+820;278;run too;13;0.24932246645105818;0.0
+821;278;Kick box in these and .;12;0.2502124447956694;0.0
+822;278;Good support !;20;0.24963466405202092;0.875
+823;279;they are very comfortable;4;0.07253639586098076;0.52
+824;279;i bought a size 6.5 when I normally where a size 7 .   and even the 6.5 feels a little roomy .  ;3;0.0670312834516292;-0.018750000000000003
+825;279;i bought a pair from DSW for 50 $ and but;-1;0.07260473401588693;0.0
+826;279;I have wide flat feet btw .  ;-1;0.07105552577363493;-0.0625
+827;279;i m not sure if I will keep them even though i love their look and comfort .  ;17;0.07369697201896007;0.125
+828;279;I think they wo n't give me enough support when running .  ;-1;0.07171355656946789;0.0
+829;279;I 've been having feet problems while taking a gym class and;10;0.0708024708642153;0.0
+830;279;i do n't know if they 'll last long if you use them everywhere else .  ;-1;0.07376927662275266;-0.025
+831;279;they 're great for wearing at home or gym and doing exercises in one place- extremely light weight and flexible , but;8;0.07203594817126405;0.6000000000000001
+832;279;:(  ;15;0.06942277355392865;-0.75
+833;279;i really like them;2;0.06762503645296042;0.2
+834;279;"but i ca nt just buy 2 different shoes . 
+";16;0.07320778406012939;0.0
+835;279;also , i really like the strings inside the lining on the side of the shoes to adjust and make the shoe fit snug .;12;0.07264110584631689;0.30000000000000004
+836;279;it makes me feel secure :D;7;0.07185713673787286;0.7
+837;280;really lightweight;8;0.5000000126625284;0.2
+838;280;Not a lot of arch support but .;20;0.4999999873374716;0.0
+839;281;EXCELLENT;15;1.0;1.0
+840;282;Good for non - aerobic workout .;9;0.33224773829534815;0.7
+841;282;no support for lateral movrment;-1;0.3356396645542864;0.0
+842;282;Mesh was very comfortable but .;7;0.33211259715036534;0.52
+843;283;Favorite Nikes ever .;16;0.16272723362091576;0.5
+844;283;was ready for a new pair;-1;0.16555423246589246;0.16818181818181818
+845;283;I already owned this style and;11;0.17006723307060634;0.0
+846;283;so I went with these .;3;0.16892034309205392;0.0
+847;283;they fit great .;1;0.16459891334806717;0.6000000000000001
+848;283;Love the color and;11;0.1681320444024642;0.5
+849;284;Light - weight comfy shoes .;0;1.0;0.4
+850;285;these were the best !;2;0.4999999876355303;1.0
+851;285;Tried a lot of shoes for cross training and;0;0.5000000123644698;0.0
+852;286;I love everything else about them !;2;0.5;0.625
+853;286;Wish they had a little more support / cushion , but;-1;0.5;0.15625
+854;287;These are as far as comfort goes the most comfortable pair of sneakers I have I suffer from sciatica pain that goes into my feet I have difficulty finding the proper support and comfort in shoes I would recommend these most definitely .;0;1.0;0.25
+855;288;After my purchased I found out they are overpriced .;-1;0.3362230466434613;0.0
+856;288;They feel good;4;0.33232523702188155;0.7
+857;288;but I will not recommended if you need Wide fit .;21;0.331451716334657;0.15000000000000002
+858;289;they are too small .;25;0.20301353587623416;-0.25
+859;289;I bought a pair of these in my size , but;3;0.2015522659427537;0.0
+860;289;I can get my feet in them but not comfortably .;10;0.1985850592558813;-0.2
+861;289;It 's too bad because I can tell the soles are comfortable .;0;0.19762219214634086;-0.1499999999999999
+862;289;Of course , now I 've work them to work so I ca n't return them .;24;0.19922694677878985;0.0
+863;290;Love them !  ;2;0.32194432384831273;0.625
+864;290;great for weight training;9;0.3324190510659201;0.8
+865;290;Very comfortable and !;7;0.3456366250857668;0.65
+866;291;went up half size;3;0.14297054116284377;-0.16666666666666666
+867;291;it was too large .;25;0.14431741484485663;0.21428571428571427
+868;291;Took other reviewers advice and and;-1;0.14261765681886845;-0.125
+869;291;I thought this was a more sock - like fit;1;0.1438076580905738;0.45
+870;291;but it had a tongue that came up high on my ankle not at all sock like .;18;0.14384009030191114;0.16
+871;291;Nice looking and very light weight with a rounded square toe that left plenty of room front foot and toes .;12;0.1403364986563303;0.37333333333333335
+872;291;These just were n't what I was looking for .;25;0.14211014012461576;0.0
+873;292;very cute;2;0.49999998734227274;0.65
+874;292;Really comfortable and .;7;0.5000000126577273;0.4
+875;293;These shoes are great .  ;6;0.3319359144344336;0.8
+876;293;I love them .;2;0.33402692097088604;0.5
+877;293;This is the second pair that I have purchased and;19;0.33403716459468014;0.0
+878;294;Fit to size .;1;0.5;0.4
+879;294;Comfortable;17;0.5;0.4
+880;295;Picky daughter actually loves them .;14;1.0;0.0
+881;296;Fit like a dream !;1;0.249723786164824;0.5
+882;296;Great for cross - training / HITT videos I do everyday .;9;0.24955544553233328;0.20000000000000004
+883;296;Great for walking too .;9;0.2509062653003098;0.8
+884;296;Look amazing !;1;0.2498145030025329;0.7500000000000001
+885;297;Most comfortable training shoes I 've worn in a long time .;0;1.0;0.2833333333333333
+886;298;I bought these sneakers for boot camp class .  ;0;0.2510216642996733;0.0
+887;298;They are very light weight and different than other sneakers that I have owned .  ;16;0.253132175901998;0.13166666666666668
+888;298;like them so far;2;0.2413285722436239;0.1
+889;298;Have only used them a few times , but .;23;0.254517587554705;-0.1
+890;299;I got a hot spot on the bottom of my foot the first day I wore them .;23;1.0;0.25
+891;300;Still breaking them in for use at the gym .  ;9;0.3333297465277996;0.0
+892;300;I think once I get used to them , they 'll work great !  ;-1;0.33963118036869855;1.0
+893;300;:);15;0.3270390731035016;0.5
+894;301;Not a fan .;2;0.5;0.0
+895;301;Shoes looked great but too narrow for most feet .;12;0.5;0.3666666666666667
+896;302;I love these shoes .;6;0.2507372844751147;0.5
+897;302;just take them on longer walks;25;0.25241779857756486;0.0
+898;302;I exercise in them as well as .;9;0.2552320360906841;0.0
+899;302;Feels good , looks GREAT ! !;1;0.2416128808566362;0.85
+900;303;fits perfect;1;1.0;1.0
+901;304;Very comfortable shoes .;0;0.24951675935765297;0.52
+902;304;I have wide feet with falling arches .;12;0.24595916582467722;-0.1
+903;304;are comfortable enough that I can be in them all day long;4;0.2537616696559324;0.11666666666666668
+904;304;These help both and .;13;0.25076240516173753;0.0
+905;305;are for my requirements;8;0.25118198210388043;0.0
+906;305;"Unfortunately , this Flex Supreme does NOT have enough support over the toe and ankle . 
+";12;0.24725883122977654;-0.25
+907;305;Returning for credit .  ;24;0.24815670988868707;0.0
+908;305;Thanks anyway .;-1;0.25340247677765604;0.2
+909;306;After using this shoes seven times for regular activities like walking or dancing the sole came out .;-1;0.24453083362587413;0.0
+910;306;I am very disappointed .;5;0.25201772107981535;-0.9750000000000001
+911;306;I do n't recommend this product at all .;21;0.25291984529646433;0.0
+912;306;The worse part is that I can not return this item because the return window closed 4 days ago .;24;0.25053159999784613;-0.25
+913;307;Fit like gloves to my feet !;1;0.50000000622485;0.5
+914;307;Perfect for workouts .;9;0.4999999937751501;1.0
+915;308;I 've worn these to work out for 5 days in a row now .;9;0.2003578103678916;0.0
+916;308;over time the discomfort subsided entirely .;-1;0.20002010995435587;0.0
+917;308;Initially , my arches ached but;10;0.20054931875205437;0.0
+918;308;I 've done everything from bootcamps , resistance training , running and Zumba .;13;0.20068195988488868;0.0
+919;308;"So yeah .. , they are truly crosstrainers ;-)";-1;0.19839080104080947;0.25
+920;309;I liked these shoes a lot .;25;0.24604614111791723;0.6
+921;309;Very light weight .;8;0.25134981968210135;0.52
+922;309;I did n't give a 5 because the color was a little lighter than I thought it was going to be but still a great shoe .;18;0.2512878689171559;0.30625
+923;309;Very comfortable;7;0.2513161702828255;0.52
+924;310;Love them ! ! !;2;1.0;0.9765625
+925;311;I love these shoes !;22;0.32288419865793955;0.625
+926;311;perfect for cardio;9;0.3383070249805172;1.0
+927;311;Great arch support and .;20;0.33880877636154305;0.8
+928;312;find that these shoes help give me good support   with my endurance workouts;0;0.5000000189957557;0.7
+929;312;I workout at the local crossfit and .;13;0.4999999810042442;0.0
+930;313;These shoes look really great .;6;0.19112715149287218;0.8
+931;313;However , slightly loose .;18;0.1980216219053624;-0.07692307692307693
+932;313;The problems with lack of support arose when I exercised .;-1;0.2011697205042528;0.0
+933;313;It feels like there is little to no support in them .;1;0.20585258541960294;-0.1875
+934;313;Possibly this is a shoe more geared for an office environment or short walking distances .;-1;0.20382892067790964;0.16666666666666666
+935;314;These are my favorite walk around shoes !;2;0.25560045624234506;0.625
+936;314;not be in pain;17;0.2490959532028902;0.0
+937;314;I can wear them all day and !;23;0.25411607449856266;0.0
+938;314;Love em !;2;0.24118751605620226;0.625
+939;315;walking - around sneakers;0;0.06261990130279546;0.0
+940;315;"Favorite training and . 
+";2;0.062130660810565244;0.5
+941;315;are comfortable for most situations;4;0.0626231439745121;0.45
+942;315;"They look good with just about anything , and . 
+";1;0.06205193282549957;0.7
+943;315;"With the exception of running ( for which I use proper Mizuno running sneakers with an arch - support insole ) , these sneakers are my go - to . 
+";0;0.06280078691241311;0.0
+944;315;If I could , I 'd take away a 1/2 star for arch support - I have a slightly wider front of the foot and arches that are a little on the high side , so I do look for a good under the foot fit .;12;0.06074227915900931;0.18116666666666667
+945;315;put in an insole(they're pretty expensive );-1;0.06321333845797629;-0.125
+946;315;"as is , when I did a zumba class in these , my arch began to twinge :( 
+";20;0.06265397878965581;-0.75
+947;315;I could probably tie the laces differently or , but;12;0.06128379257430338;0.0
+948;315;for training and gym use ( with the exception of running and zumba ( although hip - hop was fine ) .;9;0.06262845430691083;0.4166666666666667
+949;315;However , this is overall an awesome shoe that I will continue to stick with for going out , day to day walking , and;0;0.06318310284897713;0.5
+950;315;"do n't look "" dirty "" easily";-1;0.06318911521094844;-0.08333333333333331
+951;315;The shoes have a great flexibility to them and .;0;0.0630020033496951;0.8
+952;315;are just now on the verge of being worn out;-1;0.06180496138785998;0.0
+953;315;My previous pair of flex supreme TR 3s have lasted for a good 2 years and .;16;0.06276308966808788;0.26666666666666666
+954;315;This is the optimal sneaker that is flexible in more ways than one : from pointing you toes to leg - pressing , from gym use to shopping to adding a sporty edge to a dressy night out , the flex has it all .;-1;0.06330945842079044;0.5
+955;316;Love these !;2;0.5;0.625
+956;316;"I have 3 pairs ... they're so comfortable - I 'm on my feet all day & my feet actually do n't hurt at the end of the day when I wear these :) 
+ I 've learned to get these 1/2 size smaller .... I'm normally a size 7 and the 6 1/2 fit perfectly";3;0.5;0.35000000000000003
+957;317;Great shoes .;6;0.3277996459698591;0.8
+958;317;comfortable;17;0.3363890838288661;0.4
+959;317;Lightweight and;8;0.3358112702012746;0.0
+960;318;BEST .;15;0.16069025128722786;1.0
+961;318;SHOES .;0;0.16377711795221914;0.0
+962;318;EVER .  ;-1;0.16995650787498257;0.0
+963;318;I bought two pairs in different colors- black n ' white and the pink and white ...  ;11;0.1697484427794336;-0.05333333333333333
+964;318;They have AWESOME support for whatever you use them for ..;20;0.1709084736891175;1.0
+965;318;I have one for work and the other for training / running / etc in ...;9;0.16491920641701924;-0.125
+966;319;These sneakers give me the motivation to workout because they feel so good and are great for any training;0;1.0;0.75
+967;320;I LOVE the look and comfort of these shoes for style and lifting weights .;0;0.055321419004065286;0.5
+968;320;Super cute and flezable .;7;0.053349498429456535;0.41666666666666663
+969;320;BUT for running , absolutely not ! !;9;0.05618204645516604;-0.15625
+970;320;just do not work for my personal stride;13;0.05606826907987092;0.0
+971;320;It might just be my pronation / supnation and these shoes .;-1;0.055877067979415274;0.0
+972;320;I run about 2 - 4 miles every few days .;13;0.05579236635522222;-0.2
+973;320;then sprints twice a week on a treadmill;13;0.056009701509488974;0.0
+974;320;Average of 8 miles a week and .;13;0.05580371994920447;-0.15
+975;320;"Just after running with these 3 times , I am having major back issues that I have never had before . 
+
+";10;0.055823522444035184;0.03125
+976;320;other shoes;22;0.054181510071659125;-0.125
+977;320;"MY STATS and : 
+ I road and trail run .";13;0.055952042198116406;0.0
+978;320;a lot of heal on the road;-1;0.05603037067071351;0.0
+979;320;I run on my tip toes on the treadmill and .;13;0.055918591673649876;0.0
+980;320;I am 5'6 169lbs with more muscle than an average runner .;13;0.05587478666179789;0.175
+981;320;"Built more like a sprinter than a marathon runner . 
+";13;0.05603358875084832;0.5
+982;320;I LOVE Nike FLEX bottoms .;16;0.05504757345877487;0.5
+983;320;They really give me support and flex needed .;7;0.05486092665885019;0.2
+984;320;I have also used Asics and Puma .;0;0.05587299864966494;0.0
+985;321;Size 5 .;3;0.33130397378087395;0.0
+986;321;Very comfortable shoes .;0;0.33402385668535933;0.52
+987;321;Love !;2;0.33467216953376644;0.625
+988;322;they are amazing !  ;2;0.08246704916520171;0.7500000000000001
+989;322;I bought a wide size of these at a local store and;3;0.09063752306668557;-0.05
+990;322;Soft , comfy , with moderate support .  ;-1;0.09312359270900833;0.05
+991;322;not minimalist .  ;8;0.09264795536955676;0.0
+992;322;Not a cloud to walk on , but;-1;0.09263045637649386;0.0
+993;322;The wide size is perfect for my wide feet with high arches .  ;12;0.09241324063384553;0.24000000000000002
+994;322;The shoe tends to run about a half size long though , especially for Nike .  ;3;0.09128005741393702;-0.07222222222222223
+995;322;these shoes feel good all day ...;23;0.09293560742923514;0.7
+996;322;I am working on getting in shape , and;13;0.08922681621457859;0.0
+997;322;No rubbing on my big toe joint or pinkie toe or heel .  ;10;0.09196188613234595;0.0
+998;322;Very pleased .;5;0.09067581548911156;0.65
+999;323;I always buy the same size this ones came to large;3;1.0;0.10714285714285714
+1000;324;Nice shoes , fit good;1;1.0;0.5666666666666667
+1001;325;I bought these for my wife .;14;0.11524644667531969;0.0
+1002;325;did not have their size so i ordered on amazon;3;0.10778025876707803;0.0
+1003;325;She saw them in the store but .;14;0.11367509363371481;0.0
+1004;325;She loves them .;14;0.11322348976594951;0.0
+1005;325;no complains at all;5;0.11155813402032203;0.0
+1006;325;She already had for a couple of months and .;14;0.11328754225477303;0.0
+1007;325;One of her favorites shoes for running or for her job since she walks a lot in the warehouse .;0;0.10069789617816394;0.0
+1008;325;Now she loves me more .;14;0.1132544627149796;0.5
+1009;325;:);15;0.11127667598969931;0.5
+1010;326;Love these shoes .;6;0.13730540458401028;0.5
+1011;326;my old shoes were uncomfortable .;17;0.14534840280788405;-0.2
+1012;326;My feet have been weird since I was pregnant and;10;0.1414464367285292;-0.08333333333333334
+1013;326;help me get active;13;0.14017751361414835;-0.13333333333333333
+1014;326;These are very comfy and .;4;0.14570550865358795;0.2
+1015;326;go with anything;-1;0.14427026945229615;0.0
+1016;326;They are also stylish and .;4;0.14574646415954381;0.5
+1017;327;Look better than the picture , very comfortable , great support .;4;1.0;0.6066666666666667
+1018;328;Love my new Nike 's .  ;16;0.1262133343835492;0.3181818181818182
+1019;328;and I just could n't wear them any more );23;0.12662266037719166;0.5
+1020;328;now the new styles and sizing are perfect .  ;1;0.11873481173572428;0.5681818181818181
+1021;328;It 's been years since I 've been able to wear them ( sizing changed years ago but;23;0.12710891117772244;0.5
+1022;328;Lightweight shoe with tons of style .  ;0;0.12339918931873756;0.0
+1023;328;The Fog color is just what I was looking for ... not black and not neon !  ;11;0.12404502970566333;0.10416666666666666
+1024;328;they held up great !;8;0.12816815604484888;1.0
+1025;328;I wore them to participate in Relay for Life ( 24 hour walk ) and;-1;0.12570790725656267;0.0
+1026;329;I am so happy with this purchase .;5;0.1584375123735052;0.8
+1027;329;I feel like I 'm barely wearing a sneaker when working out .;0;0.16775846754107163;0.05
+1028;329;Another plus is that when I take off my sneaker , my sock is barely sweaty !;0;0.16809355214709526;0.0625
+1029;329;I have never had that experience with a shoe .;-1;0.17052008696632592;0.0
+1030;329;looks nice on my feet;1;0.16997904005294193;0.6
+1031;329;The shoe is also very attractive and flattering and .;-1;0.1652113409190598;1.0
+1032;330;Absolutely love them .;2;0.4999999874645648;0.5
+1033;330;Can even wear them without my insoles .;-1;0.5000000125354351;0.0
+1034;331;Super cute shoe however runs wide and big , I 'm a size 10 however this size 10 is too big .;3;0.34110473719302753;0.14666666666666667
+1035;331;tried the same shoe on   turns out with this particular shoe I 'm a 9.5 , so order half the size u normally are;3;0.33897493641962595;0.0375
+1036;331;I went to a sporting goods store and .;9;0.31992032638734635;0.0
+1037;332;Wore these for the first time hiking the bluffs .;23;0.1680431338084787;0.25
+1038;332;super comfy .;7;0.1647765292114233;0.3333333333333333
+1039;332;Not the best traction on well worn rocks , but;-1;0.16790132097850277;1.0
+1040;332;No blisters , no achilles pain like with other shoes .;10;0.16612911550653284;-0.125
+1041;332;Will continue to purchase Nike shoes , because my feet love them for all activities !;16;0.1649777373697919;0.625
+1042;332;( except my home workouts , they drag pretty hard on the carpet );9;0.1681721631252703;-0.04722222222222223
+1043;333;A - MA - ZING !  ;-1;0.14352800350590716;0.0
+1044;333;"these make me feel like "" Forest Gump """;-1;0.14523126397858352;0.0
+1045;333;I needed a good jogging shoe and .  ;0;0.14347091813138424;0.7
+1046;333;I felt like I was running on a cloud .  ;7;0.14457267675642987;0.0
+1047;333;I have narrow feet and these fit perfectly .  ;12;0.1397167607021733;0.39999999999999997
+1048;333;I am so happy that I am going to purchase another two pair as back - ups for once it 's time to replace them .  ;19;0.14019158880509996;0.4
+1049;333;Highly recommend to women who like to walk or run and light a light weight , comfortable shoe .;0;0.1432887881204219;0.34
+1050;334;lightweight;8;0.1673150678093775;0.0
+1051;334;Comfortable and .;7;0.16993453210196058;0.4
+1052;334;Need a good training shoe that 's also supportive and flexible .  ;0;0.1599414409357369;0.6
+1053;334;had to get 1/2 size larger as this style in my size;3;0.1636259192954318;0.0
+1054;334;is too perfect from heel to toe;12;0.17113699768514584;1.0
+1055;334;I really like the fit , but .;1;0.1680460421723472;0.30000000000000004
+1056;335;Excellent;15;1.0;1.0
+1057;336;These shoes are awesome !  ;22;0.13508863211176866;1.0
+1058;336;feel great on my feet;10;0.14236242734679985;0.8
+1059;336;They are nearly weightless and .  ;8;0.14617434463169215;0.1
+1060;336;The first day I wore them I wore them ALL day on vacation .  ;23;0.14554177010431218;0.25
+1061;336;did the same;5;0.13901982261000007;0.0
+1062;336;I put them on the next day and .  ;23;0.1453900894713087;0.0
+1063;336;Besides the comfort , they are really a cool color !;4;0.1464229137241183;0.4375
+1064;337;Super cute !;7;1.0;0.47916666666666663
+1065;338;perfect;15;1.0;1.0
+1066;339;This is the most comfortable shoe I 've ever had .;0;0.11269929921716038;0.45
+1067;339;work like it 's suppose to;-1;0.10440765597833615;0.0
+1068;339;No other shoe can compare to how the individual nubs on the bottom allow your foot to be cushioned , yet .;0;0.11285536870636323;0.03125
+1069;339;"My feet feel cradled in this shoe and hard surfaces do n't make my feet ache anymore . 
+
+";10;0.1119284576542049;-0.2916666666666667
+1070;339;These shoes have a small amount of support , but not much , which I like as I 'm coming from vibram five fingers .;-1;0.11293039461326232;-0.175
+1071;339;"( Sorry vffs , I 'm bailing after 2 years of shin splints , no matter what I did ) . 
+
+";-1;0.11107187013750128;-0.5
+1072;339;Highly recommended for walking / running on concrete or tracks .;9;0.11134397765362822;0.15500000000000003
+1073;339;As long as nike continues to make the flex supreme , they will get my money .;-1;0.11188156955613363;-0.05
+1074;339;Please do n't change this shoe !;-1;0.11088140648341;0.0
+1075;340;my heel slips on turns .;-1;0.25041288454481414;0.0
+1076;340;I wear them for Zumba and;9;0.24953801648889826;0.0
+1077;340;A little annoying because I have to pay attention;-1;0.25091111612466693;-0.49375
+1078;340;but they are so cute and comfy , it balances out .;4;0.24913798284162067;0.5
+1079;341;These run large .;25;0.17183472604077552;0.21428571428571427
+1080;341;these I bought a 9 , and the toe area is pretty wide plus plenty long even with socks .;3;0.1692016384498845;0.03333333333333333
+1081;341;I wear a 9.5 exactly in every shoe , but;3;0.1678630944255488;0.25
+1082;341;Very comfy and very nice looking shoe .;6;0.15637647224941081;0.49
+1083;341;glad I was able to try them on before purchasing;21;0.17360469132532858;0.5
+1084;341;I love them but .;2;0.16111937750905156;0.5
+1085;342;Perfect fit , very comfortable , and a great color .;1;0.5;0.6799999999999999
+1086;342;They also fit as expected .;1;0.5;0.15000000000000002
+1087;343;Really comfy and nice color;6;1.0;0.4
+1088;344;"The picture makes the shoe look like it has a "" boxier "" toe rather than the "" pointier "" toe that it actually has .";18;0.1443901997511223;0.0
+1089;344;generally need to buy a size or half size longer to get a comfortable width ( in any brand of shoe );3;0.14251887686886652;0.09444444444444446
+1090;344;I have wider feet and .;12;0.14258938319973027;0.0
+1091;344;I feel that the pictures of this shoe did n't accurately depict what I received , in that one detail .;18;0.14436911707952446;0.4000000000000001
+1092;344;I was shooting for a rounder , broader toe design which is more comfortable for me , and;12;0.14415445910586203;0.45
+1093;344;"Otherwise , "" the shoe fits . """;18;0.14367892447016156;0.0
+1094;344;So I am wearing it .;23;0.13829903952473271;0.0
+1095;345;These are the most comfortable shoes I 've used for working out .;0;0.2492161330609037;0.45
+1096;345;flexible;17;0.25159030623858225;0.0
+1097;345;Extremely light weight and .;8;0.25227901052979285;0.4
+1098;345;Loved them so much I purchased two more pair in different colors .;19;0.24691455017072114;0.35
+1099;346;looks great;1;0.5000000379594627;0.8
+1100;346;Very comfortable and !;7;0.4999999620405372;0.65
+1101;347;Love this shoes so comfy and great very everyday use .;9;0.5;0.3466666666666667
+1102;347;Runs big;3;0.5;0.0
+1103;348;fit;1;0.4999999936681912;0.4
+1104;348;Nice looking and nice;11;0.5000000063318089;0.6
+1105;349;on my feet all day long;23;0.03617418768493402;-0.05
+1106;349;I am a recess aide and .;13;0.03533847362100931;0.0
+1107;349;I tried these shoes on in the store before purchasing them on Amazon .;21;0.0341329315119892;0.0
+1108;349;They are very lightweight and comfortable .;4;0.035800057142340164;0.30000000000000004
+1109;349;I was surprised how great they felt .;4;0.035578402733746205;0.45
+1110;349;I have n't had a pair of Nikes since Nike shoxs came out .;16;0.035487525632081615;0.0
+1111;349;They are so much more lightweight than those .;8;0.03548915758999969;0.5
+1112;349;had no problems;-1;0.03507508050009763;0.0
+1113;349;I wore them an entire day the first day and .;23;0.036295270738390895;0.125
+1114;349;"The second day ; however , I got a pain in my hip to the point where I started limping .";-1;0.036124098798390014;0.0
+1115;349;As soon as I got home and took them off , the pain was gone the rest of the evening .;-1;0.03624024130278645;0.0
+1116;349;I 'm only 30 by the way .;13;0.03571289677241425;0.0
+1117;349;Nothing else in my daily routine changed except wearing these shoes two days in a row .;23;0.03633708266563959;0.0
+1118;349;I 'm sure that was the problem .;-1;0.03616197224920256;0.5
+1119;349;I do n't understand why it would make my hip hurt since they are comfortable on my feet , but;10;0.036021375073001856;0.4
+1120;349;had no pain;17;0.03607025247996218;0.0
+1121;349;I wore different shoes today and .;23;0.03658650918055998;0.0
+1122;349;I do n't think as much as I am on my feet I will be able to wear them an extended amount of time .;23;0.03655386451820626;0.35
+1123;349;I will have to rotate wearing them every other day .;23;0.036291106640064796;-0.125
+1124;349;For normal wear , I believe , people will be fine .;-1;0.03652325618867611;0.2833333333333333
+1125;349;standing six hours a day straight;23;0.03590660374590484;0.2
+1126;349;"I am literally walking or . 
+
+";13;0.03574936402535302;0.0
+1127;349;* * UPDATE :;5;0.03364974258046339;0.0
+1128;349;So , initially after wearing them , I had hip pain after wearing them .;10;0.03620036349322272;0.0
+1129;349;I wear them all the time now and have not experienced any pain since the first couple times of wearing them .;23;0.03631882428226315;-0.07500000000000001
+1130;349;I do n't know if they just needed to be broken in , but;-1;0.03649455651909498;-0.4
+1131;349;I love them even more now .;2;0.0320343287024094;0.5
+1132;349;They are comfortable , and;4;0.035652473627795625;0.4
+1133;350;Perfict fit for me .;1;0.49999999999999994;0.4
+1134;350;Great looking shoes at a great price .;6;0.49999999999999994;0.8
+1135;351;The sneakers are very comfortable and fit to size .;0;1.0;0.46
+1136;352;have so far enjoyed using them;-1;0.16910194392463998;0.3
+1137;352;I 've had these shoes for about a week now and .;13;0.1668818907726863;0.0
+1138;352;Considering the fact that I have wide feet , the shoes are slightly tight .;12;0.1665485828172126;-0.1392857142857143
+1139;352;does it bothers me as I use them throughout my workouts;9;0.16656999295067917;0.0
+1140;352;However , it does n't feel uncomfortable nor .;17;0.16477250686138634;-0.5
+1141;352;I know some people personally like when the shoes are a bit tighter or a bit looser so it 's all in personal preference .;12;0.16612508267339537;0.0
+1142;353;I really like them !;2;1.0;0.25
+1143;354;Good light weight shoe ... had to add insole for more support .;0;1.0;0.5333333333333333
+1144;355;I love my tennis shoes;22;1.0;0.5
+1145;356;I am not impressed .  ;5;0.1632783446521868;-0.5
+1146;356;This is a shoe I will wear with black dress pants or jeans when I need comfort and a little style , but;0;0.16628241612429404;-0.17708333333333331
+1147;356;This is a very flimsy shoe with little support at all .  ;-1;0.16907727861833852;0.0062500000000000056
+1148;356;Not like any Nike I 've ever purchased in the past .  ;16;0.16677633556215132;-0.25
+1149;356;it 's not comfortable .;17;0.16685032069381645;-0.2
+1150;356;It looks nice , but;11;0.1677353043492127;0.6
+1151;357;Love it ! !;2;0.20040439696835172;0.78125
+1152;357;nice;15;0.20285642179898059;0.6
+1153;357;Super comfortable and ! !;7;0.20150242781900024;0.47916666666666663
+1154;357;Got more than I expected , super flexible great for training .;17;0.19210754431468022;0.38333333333333336
+1155;357;Definetly recommend it .;21;0.20312920909898705;0.0
+1156;358;Excelente;-1;1.0;0.0
+1157;359;I do n't expect them to last more that one summer .  ;7;0.25403075968220284;0.25
+1158;359;These shoes are poorly constructed and;-1;0.24761413849256084;-0.4
+1159;359;will not order another Nike downshifter series again;-1;0.25326325571317204;0.0
+1160;359;Would not recommend , and;21;0.24509184611206405;0.0
+1161;360;"For the price I spent on the pair of shoes , I 'd say it 's as good as expected . 
+";-1;0.33665505693853137;0.16666666666666666
+1162;360;does n't hurt my feet when I run;17;0.32891777050882015;0.0
+1163;360;It 's comfortable and .;7;0.3344271725526483;0.4
+1164;361;I love this shoes they are so comfortable;0;1.0;0.45
+1165;362;I absolutely LOVE these shoes .;6;0.0996529557510921;0.5
+1166;362;These are my absolute favorite .;2;0.09781027246328806;0.35
+1167;362;comfortable;17;0.0966512252875371;0.4
+1168;362;So light and .;8;0.09851712644972077;0.4
+1169;362;These are actually my 2nd pair .;19;0.10120338338502952;0.0
+1170;362;they look good still .;1;0.10189333676428637;0.7
+1171;362;I am still wearing my 1st pair after 2 years and;19;0.1008815076316356;0.0
+1172;362;I want a back up pair for when my 1st pair wears out .;19;0.1012801197141073;0.0
+1173;362;I am just afraid they are going to disappear and;-1;0.1014776928768202;-0.6
+1174;362;These have been the best shoes I 've owned !;16;0.10063237967648296;1.0
+1175;363;Perfect fit !;1;1.0;0.75
+1176;364;My favorite cross trainers !;0;1.0;0.25
+1177;365;Love them fit perfect;1;1.0;0.6333333333333333
+1178;366;Favorite Nike shoe ever !;2;0.12588752985709875;0.625
+1179;366;The flex sole is excellent for someone like me who loves the free feeling of sandals or being barefoot .;15;0.12762763962617374;0.4666666666666666
+1180;366;These move effortlessly with the bend of my foot .;0;0.1272153084710999;0.0
+1181;366;I 've had no foot or ankle pain .;10;0.12366383606925425;0.0
+1182;366;I 've worn these for multiple activities and;-1;0.12711959815894736;0.0
+1183;366;the mesh breathes perfectly on hot summer days .;7;0.12711834873864766;0.25
+1184;366;The white / green / dark grey color goes with so many outfits and;11;0.1238610129106457;0.020000000000000007
+1185;366;Highly recommend !;21;0.11750672616813267;0.2
+1186;367;I wear these everyday to work , the gym , etc .;9;1.0;-0.2
+1187;368;Love these shoes !;22;0.4999999937160097;0.625
+1188;368;Great fit , very light weight .;1;0.5000000062839902;0.5733333333333334
+1189;369;fit my small feet perfectly;1;0.12040992334878511;0.3833333333333333
+1190;369;Super comfortable and .;7;0.12592199736402673;0.3666666666666667
+1191;369;I have flat feet so a lot of shoes are not comfortable for long periods of time .;-1;0.1234291756264561;-0.09166666666666667
+1192;369;they are super comfortable .;4;0.12649213976792056;0.3666666666666667
+1193;369;I can wear the shoe all day long and;23;0.1263217560771938;-0.05
+1194;369;they are easy to clean compared to other shoes I ve had .;-1;0.1271959009195457;0.225
+1195;369;They are light colored so any dirt will be seen right away , but;-1;0.12725590790921304;0.34285714285714286
+1196;369;Would definitely buy another pair in a different color .;21;0.12297319898685902;0.0
+1197;370;Love these shoes !;22;1.0;0.625

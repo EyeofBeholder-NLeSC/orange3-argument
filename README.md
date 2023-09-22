@@ -1,5 +1,7 @@
 # Orange3 Argument Mining Add-on
 
+[![read the docs badge](https://readthedocs.org/projects/pip/badge/)](https://orange3-argument.readthedocs.io/en/latest/)
+
 This is the Orange3 argument mining add-on for [the Eye of the Beholder project](https://research-software-directory.org/projects/the-eye-of-the-beholder). 
 
 

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore",
+    "default:::orangecontrib.argument.miner"
+]
+
+[tool.coverage.run]
+branch = true
+source = ["orangecontrib/argument/miner"]
+relative_files = true
+
+[tool.coverage.report]
+show_missing = true
