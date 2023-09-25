@@ -127,3 +127,6 @@ dmypy.json
 
 # vscode configuration
 # .vscode/
+
+# docs file
+docs/_build

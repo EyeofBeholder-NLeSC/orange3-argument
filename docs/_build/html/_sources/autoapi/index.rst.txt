@@ -6,10 +6,10 @@ This page contains auto-generated API reference documentation [#f1]_.
 .. toctree::
    :titlesonly:
 
-   /autoapi/chunker/index
-   /autoapi/utilities/index
    /autoapi/miner/index
-   /autoapi/reader/index
+   /autoapi/chunker/index
    /autoapi/processor/index
+   /autoapi/reader/index
+   /autoapi/utilities/index
 
 .. [#f1] Created with `sphinx-autoapi <https://github.com/readthedocs/sphinx-autoapi>`_
