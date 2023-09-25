@@ -126,7 +126,7 @@ dmypy.json
 .pyre/
 
 # vscode configuration
-# .vscode/
+.vscode/
 
 # docs file
 docs/_build
