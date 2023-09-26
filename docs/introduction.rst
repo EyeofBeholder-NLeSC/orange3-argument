@@ -7,7 +7,8 @@ At its core, this work is committed to transparency and interpretability through
 
 Moreover, we have implemented an intuitive, visual programming module that brings the power of argument mining to researchers with limited programming expertise. This feature enables individuals from diverse backgrounds to harness the potential of argument analysis, making it accessible to a broader range of researchers and practitioners.
 
-.. image:: flowchart.png
+.. figure:: _static/flowchart.png
+    :align: center
 
 The package contains three components that can be used to build the workflow:
 
