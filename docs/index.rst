@@ -14,7 +14,6 @@ Contents
 
    introduction
    installation
-   getting_started
    example
    widget_guis
    

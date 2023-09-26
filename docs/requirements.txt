@@ -3,3 +3,4 @@ sphinx_rtd_theme
 sphinx-autoapi
 nbsphinx
 nbsphinx_link
+myst_parser
