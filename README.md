@@ -15,7 +15,14 @@ This is a Python package that implement a selection of argument mining technique
 
 ## Installation
 
-To install, first navigate to the project folder in terminal. We recommand you to create a virtual environment and install everything there. You can choose whatever tool you prefer to do so.
+To install, first navigate to your work directory in terminal:
+
+```console
+cd /path/to/your/working/directory/
+```
+
+
+We recommand you to create a virtual environment and install everything there. You can choose whatever tool you prefer to do so.
 
 After activating your newly created virtual environment, you can install the add-on, together with Orange3 and all the other dependencies by running
 
