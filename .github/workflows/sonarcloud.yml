@@ -35,7 +35,7 @@ jobs:
           python3 -m pip install .[dev]
 
       - name: Run tests with coverage
-        run: pytest -v --cov=orangecontrib.argument.miner --cov-report term --cov-report xml:coverage.xml tests/ 
+        run: pytest -v --cov=orangearg.argument.miner --cov-report term --cov-report xml:coverage.xml tests/ 
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
