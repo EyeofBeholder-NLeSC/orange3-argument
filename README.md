@@ -9,7 +9,7 @@
 [![supported python versions](https://img.shields.io/badge/Python-3.8_%7C_3.9_%7C_3.10_%7C_3.11-blue)](./setup.cfg)
 
 <div align="center">
-    <img src="./screenshot.png">
+    <img src="https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/screenshot.png">
 </div>
 
 This work is an open-source Python package that implements a pipeline of processing, analyzing, and visualizing an argument corpus and the attacking relationship inside the corpus. It also implements the corresponding GUIs on a scientific workflow platform named [Orange3](https://orangedatamining.com/), so that users with little knowledge of Python programming can also benefit from it.
@@ -30,7 +30,7 @@ This package is designed with a clear mission: to empower researchers in buildin
 Please cite this work if you use it for scientific or commercial purpose.
 
 <div align="center">
-    <img src="./docs/_static/flowchart.png">
+    <img src="https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/docs/_static/flowchart.png">
 </div>
 
 ## Installation
