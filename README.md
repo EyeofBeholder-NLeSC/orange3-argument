@@ -5,8 +5,12 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EyeofBeholder-NLeSC_orange3-argument&metric=coverage)](https://sonarcloud.io/summary/new_code?id=EyeofBeholder-NLeSC_orange3-argument)
 [![read the docs badge](https://readthedocs.org/projects/pip/badge/)](https://orange3-argument.readthedocs.io/en/latest/)
 [![code style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
-[![supported python versions](https://img.shields.io/badge/Python-3.8_%7C_3.9_%7C_3.10_%7C_3.11-blue)](./setup.cfg)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/LICENSE)
+[![PyPI - Version](https://img.shields.io/pypi/v/orangearg)](https://pypi.org/project/orangearg/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/orangearg)](https://pypi.org/project/orangearg/)
+[![DOI](https://zenodo.org/badge/577722891.svg)](https://zenodo.org/badge/latestdoi/577722891)
+[![Research Software Directory](https://img.shields.io/badge/RSD-Orange3_Argument-blue)](https://research-software-directory.org/software/orange3-argument-add-on)
+[![fair-software badge](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
 
 <div align="center">
     <img src="https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/screenshot.png">
