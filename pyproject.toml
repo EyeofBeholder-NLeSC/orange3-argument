@@ -6,12 +6,12 @@ build-backend = "setuptools.build_meta"
 testpaths = ["tests"]
 filterwarnings = [
     "ignore",
-    "default:::orangecontrib.argument.miner"
+    "default:::orangearg.argument.miner"
 ]
 
 [tool.coverage.run]
 branch = true
-source = ["orangecontrib/argument/miner"]
+source = ["orangearg/argument/miner"]
 relative_files = true
 
 [tool.coverage.report]

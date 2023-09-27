@@ -5,7 +5,7 @@ from itertools import combinations
 
 import pandas as pd
 
-from orangecontrib.argument.miner.utilities import check_columns
+from orangearg.argument.miner.utilities import check_columns
 
 
 def select_by_topic(data: pd.DataFrame, topic: int) -> pd.DataFrame:

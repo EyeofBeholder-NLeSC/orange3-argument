@@ -7,8 +7,8 @@ member-warnings: false
 
 ignore-paths:
   - tests
-  - orangecontrib/argument/graph
-  - orangecontrib/argument/widgets
+  - orangearg/argument/graph
+  - orangearg/argument/widgets
 
 pyroma:
   run: true

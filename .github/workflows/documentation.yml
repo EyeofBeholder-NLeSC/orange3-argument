@@ -1,0 +1,36 @@
+name: documentation
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: 
+    - main
+    - doc
+  pull_request:
+    branches:
+    - main
+
+jobs: 
+  build-docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Upgrade and install dependencies
+        run: |
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install -r ./docs/requirements.txt
+
+      - name: Install pandoc
+        run: sudo apt install pandoc
+
+      - name: Build documentation
+        run: make clean html
+        working-directory: docs

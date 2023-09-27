@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 from pytest import approx
 
-from orangecontrib.argument.miner.processor import (
+from orangearg.argument.miner.processor import (
     get_argument_topics,
     get_argument_sentiment,
     get_argument_coherence,
@@ -13,7 +13,7 @@ from orangecontrib.argument.miner.processor import (
     _match_list_size,
     _aggregate_list_by_another,
 )
-from orangecontrib.argument.miner.utilities import check_columns
+from orangearg.argument.miner.utilities import check_columns
 
 
 @pytest.mark.parametrize(

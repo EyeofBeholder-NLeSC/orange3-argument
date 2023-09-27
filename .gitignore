@@ -68,9 +68,6 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
-
 # PyBuilder
 target/
 
@@ -129,4 +126,7 @@ dmypy.json
 .pyre/
 
 # vscode configuration
-# .vscode/
+.vscode/
+
+# docs file
+docs/_build
