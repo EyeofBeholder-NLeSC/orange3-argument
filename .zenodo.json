@@ -1,0 +1,34 @@
+{
+  "creators": [
+    {
+      "affiliation": "Netherlands eScience Center",
+      "name": "Qi, Ji",
+      "orcid": "0000-0001-8074-2730"
+    },
+    {
+      "affiliation": "Centrum Wiskunde & Informatica",
+      "name": "Ceolin, Davide",
+      "orcid": "0000-0002-3357-9130"
+    },
+    {
+      "affiliation": "Centrum Wiskunde & Informatica",
+      "name": "Keshavarzi Zafarghandi, Atefeh ",
+      "orcid": "0000-0002-5806-1012"
+    }
+  ],
+  "description": "This work is an open-source Python package that implements a pipeline of processing, analyzing, and visualizing an argument corpus and the attacking relationship inside the corpus. It also implements the corresponding GUIs on a scientific workflow platform named Orange3, so that users with little knowledge of Python programming can also benefit from it.",
+  "keywords": [
+    "Python",
+    "Natural Language Processing",
+    "Sentiment Analysis",
+    "Orange3",
+    "Argument Mining",
+    "Visualization"
+  ],
+  "license": {
+    "id": "Apache-2.0"
+  },
+  "publication_date": "2023-09-27",
+  "title": "Orange3 Argument Add-on",
+  "version": "0.1.0-alpha"
+}

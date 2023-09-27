@@ -1,0 +1,47 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Orange3 Argument Add-on
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Ji
+    family-names: Qi
+    email: qiji1988ben@gmail.com
+    affiliation: Netherlands eScience Center
+    orcid: 'https://orcid.org/0000-0001-8074-2730'
+  - given-names: Davide
+    family-names: Ceolin
+    email: davide.ceolin@cwi.nl
+    affiliation: Centrum Wiskunde & Informatica
+    orcid: 'https://orcid.org/0000-0002-3357-9130'
+  - given-names: 'Atefeh '
+    family-names: Keshavarzi Zafarghandi
+    email: atefeh.keshavarzi.zafarghandi@cwi.nl
+    affiliation: Centrum Wiskunde & Informatica
+    orcid: 'https://orcid.org/0000-0002-5806-1012'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.8383636
+repository-code: 'https://github.com/EyeofBeholder-NLeSC/orange3-argument'
+abstract: >-
+  This work is an open-source Python package that implements
+  a pipeline of processing, analyzing, and visualizing an
+  argument corpus and the attacking relationship inside the
+  corpus. It also implements the corresponding GUIs on a
+  scientific workflow platform named Orange3, so that users
+  with little knowledge of Python programming can also
+  benefit from it.
+keywords:
+  - Python
+  - Natural Language Processing
+  - Sentiment Analysis
+  - Orange3
+  - Argument Mining
+  - Visualization
+license: Apache-2.0
+version: 0.1.0-alpha
+date-released: '2023-09-27'
