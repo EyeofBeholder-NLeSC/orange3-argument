@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/EyeofBeholder-NLeSC/orange3-argument/blob/main/LICENSE)
 [![PyPI - Version](https://img.shields.io/pypi/v/orangearg)](https://pypi.org/project/orangearg/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/orangearg)](https://pypi.org/project/orangearg/)
-[![DOI](https://zenodo.org/badge/577722891.svg)](https://zenodo.org/badge/latestdoi/577722891)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8383636.svg)](https://doi.org/10.5281/zenodo.8383636)
 [![Research Software Directory](https://img.shields.io/badge/RSD-Orange3_Argument-blue)](https://research-software-directory.org/software/orange3-argument-add-on)
 [![fair-software badge](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
 
