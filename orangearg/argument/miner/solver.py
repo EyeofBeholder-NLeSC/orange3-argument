@@ -1,7 +1,6 @@
 """The solver module.
 """
 
-
 from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
@@ -14,14 +13,42 @@ class Collector:
     def __init__(self, data: np.ndarray):
         self._data = np.array([data])
 
-    def collect(self, new_data=np.ndarray):
-        self._data = np.vstack([self._data, new_data])
+    @property
+    def data(self):
+        """The data collection.
 
-    def output(self):
+        Returns:
+            _type_: _description_
+        """
         return self._data.T
 
+    def collect(self, new_data: np.ndarray):
+        """Collect new data and add to the existing data queue.
+
+        Args:
+            new_data (np.ndarray): _description_.
+        """
+        self._data = np.vstack([self._data, new_data])
+
     def plot(self):
-        pass
+        """Plot the data and return the figure object.
+
+        Returns:
+            _type_: _description_
+        """
+        data = self._data.T
+        num_argu, num_steps = data.shape
+        fig, ax = plt.subplots()
+
+        x = range(num_steps)
+        for i in range(num_argu):
+            y = data[i]
+            ax.plot(x, y, label=i)
+        ax.set_xlabel("Step")
+        ax.set_ylabel("Strength")
+        ax.legend()
+
+        return fig
 
 
 class Adaptor:
