@@ -1,6 +1,6 @@
 """The solver module.
 """
-
+from copy import deepcopy
 from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
@@ -122,20 +122,83 @@ class Adaptor:
 class Solver(ABC):
     """Solver class to learn strength of arguments from their attacking/supporting graph."""
 
-    def __init__(self):
-        pass
+    def __init__(self, step_size: float, max_iter: int, data_adaptor: Adaptor):
+        self._weights = data_adaptor.compute_weights()
+        self._parent_vectors = data_adaptor.compute_parent_vectors()
+        self._strength_vector = deepcopy(self.weights)
+        self.step_size = step_size
+        self.max_iter = max_iter
+
+    @property
+    def parent_vectors(self):
+        return self._parent_vectors
+
+    @property
+    def strength_vector(self):
+        return self._strength_vector
+
+    @property
+    def weights(self):
+        return self._weights
 
     @abstractmethod
-    def aggregate(self):
-        pass
+    def aggregate(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
+        """Aggregation function.
+
+        Args:
+            parent_vector (np.ndarray): parameter vector of an argument.
+            strength_vector (np.ndarray): strength vector of all arguments.
+        """
 
     @abstractmethod
-    def influence(self):
-        pass
+    def influence(
+        self, aggreg_strength: float, weight: float, p: int = 2, k: float = 1
+    ):
+        """Influence function.
+
+        Args:
+            aggreg_strength (float): _description_
+            weight (float): _description_
+            p (int, optional): Conservativeness parameter, available for Linear and p-Max kernel. Defaults to 2.
+            k (float, optional): Power parameter, only available for p-Max kernel. Defaults to 1.
+        """
 
     def compute_delta(self):
-        pass
+        """Compute increment of strength vector in each step.
+
+        Returns:
+            _type_: _description_
+        """
+        new_strengths = []
+        for i in range(self._parent_vectors.shape[0]):
+            aggreg_strength = self.aggregate(
+                parent_vector=self._parent_vectors[i],
+                strength_vector=self._strength_vector,
+            )
+            new_strength = self.influence(
+                aggreg_strength=aggreg_strength, weight=self._weights[i]
+            )
+            new_strengths.append(new_strength)
+        return np.array(new_strengths) - self._strength_vector
 
     @abstractmethod
-    def approximate(self):
-        pass
+    def approximate(
+        self,
+        parent_vectors: np.ndarray,
+        strength_vector: np.ndarray,
+        weights: np.ndarray,
+        step_size: float,
+        max_iter: int,
+    ) -> tuple[int, np.ndarray]:
+        """Approximation function.
+
+        Args:
+            parent_vectors (np.ndarray): All the parent vectors.
+            strength_vector (np.ndarray): The strength vector of all arguments.
+            weights (np.ndarray): The weight vector of all arguments.
+            step_size (float): Step size of the approximation process.
+            max_iter (int): Maximum number of steps.
+
+        Returns:
+            tuple[int, np.ndarray]: Index of the final step and the convergence result.
+        """
