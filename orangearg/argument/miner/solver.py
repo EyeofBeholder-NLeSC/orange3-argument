@@ -189,6 +189,7 @@ class Solver(ABC):
         weights: np.ndarray,
         step_size: float,
         max_iter: int,
+        data_collector: Collector = None,
     ) -> tuple[int, np.ndarray]:
         """Approximation function.
 
@@ -198,7 +199,59 @@ class Solver(ABC):
             weights (np.ndarray): The weight vector of all arguments.
             step_size (float): Step size of the approximation process.
             max_iter (int): Maximum number of steps.
+            data_collector (Collector): Data collector that keeps strength vectors in all steps.
 
         Returns:
             tuple[int, np.ndarray]: Index of the final step and the convergence result.
         """
+
+
+def aggreg_sum(parent_vector: np.ndarray, strength_vector: np.ndarray) -> np.ndarray:
+    """Sum aggregation function.
+
+    Args:
+        parent_vector (np.ndarray): _description_
+        strength_vector (np.ndarray): _description_
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        np.ndarray: _description_
+    """
+    if parent_vector.size != strength_vector.size:
+        raise ValueError(
+            f"Size of input vectors doesn't match: {parent_vector.size}, {strength_vector.size}."
+        )
+    return parent_vector @ strength_vector
+
+
+def infl_pmax(aggreg_strength: float, weight: float, p: int, k: float) -> float:
+    """PMax influence function.
+
+    Args:
+        aggreg_strength (float): _description_
+        weight (float): _description_
+        p (int): _description_
+        k (float): _description_
+
+    Returns:
+        float: _description_
+    """
+
+    def h(x):
+        return max(0, x) ** p / (1 + max(0, x) ** p)
+
+    return weight * (1 - h(-aggreg_strength / k) + h(aggreg_strength / k))
+
+
+# TODO: think about how to integrate the compute_delta function.
+def appr_rk4(
+    parent_vectors: np.ndarray,
+    strength_vector: np.ndarray,
+    weights: np.ndarray,
+    step_size: float,
+    max_iter: int,
+    data_collector: Collector = None,
+) -> tuple[int, np.ndarray]:
+    pass
