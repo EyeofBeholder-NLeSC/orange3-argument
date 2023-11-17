@@ -130,7 +130,8 @@ class Adaptor:
         Returns:
             np.ndarray: _description_
         """
-        return self._arguments["coherence"].to_numpy(dtype=float)
+        weights = self._arguments["coherence"].to_numpy(dtype=float)
+        return deepcopy(weights)
 
     def compute_parent_vectors(self) -> np.ndarray:
         """_summary_
@@ -158,17 +159,36 @@ class Adaptor:
 class Solver(ABC):
     """Solver class to learn strength of arguments from their attacking/supporting graph."""
 
-    approximators = ["RK4"]
+    approximator_options = ["RK4"]
+    initial_strength_options = ["weight", "uniform"]
 
     def __init__(
-        self, step_size: float, max_iter: int, epsilon: float, data_adaptor: Adaptor
+        self,
+        step_size: float,
+        max_iter: int,
+        epsilon: float,
+        data_adaptor: Adaptor,
+        init_method: str = "weight",
     ):
         self._weights = data_adaptor.compute_weights()
         self._parent_vectors = data_adaptor.compute_parent_vectors()
-        self._strength_vector = deepcopy(self.weights)
+        self._strength_vector = None
         self.step_size = step_size
         self.max_iter = max_iter
         self.epsilon = epsilon
+
+        self.init_strength(init_method=init_method)
+
+    def init_strength(self, init_method: str = "weight"):
+        """Initial strength vector."""
+        if init_method == "weight":
+            self._strength_vector = deepcopy(self._weights)
+        elif init_method == "uniform":
+            self._strength_vector = 0.5 * np.ones(len(self._weights))
+        else:
+            raise ValueError(
+                f"Method of initializing strength should be one of {self.initial_strength_options}, but {init_method} is given."
+            )
 
     @property
     def parent_vectors(self):
@@ -244,7 +264,7 @@ class Solver(ABC):
         self,
         approximator: str,
         collect_data: bool = False,
-    ) -> int:
+    ) -> tuple[int, Collector | None]:
         """_summary_
 
         Args:
@@ -257,16 +277,28 @@ class Solver(ABC):
         Returns:
             int: _description_
         """
+        data_collector = Collector(data=self._strength_vector) if collect_data else None
+
         if approximator == "RK4":
-            return self._appr_rk4(collect_data=collect_data)
+            appr_func = self._appr_rk4
         else:
             raise ValueError(
-                f"Approximator not available, should be one of {self.approximators}."
+                f"Approximator should be one of {self.approximator_options}, but {approximator} is given."
             )
 
-    @staticmethod
+        for step in range(int(self.max_iter)):
+            derivative = appr_func()
+            self._strength_vector += derivative
+
+            # pylint: disable=W0106
+            data_collector and data_collector.collect(self._strength_vector)
+            if abs(derivative).max() < self.epsilon:
+                break
+
+        return step, data_collector
+
     def _aggreg_sum(
-        parent_vector: np.ndarray, strength_vector: np.ndarray
+        self, parent_vector: np.ndarray, strength_vector: np.ndarray
     ) -> np.ndarray:
         """Sum aggregation function.
 
@@ -286,8 +318,9 @@ class Solver(ABC):
             )
         return parent_vector @ strength_vector
 
-    @staticmethod
-    def _infl_pmax(aggreg_strength: float, weight: float, p: int, k: float) -> float:
+    def _infl_pmax(
+        self, aggreg_strength: float, weight: float, p: int, k: float
+    ) -> float:
         """PMax influence function.
 
         Args:
@@ -305,36 +338,23 @@ class Solver(ABC):
 
         return weight * (1 - h(-aggreg_strength / k) + h(aggreg_strength / k))
 
-    def _appr_rk4(
-        self,
-        collect_data: bool = False,
-    ) -> tuple[int, Collector | None]:
-        collector = Collector(self._strength_vector) if collect_data else None
+    def _appr_rk4(self) -> np.ndarray:
+        """Runge-Kutta order-4 approximator.
 
-        for step in range(int(self.max_iter)):
-            k1 = self.compute_delta(strength_vector=self._strength_vector)
-            k2 = self.compute_delta(
-                strength_vector=self._strength_vector + 0.5 * self.step_size * k1
-            )
-            k3 = self.compute_delta(
-                strength_vector=self._strength_vector + 0.5 * self.step_size * k2
-            )
-            k4 = self.compute_delta(
-                strength_vector=self.strength_vector + self.step_size * k3
-            )
-            delta = self.step_size * (k1 + 2 * k2 + 2 * k3 + k4) / 6
-            self._strength_vector += delta
-
-            # pylint: disable=W0106
-            collector and collector.collect(self._strength_vector)
-            if abs(delta).max() < self.epsilon:
-                break
-
-        return step, collector
-
-    def reset(self):
-        """Reset the solver model."""
-        self._strength_vector = self._weights
+        Returns:
+            np.ndarray: _description_
+        """
+        k1 = self.compute_delta(strength_vector=self._strength_vector)
+        k2 = self.compute_delta(
+            strength_vector=self._strength_vector + 0.5 * self.step_size * k1
+        )
+        k3 = self.compute_delta(
+            strength_vector=self._strength_vector + 0.5 * self.step_size * k2
+        )
+        k4 = self.compute_delta(
+            strength_vector=self.strength_vector + self.step_size * k3
+        )
+        return self.step_size * (k1 + 2 * k2 + 2 * k3 + k4) / 6
 
 
 class QuadraticEnergySolver(Solver):
