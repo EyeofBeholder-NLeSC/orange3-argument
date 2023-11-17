@@ -2,6 +2,7 @@
 """
 from copy import deepcopy
 from abc import ABC, abstractmethod
+import math
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
@@ -297,8 +298,9 @@ class Solver(ABC):
 
         return step, data_collector
 
+    @staticmethod
     def _aggreg_sum(
-        self, parent_vector: np.ndarray, strength_vector: np.ndarray
+        parent_vector: np.ndarray, strength_vector: np.ndarray
     ) -> np.ndarray:
         """Sum aggregation function.
 
@@ -318,9 +320,8 @@ class Solver(ABC):
             )
         return parent_vector @ strength_vector
 
-    def _infl_pmax(
-        self, aggreg_strength: float, weight: float, p: int, k: float
-    ) -> float:
+    @staticmethod
+    def _infl_pmax(aggreg_strength: float, weight: float, p: int, k: float) -> float:
         """PMax influence function.
 
         Args:
@@ -337,6 +338,10 @@ class Solver(ABC):
             return max(0, x) ** p / (1 + max(0, x) ** p)
 
         return weight * (1 - h(-aggreg_strength / k) + h(aggreg_strength / k))
+
+    @staticmethod
+    def _infl_euler(aggreg_strength: float, weight: float) -> float:
+        return 1 - (1 - weight**2) / (1 + weight * math.exp(aggreg_strength))
 
     def _appr_rk4(self) -> np.ndarray:
         """Runge-Kutta order-4 approximator.
@@ -373,3 +378,21 @@ class QuadraticEnergySolver(Solver):
         self, aggreg_strength: float, weight: float, p: int = 2, k: float = 1
     ):
         return self._infl_pmax(aggreg_strength=aggreg_strength, weight=weight, p=p, k=k)
+
+
+class EulerSolver(Solver):
+    """Euler Solver
+
+    Args:
+        Solver (_type_): _description_
+    """
+
+    def aggregate(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
+        return self._aggreg_sum(
+            parent_vector=parent_vector, strength_vector=strength_vector
+        )
+
+    def influence(
+        self, aggreg_strength: float, weight: float, p: int = 2, k: float = 1
+    ):
+        return self._infl_euler(aggreg_strength=aggreg_strength, weight=weight)
