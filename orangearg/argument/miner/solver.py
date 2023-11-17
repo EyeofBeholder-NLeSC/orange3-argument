@@ -66,6 +66,11 @@ class Adaptor:
 
     @property
     def arguments(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
         return self._arguments
 
     @arguments.setter
@@ -75,6 +80,11 @@ class Adaptor:
 
     @property
     def attacks(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
         return self._attacks
 
     @attacks.setter
@@ -85,6 +95,11 @@ class Adaptor:
 
     @property
     def supports(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
         return self._supports
 
     @supports.setter
@@ -95,13 +110,32 @@ class Adaptor:
 
     @staticmethod
     def validate(data: pd.DataFrame, columns: list):
+        """_summary_
+
+        Args:
+            data (pd.DataFrame): _description_
+            columns (list): _description_
+
+        Raises:
+            ValueError: _description_
+        """
         if not set(columns).issubset(data.columns):
             raise ValueError(f"One or more columns in {columns} missing.")
 
     def compute_weights(self) -> np.ndarray:
+        """_summary_
+
+        Returns:
+            np.ndarray: _description_
+        """
         return self._arguments["coherence"].to_numpy(dtype=float)
 
     def compute_parent_vectors(self) -> np.ndarray:
+        """_summary_
+
+        Returns:
+            np.ndarray: _description_
+        """
         num_argu = len(self._arguments)
         result = np.zeros((num_argu, num_argu))
 
@@ -112,9 +146,9 @@ class Adaptor:
             result[r["target"], r["source"]] = 1
 
         if self._attacks is not None:
-            self._attacks.apply(lambda r: add_attack(r), axis=1)
+            self._attacks.apply(add_attack, axis=1)
         if self._supports is not None:
-            self._supports.apply(lambda r: add_support(r), axis=1)
+            self._supports.apply(add_support, axis=1)
 
         return result
 
@@ -122,23 +156,43 @@ class Adaptor:
 class Solver(ABC):
     """Solver class to learn strength of arguments from their attacking/supporting graph."""
 
-    def __init__(self, step_size: float, max_iter: int, data_adaptor: Adaptor):
+    approximators = ["RK4"]
+
+    def __init__(
+        self, step_size: float, max_iter: int, epsilon: float, data_adaptor: Adaptor
+    ):
         self._weights = data_adaptor.compute_weights()
         self._parent_vectors = data_adaptor.compute_parent_vectors()
         self._strength_vector = deepcopy(self.weights)
         self.step_size = step_size
         self.max_iter = max_iter
+        self.epsilon = epsilon
 
     @property
     def parent_vectors(self):
+        """Parent vectors of arguments.
+
+        Returns:
+            _type_: _description_
+        """
         return self._parent_vectors
 
     @property
     def strength_vector(self):
+        """Strength vector of arguments.
+
+        Returns:
+            _type_: _description_
+        """
         return self._strength_vector
 
     @property
     def weights(self):
+        """Weights of arguments.
+
+        Returns:
+            _type_: _description_
+        """
         return self._weights
 
     @abstractmethod
@@ -163,8 +217,11 @@ class Solver(ABC):
             k (float, optional): Power parameter, only available for p-Max kernel. Defaults to 1.
         """
 
-    def compute_delta(self):
+    def compute_delta(self, strength_vector: np.ndarray):
         """Compute increment of strength vector in each step.
+
+        Args:
+            strength_vector (np.ndarray): the strength vector at which the function will compute increment.
 
         Returns:
             _type_: _description_
@@ -173,7 +230,7 @@ class Solver(ABC):
         for i in range(self._parent_vectors.shape[0]):
             aggreg_strength = self.aggregate(
                 parent_vector=self._parent_vectors[i],
-                strength_vector=self._strength_vector,
+                strength_vector=strength_vector,
             )
             new_strength = self.influence(
                 aggreg_strength=aggreg_strength, weight=self._weights[i]
@@ -181,77 +238,116 @@ class Solver(ABC):
             new_strengths.append(new_strength)
         return np.array(new_strengths) - self._strength_vector
 
-    @abstractmethod
-    def approximate(
+    def solve(
         self,
-        parent_vectors: np.ndarray,
-        strength_vector: np.ndarray,
-        weights: np.ndarray,
-        step_size: float,
-        max_iter: int,
-        data_collector: Collector = None,
-    ) -> tuple[int, np.ndarray]:
-        """Approximation function.
+        approximator: str,
+        collect_data: bool = False,
+    ) -> int:
+        """_summary_
 
         Args:
-            parent_vectors (np.ndarray): All the parent vectors.
-            strength_vector (np.ndarray): The strength vector of all arguments.
-            weights (np.ndarray): The weight vector of all arguments.
-            step_size (float): Step size of the approximation process.
-            max_iter (int): Maximum number of steps.
-            data_collector (Collector): Data collector that keeps strength vectors in all steps.
+            approximator (str): _description_
+            collect_data (bool, optional): _description_. Defaults to False.
+
+        Raises:
+            ValueError: _description_
 
         Returns:
-            tuple[int, np.ndarray]: Index of the final step and the convergence result.
+            int: _description_
+        """
+        if approximator == "RK4":
+            return self._appr_rk4(collect_data=collect_data)
+        else:
+            raise ValueError(
+                f"Approximator not available, should be one of {self.approximators}."
+            )
+
+    @staticmethod
+    def _aggreg_sum(
+        parent_vector: np.ndarray, strength_vector: np.ndarray
+    ) -> np.ndarray:
+        """Sum aggregation function.
+
+        Args:
+            parent_vector (np.ndarray): _description_
+            strength_vector (np.ndarray): _description_
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            np.ndarray: _description_
+        """
+        if parent_vector.size != strength_vector.size:
+            raise ValueError(
+                f"Size of input vectors doesn't match: {parent_vector.size}, {strength_vector.size}."
+            )
+        return parent_vector @ strength_vector
+
+    @staticmethod
+    def _infl_pmax(aggreg_strength: float, weight: float, p: int, k: float) -> float:
+        """PMax influence function.
+
+        Args:
+            aggreg_strength (float): _description_
+            weight (float): _description_
+            p (int): _description_
+            k (float): _description_
+
+        Returns:
+            float: _description_
         """
 
+        def h(x):
+            return max(0, x) ** p / (1 + max(0, x) ** p)
 
-def aggreg_sum(parent_vector: np.ndarray, strength_vector: np.ndarray) -> np.ndarray:
-    """Sum aggregation function.
+        return weight * (1 - h(-aggreg_strength / k) + h(aggreg_strength / k))
+
+    def _appr_rk4(
+        self,
+        collect_data: bool = False,
+    ) -> tuple[int, Collector | None]:
+        collector = Collector(self._strength_vector) if collect_data else None
+
+        for step in range(int(self.max_iter)):
+            k1 = self.compute_delta(strength_vector=self._strength_vector)
+            k2 = self.compute_delta(
+                strength_vector=self._strength_vector + 0.5 * self.step_size * k1
+            )
+            k3 = self.compute_delta(
+                strength_vector=self._strength_vector + 0.5 * self.step_size * k2
+            )
+            k4 = self.compute_delta(
+                strength_vector=self.strength_vector + self.step_size * k3
+            )
+            delta = self.step_size * (k1 + 2 * k2 + 2 * k3 + k4) / 6
+            self._strength_vector += delta
+
+            # pylint: disable=W0106
+            collector and collector.collect(self._strength_vector)
+            if abs(delta).max() < self.epsilon:
+                break
+
+        return step, collector
+
+    def reset(self):
+        """Reset the solver model."""
+        self._strength_vector = self._weights
+
+
+class QuadraticEnergySolver(Solver):
+    """Quadratic Energy Solver.
 
     Args:
-        parent_vector (np.ndarray): _description_
-        strength_vector (np.ndarray): _description_
-
-    Raises:
-        ValueError: _description_
-
-    Returns:
-        np.ndarray: _description_
+        Solver (_type_): _description_
     """
-    if parent_vector.size != strength_vector.size:
-        raise ValueError(
-            f"Size of input vectors doesn't match: {parent_vector.size}, {strength_vector.size}."
+
+    def aggregate(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
+        return self._aggreg_sum(
+            parent_vector=parent_vector, strength_vector=strength_vector
         )
-    return parent_vector @ strength_vector
 
-
-def infl_pmax(aggreg_strength: float, weight: float, p: int, k: float) -> float:
-    """PMax influence function.
-
-    Args:
-        aggreg_strength (float): _description_
-        weight (float): _description_
-        p (int): _description_
-        k (float): _description_
-
-    Returns:
-        float: _description_
-    """
-
-    def h(x):
-        return max(0, x) ** p / (1 + max(0, x) ** p)
-
-    return weight * (1 - h(-aggreg_strength / k) + h(aggreg_strength / k))
-
-
-# TODO: think about how to integrate the compute_delta function.
-def appr_rk4(
-    parent_vectors: np.ndarray,
-    strength_vector: np.ndarray,
-    weights: np.ndarray,
-    step_size: float,
-    max_iter: int,
-    data_collector: Collector = None,
-) -> tuple[int, np.ndarray]:
-    pass
+    def influence(
+        self, aggreg_strength: float, weight: float, p: int = 2, k: float = 1
+    ):
+        return self._infl_pmax(aggreg_strength=aggreg_strength, weight=weight, p=p, k=k)
