@@ -52,14 +52,16 @@ class Collector:
 
 
 class Adaptor:
-    """Class to transfer the output of the existing argument framework into the input data format of solver."""
+    """_summary_"""
 
     def __init__(
         self,
         arguments: pd.DataFrame,
+        weight_col: str,
         attacks: pd.DataFrame = None,
         supports: pd.DataFrame = None,
     ):
+        self.weight_col = weight_col
         self.arguments = arguments
         self.attacks = attacks
         self.supports = supports
@@ -75,7 +77,7 @@ class Adaptor:
 
     @arguments.setter
     def arguments(self, value):
-        self.validate(value, ["coherence"])
+        self.validate(value, [self.weight_col])
         self._arguments = value
 
     @property
