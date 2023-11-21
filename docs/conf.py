@@ -308,10 +308,5 @@ intersphinx_mapping = {
 
 # -- Options for autoapi.extension ---------------------------------------
 
-autoapi_dirs = ["../orangearg/argument/miner"]
-autoapi_options = [
-    "members",
-    "show-module-summary",
-    "special-members",
-    "imported-members",
-]
+autoapi_dirs = ["../orangearg"]
+autoapi_ignore = ["*/OW*.py", "*/graphview.py", "*/widgets/*.py"]
