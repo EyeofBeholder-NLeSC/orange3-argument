@@ -197,8 +197,6 @@ class TopicModel:
         transformer: str = "all-mpnet-base-v1",
         n_components: int = 5,
         min_cluster_size: int = 10,
-        ngram_min: int = 1,
-        ngram_max: int = 1,
     ):
         """Initialize the topic model by indicating a number of arguments.
 
@@ -206,8 +204,6 @@ class TopicModel:
             transformer (str, optional): Name of the sentence embedding model. Defaults to "all-mpnet-base-v1". A list of pretrained models can be found here: https://www.sbert.net/docs/pretrained_models.html.
             n_components (int, optional): Number of dimensions after reduction. Defaults to 5.
             min_cluster_size (int, optional): Minimum size of clusters for the clustering algorithm. Defaults to 5.
-            ngram_min (int, optional): Low band of ngram range for topic representation. Defaults to 1.
-            ngram_max (int, optional): High band of ngram range for topic representation. Defaults to 1.
         """
         language = "english"
         nlp_pipe = "en_core_web_md"
@@ -217,9 +213,7 @@ class TopicModel:
         embed_model = SentenceTransformer(model_name_or_path=transformer)
         self._rd_model = UMAP(n_components=n_components)
         cluster_model = HDBSCAN(min_cluster_size=min_cluster_size, prediction_data=True)
-        vector_model = CountVectorizer(
-            stop_words=language, ngram_range=[ngram_min, ngram_max]
-        )
+        vector_model = CountVectorizer(stop_words=language)
         ctfidf_model = ClassTfidfTransformer(
             reduce_frequent_words=True,
         )
