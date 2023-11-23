@@ -38,6 +38,7 @@ class Collector:
         data = self._data.T
         num_argu, num_steps = data.shape
         fig, ax = plt.subplots()
+        plt.ylim(0, 1.1)
 
         x = range(num_steps)
         for i in range(num_argu):
