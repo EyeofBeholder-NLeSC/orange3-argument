@@ -66,7 +66,7 @@ class Model(ABC):
         if init_method == "weight":
             self._strength_vector = deepcopy(self._weights)
         elif init_method == "uniform":
-            self._strength_vector = 0.5 * np.ones(len(self._weights))
+            self._strength_vector = np.ones(len(self._weights))
         else:
             # pylint: disable=C0301
             raise ValueError(
