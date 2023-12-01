@@ -17,7 +17,7 @@ class Collector:
         """The data collection.
 
         Returns:
-            _type_: _description_
+            np.ndarray: ndarray with number of rows equals to number of arguments, and number of columns equals to number of steps.
         """
         return self._data.T
 
@@ -25,15 +25,15 @@ class Collector:
         """Collect new data and add to the existing data queue.
 
         Args:
-            new_data (np.ndarray): _description_.
+            new_data (np.ndarray): data to be added to the collection.
         """
         self._data = np.vstack([self._data, new_data])
 
-    def plot(self):
+    def plot(self) -> "matplotlib.figure.Figure":
         """Plot the data and return the figure object.
 
         Returns:
-            _type_: _description_
+            matplotlib.figure.Figure: figure object.
         """
         data = self._data.T
         num_argu, num_steps = data.shape
@@ -52,7 +52,7 @@ class Collector:
 
 
 class Adaptor:
-    """_summary_"""
+    """Adaptor class to convert the output of the miner module into the format of input of the reasoner module."""
 
     def __init__(
         self,
@@ -68,11 +68,7 @@ class Adaptor:
 
     @property
     def arguments(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Argument data frame."""
         return self._arguments
 
     @arguments.setter
@@ -82,11 +78,7 @@ class Adaptor:
 
     @property
     def attacks(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Attack links data frame."""
         return self._attacks
 
     @attacks.setter
@@ -97,11 +89,7 @@ class Adaptor:
 
     @property
     def supports(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Support link data frame."""
         return self._supports
 
     @supports.setter
@@ -112,11 +100,11 @@ class Adaptor:
 
     @staticmethod
     def validate(data: pd.DataFrame, columns: list):
-        """_summary_
+        """Check if a given dataframe contains a list of columns.
 
         Args:
-            data (pd.DataFrame): _description_
-            columns (list): _description_
+            data (pd.DataFrame): a given dataframe.
+            columns (list): the list of expected columns.
 
         Raises:
             ValueError: _description_

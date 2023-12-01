@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 import numpy as np
 from orangearg.argument.reasoner.utilities import Adaptor
-from orangearg.argument.reasoner.aggregation_funcs import summate
-from orangearg.argument.reasoner.influence_funcs import pmax, euler
+from orangearg.argument.reasoner.aggregation_funcs import summate, product
+from orangearg.argument.reasoner.influence_funcs import pmax, euler, linear
 
 
 class Model(ABC):
@@ -157,3 +157,23 @@ class ContinuousEulerModel(Model):
 
     def influence(self, agg_strength: float, weight: float):
         return euler(agg_strength=agg_strength, weight=weight)
+
+
+class CountinuousDFQuADModel(Model):
+    """_summary_
+
+    Args:
+        Model (_type_): _description_
+    """
+
+    def __init__(
+        self, data_adaptor: Adaptor, init_method: str = "weight", k: float = 1
+    ):
+        super().__init__(data_adaptor=data_adaptor, init_method=init_method)
+        self.k = k
+
+    def aggregation(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
+        return product(parent_vector=parent_vector, strength_vector=strength_vector)
+
+    def influence(self, agg_strength: float, weight: float):
+        return linear(agg_strength=agg_strength, weight=weight, k=self.k)

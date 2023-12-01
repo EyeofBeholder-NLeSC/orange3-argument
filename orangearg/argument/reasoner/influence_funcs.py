@@ -33,3 +33,21 @@ def euler(agg_strength: float, weight: float) -> float:
         float: _description_
     """
     return 1 - (1 - weight**2) / (1 + weight * exp(agg_strength))
+
+
+def linear(agg_strength: float, weight: float, k: float) -> float:
+    """_summary_
+
+    Args:
+        agg_strength (float): _description_
+        weight (float): _description_
+        k (float): _description_
+
+    Returns:
+        float: _description_
+    """
+    return (
+        weight
+        - weight * max(0, -agg_strength) / k
+        + (1 - weight) * max(0, agg_strength) / k
+    )
