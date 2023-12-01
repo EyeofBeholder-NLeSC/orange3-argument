@@ -9,14 +9,7 @@ from orangearg.argument.reasoner.influence_funcs import pmax, euler, linear
 
 
 class Model(ABC):
-    """_summary_
-
-    Args:
-        ABC (_type_): _description_
-
-    Raises:
-        ValueError: _description_
-    """
+    """Base class of all reasoning models."""
 
     init_options = ["weight", "uniform"]
 
@@ -29,39 +22,31 @@ class Model(ABC):
 
     @property
     def weights(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Weight vector of arguments."""
         return self._weights
 
     @property
     def parent_vectors(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Parent vectors of arguments."""
         return self._parent_vectors
 
     @property
     def strength_vector(self):
-        """_summary_
-
-        Returns:
-            _type_: _description_
-        """
+        """Strength vector of arguments."""
         return self._strength_vector
 
     def init_strength(self, init_method: str = "weight"):
-        """_summary_
+        """Initialize strength vector of the model.
+
+        Currently, two methods are provided:
+        - weight: using argument weights as the initital strengths
+        - uniform: giving all arguments the same value of initital strength, default to be 1.
 
         Args:
-            init_method (str, optional): _description_. Defaults to "weight".
+            init_method (str, optional): Method of initialization. Defaults to "weight".
 
         Raises:
-            ValueError: _description_
+            ValueError: when the given method name is unknown.
         """
         if init_method == "weight":
             self._strength_vector = deepcopy(self._weights)
@@ -75,30 +60,30 @@ class Model(ABC):
 
     @abstractmethod
     def aggregation(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
-        """_summary_
+        """Aggregation function.
 
         Args:
-            parent_vector (np.ndarray): _description_
-            strength_vector (np.ndarray): _description_
+            parent_vector (np.ndarray): Parent vector.
+            strength_vector (np.ndarray): Strength vector.
         """
 
     @abstractmethod
     def influence(self, agg_strength: float, weight: float):
-        """_summary_
+        """Influence function.
 
         Args:
-            agg_strength (float): _description_
-            weight (float): _description_
+            agg_strength (float): Aggregated strength.
+            weight (float): Argument weight.
         """
 
     def compute_delta(self, strength_vector: np.ndarray):
         """Compute derivate of strength vector at given point.
 
         Args:
-            strength_vector (np.ndarray): _description_
+            strength_vector (np.ndarray): Strength vector.
 
         Returns:
-            _type_: _description_
+            _type_: Derivate of strength vector.
         """
         new_strengths = []
         for i in range(self._parent_vectors.shape[0]):
@@ -112,20 +97,16 @@ class Model(ABC):
         return np.array(new_strengths) - self._strength_vector
 
     def update(self, delta: np.ndarray):
-        """_summary_
+        """Update strength vector by a given derivate.
 
         Args:
-            delta (np.ndarray): _description_
+            delta (np.ndarray): derivate vector.
         """
         self._strength_vector += delta
 
 
 class QuadraticEnergyModel(Model):
-    """_summary_
-
-    Args:
-        Model (_type_): _description_
-    """
+    """Quadratic Energy model."""
 
     def __init__(
         self,
@@ -146,11 +127,7 @@ class QuadraticEnergyModel(Model):
 
 
 class ContinuousEulerModel(Model):
-    """_summary_
-
-    Args:
-        Model (_type_): _description_
-    """
+    """Countinuous Euler model."""
 
     def aggregation(self, parent_vector: np.ndarray, strength_vector: np.ndarray):
         return summate(parent_vector=parent_vector, strength_vector=strength_vector)
@@ -160,11 +137,7 @@ class ContinuousEulerModel(Model):
 
 
 class CountinuousDFQuADModel(Model):
-    """_summary_
-
-    Args:
-        Model (_type_): _description_
-    """
+    """Countinuous DF-QuAD model."""
 
     def __init__(
         self, data_adaptor: Adaptor, init_method: str = "weight", k: float = 1

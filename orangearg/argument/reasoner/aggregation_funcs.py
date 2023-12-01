@@ -3,35 +3,28 @@
 import numpy as np
 
 
-def summate(parent_vector: np.ndarray, strength_vector: np.ndarray) -> np.ndarray:
+def summate(parent_vector: np.ndarray, strength_vector: np.ndarray) -> float:
     """Sum aggregation function.
 
     Args:
-        parent_vector (np.ndarray): _description_
-        strength_vector (np.ndarray): _description_
-
-    Raises:
-        ValueError: _description_
+        parent_vector (np.ndarray): Parent vector.
+        strength_vector (np.ndarray): Strength vector.
 
     Returns:
-        np.ndarray: _description_
+        float: Aggregate strength.
     """
-    if parent_vector.size != strength_vector.size:
-        raise ValueError(
-            f"Size of input vectors doesn't match: {parent_vector.size}, {strength_vector.size}."
-        )
     return parent_vector @ strength_vector
 
 
 def product(parent_vector: np.ndarray, strength_vector: np.ndarray) -> np.ndarray:
-    """_summary_
+    """Product aggregation function.
 
     Args:
-        parent_vector (np.ndarray): _description_
-        strength_vector (np.ndarray): _description_
+        parent_vector (np.ndarray): Parent vector.
+        strength_vector (np.ndarray): Strength vector.
 
     Returns:
-        np.ndarray: _description_
+        float: Aggregate strength.
     """
     base = 0
     attack_part = 1

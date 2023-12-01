@@ -7,13 +7,13 @@ def pmax(agg_strength: float, weight: float, p: int, k: float) -> float:
     """P-max influence function.
 
     Args:
-        aggreg_strength (float): _description_
-        weight (float): _description_
-        p (int): _description_
-        k (float): _description_
+        agg_strength (float): Aggregated strength.
+        weight (float): Argument weight.
+        p (int): Order of PMax fucntion.
+        k (float): Conservativeness parameter.
 
     Returns:
-        float: _description_
+        float: Influenced strength.
     """
 
     def h(x):
@@ -26,11 +26,11 @@ def euler(agg_strength: float, weight: float) -> float:
     """Euler influence function.
 
     Args:
-        aggreg_strength (float): _description_
-        weight (float): _description_
+        agg_strength (float): Aggregated strength.
+        weight (float): Argument weight.
 
     Returns:
-        float: _description_
+        float: Influenced strength.
     """
     return 1 - (1 - weight**2) / (1 + weight * exp(agg_strength))
 
@@ -39,12 +39,13 @@ def linear(agg_strength: float, weight: float, k: float) -> float:
     """_summary_
 
     Args:
-        agg_strength (float): _description_
-        weight (float): _description_
-        k (float): _description_
+        agg_strength (float): Aggregated strength.
+        weight (float): Argument weight.
+        k (float): Conservativeness parameter.
+
 
     Returns:
-        float: _description_
+        float: Influenced strength.
     """
     return (
         weight

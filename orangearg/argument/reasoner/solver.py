@@ -9,11 +9,7 @@ MODEL = TypeVar("MODEL", bound=Model)
 
 
 class Solver:
-    """_summary_
-
-    Raises:
-        ValueError: _description_
-    """
+    """The Solver model."""
 
     solver_options = ["RK4"]
 
@@ -28,17 +24,22 @@ class Solver:
     def solve(
         self, solver: str, collect_data: bool = False
     ) -> tuple[int, Collector | None]:
-        """_summary_
+        """Solve the reasoner graph by a selected algorithm.
+
+        Currently, only one algorithm is provided:
+        - RK4: forth-order version of the Eunge-Kutta algorithm, details can be found here: https://lpsa.swarthmore.edu/NumInt/NumIntFourth.html
 
         Args:
-            approximator (str): _description_
-            collect_data (bool, optional): _description_. Defaults to False.
+            solver (str): Name of the solver algorithm.
+            collect_data (bool, optional): Indicate if want to collect the strength vector of each step. Defaults to False.
 
         Raises:
-            ValueError: _description_
+            ValueError: When the given solver name is unknown.
 
         Returns:
-            tuple[int, Collector | None]: _description_
+            tuple[int, Collector | None]:
+                - The index of the final step of solving
+                - The data collector object that collects all the intermediate strength vectors if `collect_data` is `True`. Otherwise, None is returned.
         """
         if solver == "RK4":
             app_func = self._rk4
@@ -63,10 +64,10 @@ class Solver:
         return step, data_collector
 
     def _rk4(self) -> np.ndarray:
-        """_summary_
+        """The forth-order Runge-Kutta algorithm.
 
         Returns:
-            np.ndarray: _description_
+            np.ndarray: The derivate at the current strength vector.
         """
         strength_vector = self.model.strength_vector
         k1 = self.model.compute_delta(strength_vector=strength_vector)

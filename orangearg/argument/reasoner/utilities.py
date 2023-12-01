@@ -107,25 +107,27 @@ class Adaptor:
             columns (list): the list of expected columns.
 
         Raises:
-            ValueError: _description_
+            ValueError: raised if any of the expected columns not exist.
         """
         if not set(columns).issubset(data.columns):
             raise ValueError(f"One or more columns in {columns} missing.")
 
     def get_weights(self) -> np.ndarray:
-        """_summary_
+        """Get weights of arguments. Using the "coherence" column by default.
 
         Returns:
-            np.ndarray: _description_
+            np.ndarray: weights vector of arguments.
         """
         weights = self._arguments["coherence"].to_numpy(dtype=float)
         return deepcopy(weights)
 
     def get_parent_vectors(self) -> np.ndarray:
-        """_summary_
+        """Get parent vectors of arguments.
+
+        The parent vector of an argument A_i is defined as g_i = {-1, 0, 1}^n, with entries g_ij = -1 (1) iff Aj attacks (support) Ai.
 
         Returns:
-            np.ndarray: _description_
+            np.ndarray: 2d array, where each row is a parent vector of an argument.
         """
         num_argu = len(self._arguments)
         result = np.zeros((num_argu, num_argu))
