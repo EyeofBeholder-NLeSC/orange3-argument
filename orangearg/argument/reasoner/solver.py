@@ -1,6 +1,6 @@
 """Module of solver."""
 
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Union
 import numpy as np
 from orangearg.argument.reasoner.models import Model
 from orangearg.argument.reasoner.utilities import Collector
@@ -8,6 +8,7 @@ from orangearg.argument.reasoner.utilities import Collector
 MODEL = TypeVar("MODEL", bound=Model)
 
 
+# pylint: disable=too-few-public-methods
 class Solver:
     """The Solver model."""
 
@@ -23,7 +24,7 @@ class Solver:
 
     def solve(
         self, solver: str, collect_data: bool = False
-    ) -> tuple[int, Collector | None]:
+    ) -> tuple[int, Union[Collector, None]]:
         """Solve the reasoner graph by a selected algorithm.
 
         Currently, only one algorithm is provided:
@@ -37,7 +38,7 @@ class Solver:
             ValueError: When the given solver name is unknown.
 
         Returns:
-            tuple[int, Collector | None]:
+            tuple[int, Union[Collector, None]]:
                 - The index of the final step of solving
                 - The data collector object that collects all the intermediate strength vectors if `collect_data` is `True`. Otherwise, None is returned.
         """
@@ -56,7 +57,7 @@ class Solver:
             delta = app_func()
             self.model.update(delta=delta)
 
-            # pylint: disable=W0106
+            # pylint: disable=expression-not-assigned
             data_collector and data_collector.collect(self.model.strength_vector)
             if abs(delta).max() < self.epsilon:
                 break

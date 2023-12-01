@@ -4,6 +4,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 
 class Collector:
@@ -29,7 +30,7 @@ class Collector:
         """
         self._data = np.vstack([self._data, new_data])
 
-    def plot(self) -> "matplotlib.figure.Figure":
+    def plot(self) -> Figure:
         """Plot the data and return the figure object.
 
         Returns:

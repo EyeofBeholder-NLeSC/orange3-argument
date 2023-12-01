@@ -53,7 +53,7 @@ class Model(ABC):
         elif init_method == "uniform":
             self._strength_vector = np.ones(len(self._weights))
         else:
-            # pylint: disable=C0301
+            # pylint: disable=line-too-long
             raise ValueError(
                 f"Init method of strength should be one of {self.init_options}, but {init_method} is given."
             )
