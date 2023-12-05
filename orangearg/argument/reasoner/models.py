@@ -3,7 +3,6 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
 import numpy as np
-from orangearg.argument.reasoner.utilities import Adaptor
 from orangearg.argument.reasoner.aggregation_funcs import summate, product
 from orangearg.argument.reasoner.influence_funcs import pmax, euler, linear
 
@@ -13,7 +12,7 @@ class Model(ABC):
 
     init_options = ["weight", "uniform"]
 
-    def __init__(self, data_adaptor: Adaptor, init_method: str = "weight"):
+    def __init__(self, data_adaptor: "Adaptor", init_method: str = "weight"):
         self._weights = data_adaptor.get_weights()
         self._parent_vectors = data_adaptor.get_parent_vectors()
         self._strength_vector = None
@@ -110,7 +109,7 @@ class QuadraticEnergyModel(Model):
 
     def __init__(
         self,
-        data_adaptor: Adaptor,
+        data_adaptor: "Adaptor",
         init_method: str = "weight",
         p: int = 2,
         k: float = 1,
@@ -140,7 +139,7 @@ class CountinuousDFQuADModel(Model):
     """Countinuous DF-QuAD model."""
 
     def __init__(
-        self, data_adaptor: Adaptor, init_method: str = "weight", k: float = 1
+        self, data_adaptor: "Adaptor", init_method: str = "weight", k: float = 1
     ):
         super().__init__(data_adaptor=data_adaptor, init_method=init_method)
         self.k = k
